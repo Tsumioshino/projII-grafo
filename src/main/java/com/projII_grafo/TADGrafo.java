@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import java.lang.UnsupportedOperationException;
 
-// DO NOT FORGET
+// FORGET
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
 public class TADGrafo {
   public StrategyStructure grafo;

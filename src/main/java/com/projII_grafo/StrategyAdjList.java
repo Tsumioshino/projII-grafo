@@ -27,8 +27,9 @@ public class StrategyAdjList implements StrategyStructure {
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.adjList.size() == 0) {
       for (String vertice : vertices) {
+        VerticeAresta v_inicial = new VerticeAresta(vertice, null);
         LinkedList<VerticeAresta> node = new LinkedList<VerticeAresta>();
-        node.add(vertice);
+        node.add(v_inicial);
         this.adjList.add(node);
       }  
 

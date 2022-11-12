@@ -37,6 +37,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   }
 
+  public void resetarGrafo() {
+    this.matrix = null;
+    this.order = null;
+  }
+
   public void inserirAresta(String n1, String n2, int peso) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
       if (this.arestaExists(n1, n2)) {

@@ -2,9 +2,11 @@ package com.projII_grafo;
 
 import java.util.ArrayList;
 
-interface StrategyStructure {
+public interface StrategyStructure {
   
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas); 
+
+  public void resetarGrafo(); 
 
   public void inserirAresta(String n1, String n2, int peso); 
 

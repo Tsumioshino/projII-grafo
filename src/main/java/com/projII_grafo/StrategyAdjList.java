@@ -23,7 +23,6 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = new ArrayList<LinkedList<VerticeAresta>>();
   }
 
-  @Override
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.adjList.size() == 0) {
       for (String vertice : vertices) {
@@ -39,7 +38,6 @@ public class StrategyAdjList implements StrategyStructure {
     }
   }
   
-  @Override
   public void resetarGrafo() {
     this.adjList = null;
   }
@@ -56,8 +54,6 @@ public class StrategyAdjList implements StrategyStructure {
     throw new UnsupportedOperationException("Not implemented yet"); 
   }
 
-
-  @Override
   public void inserirAresta(String n1, String n2, int peso) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
       if (this.arestaExists(n1, n2)) {
@@ -68,59 +64,48 @@ public class StrategyAdjList implements StrategyStructure {
     } 
   } 
 
-  @Override
   public void inserirConjuntoArestas(ArrayList<String[]> arestas) { 
     for (String[] aresta : arestas) {
       this.inserirAresta(aresta[0], aresta[1], Integer.valueOf(aresta[2]));
     }
   } 
 
-  @Override
   public void removerAresta(String n1, String n2) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public boolean verticeExists(String n1) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public boolean arestaExists(String n1, String n2) {
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getVerticeQuantity() {
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getArestaQuantity() {
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getGrau(String n1) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getGrauGeralND(String n1) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getGrauEntradaD(String n1) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public int getGrauSaidaD(String n1) { 
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 
 
-  @Override
   public boolean isDigrafo() {
     throw new UnsupportedOperationException("Not implemented yet"); 
   } 

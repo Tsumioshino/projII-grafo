@@ -160,7 +160,15 @@ public class StrategyAdjMatrix implements StrategyStructure {
   } 
 
   public boolean isDigrafo() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    int order = this.getVerticeQuantity();
+    for (int n_row = 0; n_row < order; n_row++) {
+      for (int n_col = 0; n_col < order; n_col++) {
+        if (this.matrix.get(n_row).get(n_col) != this.matrix.get(n_col).get(n_row)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   @Override

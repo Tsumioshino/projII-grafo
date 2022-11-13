@@ -44,6 +44,15 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = null;
   }
 
+  public void inserirVertice(String vertice) {
+    throw new UnsupportedOperationException("Not implemented yet"); 
+  }
+
+  public void inserirConjuntoVertices(ArrayList<String> vertices) {
+    throw new UnsupportedOperationException("Not implemented yet"); 
+  }
+
+
   @Override
   public void inserirAresta(String n1, String n2, int peso) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {

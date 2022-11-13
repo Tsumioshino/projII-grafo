@@ -17,20 +17,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
 
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.matrix.size() == 0 && this.order.size() == 0) {
-      int n_elements = vertices.size();
-
-      for (int i = 0; i < n_elements; i++) {
-        ArrayList<Integer> row = new ArrayList<Integer>();
-        for (int j = 0; j++ < n_elements; j++) {
-          row.add(0);
-        }
-        this.matrix.add(row);
-      }  
-
-      for (String vertice : vertices) {
-        this.order.add(vertice);
-      }  
-
+      this.inserirConjuntoVertices(vertices);
       if (arestas != null) {
         this.inserirConjuntoArestas(arestas);
       }
@@ -40,6 +27,26 @@ public class StrategyAdjMatrix implements StrategyStructure {
   public void resetarGrafo() {
     this.matrix = null;
     this.order = null;
+  }
+
+  public void inserirVertice(String vertice) {
+    // Insere o vértice sem adicionar coluna
+    this.order.add(vertice);
+    ArrayList<Integer> row = new ArrayList<Integer>();
+    for (int i = 0; i < this.order.size()-1; i++) {
+      row.add(0);
+    }
+    this.matrix.add(row);
+    // Adiciona nova coluna para Matriz de Adjacência
+    for (int j = 0; j < this.order.size(); j++) {
+      this.matrix.get(j).add(0);
+    }
+  }
+
+  public void inserirConjuntoVertices(ArrayList<String> vertices) {
+    for (String vertice : vertices) {
+      this.inserirVertice(vertice);
+    }  
   }
 
   public void inserirAresta(String n1, String n2, int peso) {

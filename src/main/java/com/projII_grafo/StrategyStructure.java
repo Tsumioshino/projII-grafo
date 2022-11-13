@@ -8,6 +8,10 @@ public interface StrategyStructure {
 
   public void resetarGrafo(); 
 
+  public void inserirVertice(String vertice); 
+
+  public void inserirConjuntoVertices(ArrayList<String> vertices); 
+
   public void inserirAresta(String n1, String n2, int peso); 
 
   public void inserirConjuntoArestas(ArrayList<String[]> arestas); 

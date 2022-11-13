@@ -3,8 +3,6 @@ import java.util.ArrayList;
 
 import java.lang.UnsupportedOperationException;
 
-// DO NOT FORGET
-// 1. CRIAR GRAFO N^2 TRASH
 public class StrategyAdjMatrix implements StrategyStructure {
 
   ArrayList<String> order;
@@ -33,12 +31,12 @@ public class StrategyAdjMatrix implements StrategyStructure {
     // Insere o vértice sem adicionar coluna
     this.order.add(vertice);
     ArrayList<Integer> row = new ArrayList<Integer>();
-    for (int i = 0; i < this.order.size()-1; i++) {
+    for (int i = 0; i < this.getVerticeQuantity()-1; i++) {
       row.add(0);
     }
     this.matrix.add(row);
     // Adiciona nova coluna para Matriz de Adjacência
-    for (int j = 0; j < this.order.size(); j++) {
+    for (int j = 0; j < this.getVerticeQuantity(); j++) {
       this.matrix.get(j).add(0);
     }
   }
@@ -105,7 +103,13 @@ public class StrategyAdjMatrix implements StrategyStructure {
 
   public int getGrau(String n1) {
     if (this.verticeExists(n1)) {
-      return this.getGrauEntradaD(n1) + this.getGrauSaidaD(n1);
+      if (this.isDigrafo()) {
+        return this.getGrauEntradaD(n1) + this.getGrauSaidaD(n1);
+      }
+      // Se nao for Digrafo, 
+      // entao pra toda de entrada tem sua saida mapeada.
+      // E entao o codigo acima repetiria aresta.
+      return this.getGrauGeralND(n1);
     }   
     return -1; // Maybe should return error instead
   } 
@@ -114,7 +118,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     if (this.verticeExists(n1)) {
       int index1 = this.order.indexOf(n1);
       int grau = 0;
-      for (int i = 0; i < this.order.size(); i++) {
+      for (int i = 0; i < this.getVerticeQuantity(); i++) {
         int ida = this.matrix.get(index1).get(i);
         int volta = this.matrix.get(i).get(index1); 
         if (ida == 0) {

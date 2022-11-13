@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
+// DO NOT FORGET
+// 1. INSERIR VERTICE PERMITE ADICIONAR VERTICE COM NOME IGUAL
+// ISSO VAI DAR RUIM EM ALGORITMOS DE BUSCA, PROVAVELMENTE.
 
 public class StrategyAdjList implements StrategyStructure {
 
@@ -25,12 +28,7 @@ public class StrategyAdjList implements StrategyStructure {
 
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.adjList.size() == 0) {
-      for (String vertice : vertices) {
-        VerticeAresta v_inicial = new VerticeAresta(vertice, null);
-        LinkedList<VerticeAresta> node = new LinkedList<VerticeAresta>();
-        node.add(v_inicial);
-        this.adjList.add(node);
-      }  
+      this.inserirConjuntoVertices(vertices);
 
       if (arestas != null) {
         this.inserirConjuntoArestas(arestas);
@@ -47,11 +45,16 @@ public class StrategyAdjList implements StrategyStructure {
   }
 
   public void inserirVertice(String vertice) {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    VerticeAresta v_inicial = new VerticeAresta(vertice, null);
+    LinkedList<VerticeAresta> celula = new LinkedList<VerticeAresta>();
+    celula.add(v_inicial);
+    this.adjList.add(celula);  
   }
 
   public void inserirConjuntoVertices(ArrayList<String> vertices) {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    for (String vertice : vertices) {
+      this.inserirVertice(vertice);
+    } 
   }
 
   public void inserirAresta(String n1, String n2, int peso) {

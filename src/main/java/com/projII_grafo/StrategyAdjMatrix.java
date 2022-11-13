@@ -27,6 +27,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = null;
   }
 
+  public int getVerticeValue(int row, int col) {
+    return this.matrix.get(row).get(col);
+  }
+
   public void inserirVertice(String vertice) {
     // Insere o vértice sem adicionar coluna
     this.order.add(vertice);

@@ -8,6 +8,8 @@ public interface StrategyStructure {
 
   public void resetarGrafo(); 
 
+  public int getVerticeValue(int row, int col);
+
   public void inserirVertice(String vertice); 
 
   public void inserirConjuntoVertices(ArrayList<String> vertices); 

@@ -44,6 +44,10 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = null;
   }
 
+  public int getVerticeValue(int row, int col) {
+    throw new UnsupportedOperationException("Not implemented yet"); 
+  }
+
   public void inserirVertice(String vertice) {
     throw new UnsupportedOperationException("Not implemented yet"); 
   }

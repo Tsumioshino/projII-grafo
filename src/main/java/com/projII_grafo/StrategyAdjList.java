@@ -18,6 +18,14 @@ public class StrategyAdjList implements StrategyStructure {
       this.vertice = vertice;
       this.peso_aresta = peso;
     }
+
+    public String getVertice() {
+      return this.vertice;
+    }
+
+    public String getAresta() {
+      return this.peso_aresta;
+    }
   }
 
   ArrayList<LinkedList<VerticeAresta>> adjList;
@@ -78,7 +86,15 @@ public class StrategyAdjList implements StrategyStructure {
   } 
 
   public boolean verticeExists(String n1) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      for (VerticeAresta cel : v_adj) {
+        if (cel.getVertice() == n1) {
+          return true;
+        }
+        break;
+      }
+    } 
+    return false;
   } 
 
   public boolean arestaExists(String n1, String n2) {

@@ -70,8 +70,19 @@ public class StrategyAdjList implements StrategyStructure {
       if (this.arestaExists(n1, n2)) {
         throw new UnsupportedOperationException("Simple Graph doesn't accept more than 1 edge"); 
       }
-      int index1 = this.adjList.indexOf(n1);
-      this.adjList.get(index1).add(n2); 
+      int index1 = -1;
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        index1++;
+        for (VerticeAresta cel : v_adj) {
+          if (cel.getVertice() == n1) {
+            String peso_s = Integer.toString(peso);
+            VerticeAresta v_adjacente = new VerticeAresta(n2, peso_s);
+            this.adjList.get(index1).add(v_adjacente); 
+            return;
+          }
+          break;
+        }
+      }
     } 
   } 
 

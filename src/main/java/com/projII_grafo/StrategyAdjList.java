@@ -192,6 +192,16 @@ public class StrategyAdjList implements StrategyStructure {
 
   @Override
   public String toString() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    String grafo = "";
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      for (VerticeAresta cel : v_adj) {
+        grafo += cel.getVertice();
+        grafo += ", ";
+        grafo += cel.getAresta();
+        grafo += " ";
+      }
+      grafo += "\n";
+    } 
+    return grafo;  
   } 
 }

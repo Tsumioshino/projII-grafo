@@ -93,7 +93,35 @@ public class StrategyAdjList implements StrategyStructure {
   } 
 
   public void removerAresta(String n1, String n2) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    if (this.verticeExists(n1) && this.verticeExists(n2)) {
+      boolean head = true;
+      int index_l = -1;
+      int maybe_i = 0;
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        index_l++;
+        if (!head) {
+          // Se ele entrar aqui, significa que aresta nao existe
+          return;
+        } 
+        for (VerticeAresta cel : v_adj) {
+          if (cel.getVertice() == n1) {
+            head = false;
+            continue;
+          }
+          if (!head) {
+            // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
+            // do vertice em questao
+            maybe_i++;
+            if (cel.getVertice() == n2) {
+              this.adjList.get(index_l).remove(maybe_i);
+              return;
+            }
+            continue;
+          }
+          break;
+        }
+      }
+    } 
   } 
 
   public boolean verticeExists(String n1) { 

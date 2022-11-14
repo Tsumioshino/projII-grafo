@@ -48,8 +48,30 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = null;
   }
 
-  public int getArestaValue(int row, int col) {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+  public int getArestaValue(String head, String tail) {
+    if (this.verticeExists(head) && this.verticeExists(tail)) {
+      if (this.arestaExists(head, tail)) {
+        boolean ishead = true;
+        for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+          for (VerticeAresta cel : v_adj) {
+            if (cel.getVertice() == head) {
+              ishead = false;
+              continue;
+            }
+            if (!ishead) {
+              // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
+              // do vertice em questao
+              if (cel.getVertice() == tail) {
+                return Integer.valueOf(cel.getAresta());
+              }
+              continue;
+            }
+            break;
+          }   
+        }
+      } 
+    }
+    return -1; // Maybe should return error instead  
   }
 
   public void inserirVertice(String vertice) {

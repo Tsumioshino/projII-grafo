@@ -30,8 +30,8 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = null;
   }
 
-  public int getArestaValue(int row, int col) {
-    return this.matrix.get(row).get(col);
+  public int getArestaValue(String row, String col) {
+    return this.matrix.get(Integer.valueOf(row)).get(Integer.valueOf(col));
   }
 
   public void inserirVertice(String vertice) {
@@ -87,8 +87,8 @@ public class StrategyAdjMatrix implements StrategyStructure {
 
   public boolean arestaExists(String n1, String n2) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
-      int index1 = this.order.indexOf(n1);
-      int index2 = this.order.indexOf(n2);
+      String index1 = Integer.toString(this.order.indexOf(n1));
+      String index2 = Integer.toString(this.order.indexOf(n2));
       return (this.getArestaValue(index1, index2) > 0)? true : false;
     }
     return false;
@@ -123,16 +123,16 @@ public class StrategyAdjMatrix implements StrategyStructure {
 
   public int getGrauGeralND(String n1) {
     if (this.verticeExists(n1)) {
-      int index1 = this.order.indexOf(n1);
+      String index1 = Integer.toString(this.order.indexOf(n1));
       int grau = 0;
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        int ida = this.getArestaValue(index1, i);
-        int volta = this.getArestaValue(i, index1); 
+        int ida = this.getArestaValue(index1, Integer.toString(i));
+        int volta = this.getArestaValue(Integer.toString(i), index1); 
         if (ida == 0) {
           continue;
         } 
         if (ida == volta) {
-          grau += (index1 == i)? 2 : 1;
+          grau += (Integer.parseInt(index1) == i)? 2 : 1;
         }
       }
       return grau;
@@ -170,7 +170,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     int order = this.getVerticeQuantity();
     for (int n_row = 0; n_row < order; n_row++) {
       for (int n_col = 0; n_col < order; n_col++) {
-        if (this.getArestaValue(n_row, n_col) != this.getArestaValue(n_col, n_row)) {
+        if (this.getArestaValue(Integer.toString(n_row), Integer.toString(n_col)) != this.getArestaValue(Integer.toString(n_col), Integer.toString(n_row))) {
           return false;
         }
       }

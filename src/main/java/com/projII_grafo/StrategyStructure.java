@@ -8,7 +8,7 @@ public interface StrategyStructure {
 
   public void resetarGrafo(); 
 
-  public int getArestaValue(int row, int col);
+  public int getArestaValue(String li, String el);
 
   public void inserirVertice(String vertice); 
 

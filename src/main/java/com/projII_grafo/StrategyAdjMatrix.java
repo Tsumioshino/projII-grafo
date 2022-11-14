@@ -30,7 +30,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = null;
   }
 
-  public int getVerticeValue(int row, int col) {
+  public int getArestaValue(int row, int col) {
     return this.matrix.get(row).get(col);
   }
 
@@ -89,7 +89,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
       int index1 = this.order.indexOf(n1);
       int index2 = this.order.indexOf(n2);
-      return (this.getVerticeValue(index1, index2) > 0)? true : false;
+      return (this.getArestaValue(index1, index2) > 0)? true : false;
     }
     return false;
   } 
@@ -126,8 +126,8 @@ public class StrategyAdjMatrix implements StrategyStructure {
       int index1 = this.order.indexOf(n1);
       int grau = 0;
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        int ida = this.getVerticeValue(index1, i);
-        int volta = this.getVerticeValue(i, index1); 
+        int ida = this.getArestaValue(index1, i);
+        int volta = this.getArestaValue(i, index1); 
         if (ida == 0) {
           continue;
         } 
@@ -170,7 +170,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     int order = this.getVerticeQuantity();
     for (int n_row = 0; n_row < order; n_row++) {
       for (int n_col = 0; n_col < order; n_col++) {
-        if (this.getVerticeValue(n_row, n_col) != this.getVerticeValue(n_col, n_row)) {
+        if (this.getArestaValue(n_row, n_col) != this.getArestaValue(n_col, n_row)) {
           return false;
         }
       }

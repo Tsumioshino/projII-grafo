@@ -187,7 +187,7 @@ public class StrategyAdjList implements StrategyStructure {
   } 
 
   public int getVerticeQuantity() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    return this.adjList.size();
   } 
 
   public int getArestaQuantity() {

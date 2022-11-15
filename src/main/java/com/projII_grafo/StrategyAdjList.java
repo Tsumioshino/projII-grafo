@@ -191,7 +191,11 @@ public class StrategyAdjList implements StrategyStructure {
   } 
 
   public int getArestaQuantity() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    int size = 0;
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      size += v_adj.size() - 1; // Desconsiderando a cabeça por ser um Vertice
+    }
+    return size;
   } 
 
   public int getGrau(String n1) { 

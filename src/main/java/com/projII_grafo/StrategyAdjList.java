@@ -215,7 +215,20 @@ public class StrategyAdjList implements StrategyStructure {
   } 
 
   public boolean isDigrafo() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    String head = null;
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      for (VerticeAresta cel : v_adj) {
+        if (head == null) {
+          head = cel.getVertice();
+          continue;
+        }
+        String adj_node = cel.getVertice();
+        if (!this.arestaExists(adj_node, head)) {
+          return false;
+        }
+      }
+    }
+    return true;
   } 
 
   @Override

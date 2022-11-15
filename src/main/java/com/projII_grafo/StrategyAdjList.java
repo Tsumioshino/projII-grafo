@@ -192,27 +192,89 @@ public class StrategyAdjList implements StrategyStructure {
 
   public int getArestaQuantity() {
     int size = 0;
-    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
-      size += v_adj.size() - 1; // Desconsiderando a cabeça por ser um Vertice
+    if (this.isDigrafo()) {
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        size += v_adj.size() - 1; // Desconsiderando a cabeca por ser um Vertice
+      }
+    }
+    else {
+      ArrayList<String> visited = new ArrayList<String>();
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        visited.add(v_adj.getFirst().getVertice());
+        for (VerticeAresta cel : v_adj) {
+          if (visited.contains(cel.getVertice())) {
+            continue;
+          }
+          size += 1;
+        }
+      }
     }
     return size;
   } 
 
   public int getGrau(String n1) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    if (this.verticeExists(n1)) {
+      if (this.isDigrafo()) {
+        return this.getGrauEntradaD(n1) + this.getGrauSaidaD(n1);
+      }
+      // Se nao for Digrafo, 
+      // entao pra toda de entrada tem sua saida mapeada.
+      // E entao o codigo acima repetiria aresta.
+      return this.getGrauGeralND(n1);
+    }   
+    return -1; // Maybe should return error instead
   } 
 
   public int getGrauGeralND(String n1) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    if (this.verticeExists(n1)) {
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        for (VerticeAresta cel : v_adj) {
+          if (cel.getVertice() == n1) {
+            return v_adj.size() - 1; // Desconsiderando a cabeca por ser um Vertice
+          }
+        }
+      }  
+    } 
+    return -1; // Maybe should return error instead  }
   } 
 
   public int getGrauEntradaD(String n1) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
+    if (this.verticeExists(n1)) {
+      int grau = 0;
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        String head = null;
+        for (VerticeAresta cel : v_adj) {
+          if ((head == null) && (cel.getVertice() == n1)) {
+            head = cel.getVertice();
+            continue;
+          } 
+          grau += (cel.getVertice() == head)? 2 : 1;
+        }
+        if (head != null) {
+          return grau;
+        }
+      }     
+    } 
+    return -1; // Maybe should return error instead
   } 
 
   public int getGrauSaidaD(String n1) { 
-    throw new UnsupportedOperationException("Not implemented yet"); 
-  } 
+    if (this.verticeExists(n1)) {
+      int grau = 0;
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        String head = null;
+        for (VerticeAresta cel : v_adj) {
+          if (head == null) {
+            head = cel.getVertice();
+            continue;
+          } 
+          grau += (cel.getVertice() == n1)? 1 : 0;
+        }
+      }  
+      return grau;   
+    } 
+    return -1; // Maybe should return error instead  } 
+  }
 
   public boolean isDigrafo() {
     String head = null;
@@ -224,11 +286,11 @@ public class StrategyAdjList implements StrategyStructure {
         }
         String adj_node = cel.getVertice();
         if (!this.arestaExists(adj_node, head)) {
-          return false;
+          return true;
         }
       }
     }
-    return true;
+    return false;
   } 
 
   @Override

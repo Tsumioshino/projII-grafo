@@ -171,11 +171,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     for (int n_row = 0; n_row < order; n_row++) {
       for (int n_col = 0; n_col < order; n_col++) {
         if (this.getArestaValue(Integer.toString(n_row), Integer.toString(n_col)) != this.getArestaValue(Integer.toString(n_col), Integer.toString(n_row))) {
-          return false;
+          return true; 
         }
       }
     }
-    return true;
+    return false;
   }
 
   @Override

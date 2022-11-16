@@ -184,11 +184,24 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead  
   } 
 
+  public StrategyAdjMatrix getTransposto() {
+    StrategyAdjMatrix transposto = new StrategyAdjMatrix();
+    transposto.criarGrafo(this.getAllVertices(), null);
+    for (int row = 0; row < this.getVerticeQuantity(); row++) {
+      for (int col = 0; col < this.getVerticeQuantity(); col++) {
+       // if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) == 0) {
+        transposto.inserirAresta(Integer.toString(row), Integer.toString(col),this.getArestaValue(Integer.toString(col), Integer.toString(row)));      
+      }
+    }
+    return transposto;
+  }
+
+
   public boolean isDigrafo() {
     int order = this.getVerticeQuantity();
-    for (int n_row = 0; n_row < order; n_row++) {
-      for (int n_col = 0; n_col < order; n_col++) {
-        if (this.getArestaValue(Integer.toString(n_row), Integer.toString(n_col)) != this.getArestaValue(Integer.toString(n_col), Integer.toString(n_row))) {
+    for (int row = 0; row < order; row++) {
+      for (int col = 0; col < order; col++) {
+        if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) != this.getArestaValue(Integer.toString(col), Integer.toString(row))) {
           return true; 
         }
       }

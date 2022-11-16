@@ -1,5 +1,6 @@
 package com.projII_grafo;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public interface StrategyStructure {
@@ -40,7 +41,11 @@ public interface StrategyStructure {
 
   public int getGrauSaidaD(String n1); 
 
+  public StrategyStructure getTransposto();
+
   public boolean isDigrafo(); 
+
+
 
   @Override
   public String toString(); 

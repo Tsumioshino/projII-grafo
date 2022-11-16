@@ -16,6 +16,10 @@ public class TADGrafo {
     this.grafo = representacao;
   }
 
+  public ArrayList<String> getConjuntoVertices() {
+    return this.grafo.getAllVertices();
+  }
+
   public LinkedList<Object> getVerticeListAdj() {
     throw new UnsupportedOperationException("Not implemented yet"); 
   }

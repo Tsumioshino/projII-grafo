@@ -30,6 +30,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = null;
   }
 
+  public ArrayList<String> getAllVertices() {
+    return this.order;
+  }
+
+
   public int getArestaValue(String row, String col) {
     return this.matrix.get(Integer.valueOf(row)).get(Integer.valueOf(col));
   }

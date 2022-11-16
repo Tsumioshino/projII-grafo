@@ -34,6 +34,19 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return this.order;
   }
 
+  public ArrayList<String> getVerticeAdjacencia(String vertice) {
+    ArrayList<String> adjacencia = new ArrayList<String>();
+    if (this.verticeExists(vertice)) {
+      int index1 = this.order.indexOf(vertice);
+      for (int i = 0; i < this.getVerticeQuantity(); i++) {
+        if (this.getArestaValue(Integer.toString(index1), Integer.toString(i)) != 0) { // se existir aresta
+          adjacencia.add(this.order.get(i));
+        }
+      }
+    } 
+    return adjacencia;
+  }
+
 
   public int getArestaValue(String row, String col) {
     return this.matrix.get(Integer.valueOf(row)).get(Integer.valueOf(col));

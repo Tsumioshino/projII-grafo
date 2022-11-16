@@ -10,6 +10,8 @@ public interface StrategyStructure {
 
   public ArrayList<String> getAllVertices(); 
 
+  public ArrayList<String> getVerticeAdjacencia(String n1); 
+
   public int getArestaValue(String li, String el);
 
   public void inserirVertice(String vertice); 

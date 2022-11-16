@@ -59,6 +59,26 @@ public class StrategyAdjList implements StrategyStructure {
     return vertices;
   }
 
+  public ArrayList<String> getVerticeAdjacencia(String vertice) {
+    ArrayList<String> adjacencia = new ArrayList<String>();
+    if (this.verticeExists(vertice)) {
+      for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+        String head = null;
+        for (VerticeAresta cel : v_adj) {
+          if ((head == null) && (cel.getVertice() == vertice)) {
+            head = cel.getVertice();
+            continue;
+          }
+          if (head == null) {
+            break;
+          }
+          adjacencia.add(cel.getVertice());
+        }
+      }
+    } 
+    return adjacencia;
+  }
+
   public int getArestaValue(String head, String tail) {
     if (this.verticeExists(head) && this.verticeExists(tail)) {
       if (this.arestaExists(head, tail)) {

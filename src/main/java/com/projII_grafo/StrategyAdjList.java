@@ -307,6 +307,25 @@ public class StrategyAdjList implements StrategyStructure {
     return -1; // Maybe should return error instead  } 
   }
 
+  public StrategyAdjList getTransposto() {
+    StrategyAdjList transposto = new StrategyAdjList();
+    transposto.criarGrafo(this.getAllVertices(), null);
+    String head = null;
+    int index_of_head = -1;
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      index_of_head++;
+      for (VerticeAresta cel : v_adj) {
+        if (head == null) {
+          head = cel.getVertice();
+          continue;
+        }
+        this.adjList.get();
+        transposto.get(index_of_head).add(cel);
+      }
+    }
+    return transposto;
+  }
+
   public boolean isDigrafo() {
     String head = null;
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {

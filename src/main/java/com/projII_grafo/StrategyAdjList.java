@@ -311,14 +311,12 @@ public class StrategyAdjList implements StrategyStructure {
     StrategyAdjList transposto = new StrategyAdjList();
     transposto.criarGrafo(this.getAllVertices(), null);
     String head = null;
-    int index_of_head = -1;
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
-      index_of_head++;
       for (VerticeAresta cel : v_adj) {
         if (head == null) {
           head = cel.getVertice();
           continue;
-
+        }
         VerticeAresta the_head = new VerticeAresta(cel.getVertice(), null); // Vertice que possui uma aresta vindo
         int index_of_tail = -1;
         int index_transpose = -1;
@@ -330,7 +328,7 @@ public class StrategyAdjList implements StrategyStructure {
           }
         }
         VerticeAresta aresta_transposta = new VerticeAresta(head, cel.getAresta()); // Inverte a aresta com o peso
-        transposto.get(index_transpose).add(cel); // E coloca a aresta no Vertice que possuia uma aresta vindo (agora saindo)
+        transposto.adjList.get(index_transpose).add(aresta_transposta); // E coloca a aresta no Vertice que possuia uma aresta vindo (agora saindo)
       }
     }
     return transposto;

@@ -65,7 +65,7 @@ public class StrategyAdjList implements StrategyStructure {
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         String head = null;
         for (VerticeAresta cel : v_adj) {
-          if ((head == null) && (cel.getVertice() == vertice)) {
+          if ((head == null) && ((cel.getVertice()).equals(vertice))) {
             head = cel.getVertice();
             continue;
           }
@@ -85,14 +85,14 @@ public class StrategyAdjList implements StrategyStructure {
         boolean ishead = true;
         for (LinkedList<VerticeAresta> v_adj : this.adjList) {
           for (VerticeAresta cel : v_adj) {
-            if (cel.getVertice() == head) {
+            if ((cel.getVertice()).equals(head)) {
               ishead = false;
               continue;
             }
             if (!ishead) {
               // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
               // do vertice em questao
-              if (cel.getVertice() == tail) {
+              if ((cel.getVertice()).equals(tail)) {
                 return Integer.valueOf(cel.getAresta());
               }
               continue;
@@ -127,7 +127,7 @@ public class StrategyAdjList implements StrategyStructure {
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         index1++;
         for (VerticeAresta cel : v_adj) {
-          if (cel.getVertice() == n1) {
+          if ((cel.getVertice()).equals(n1)) {
             String peso_s = Integer.toString(peso);
             VerticeAresta v_adjacente = new VerticeAresta(n2, peso_s);
             this.adjList.get(index1).add(v_adjacente); 
@@ -157,7 +157,7 @@ public class StrategyAdjList implements StrategyStructure {
           return;
         } 
         for (VerticeAresta cel : v_adj) {
-          if (cel.getVertice() == n1) {
+          if ((cel.getVertice()).equals(n1)) {
             head = false;
             continue;
           }
@@ -165,7 +165,7 @@ public class StrategyAdjList implements StrategyStructure {
             // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
             // do vertice em questao
             maybe_i++;
-            if (cel.getVertice() == n2) {
+            if ((cel.getVertice()).equals(n2)) {
               this.adjList.get(index_l).remove(maybe_i);
               return;
             }
@@ -180,7 +180,7 @@ public class StrategyAdjList implements StrategyStructure {
   public boolean verticeExists(String n1) { 
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
       for (VerticeAresta cel : v_adj) {
-        if (cel.getVertice() == n1) {
+        if ((cel.getVertice()).equals(n1)) {
           return true;
         }
         break;
@@ -198,14 +198,14 @@ public class StrategyAdjList implements StrategyStructure {
           return false;
         } 
         for (VerticeAresta cel : v_adj) {
-          if (cel.getVertice() == n1) {
+          if ((cel.getVertice()).equals(n1)) {
             head = false;
             continue;
           }
           if (!head) {
             // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
             // do vertice em questao
-            if (cel.getVertice() == n2) {
+            if ((cel.getVertice()).equals(n2)) {
               return true;
             }
             continue;
@@ -260,7 +260,7 @@ public class StrategyAdjList implements StrategyStructure {
     if (this.verticeExists(n1)) {
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         for (VerticeAresta cel : v_adj) {
-          if (cel.getVertice() == n1) {
+          if ((cel.getVertice()).equals(n1)) {
             return v_adj.size() - 1; // Desconsiderando a cabeca por ser um Vertice
           }
         }
@@ -275,11 +275,11 @@ public class StrategyAdjList implements StrategyStructure {
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         String head = null;
         for (VerticeAresta cel : v_adj) {
-          if ((head == null) && (cel.getVertice() == n1)) {
+          if ((head == null) && ((cel.getVertice()).equals(n1))) {
             head = cel.getVertice();
             continue;
           } 
-          grau += (cel.getVertice() == head)? 2 : 1;
+          grau += ((cel.getVertice()).equals(head))? 2 : 1;
         }
         if (head != null) {
           return grau;
@@ -299,7 +299,7 @@ public class StrategyAdjList implements StrategyStructure {
             head = cel.getVertice();
             continue;
           } 
-          grau += (cel.getVertice() == n1)? 1 : 0;
+          grau += ((cel.getVertice()).equals(n1))? 1 : 0;
         }
       }  
       return grau;   

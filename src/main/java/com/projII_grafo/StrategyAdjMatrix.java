@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import java.lang.UnsupportedOperationException;
 
-// DO NOT FORGET
+// FORGET
 // 1. INSERIR VERTICE PERMITE ADICIONAR VERTICE COM NOME IGUAL
 // ISSO VAI DAR RUIM EM ALGORITMOS DE BUSCA, PROVAVELMENTE.
 public class StrategyAdjMatrix implements StrategyStructure {

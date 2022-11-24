@@ -310,8 +310,8 @@ public class StrategyAdjList implements StrategyStructure {
   public StrategyAdjList getTransposto() {
     StrategyAdjList transposto = new StrategyAdjList();
     transposto.criarGrafo(this.getAllVertices(), null);
-    String head = null;
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      String head = null;
       for (VerticeAresta cel : v_adj) {
         if (head == null) {
           head = cel.getVertice();

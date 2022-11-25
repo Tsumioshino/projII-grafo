@@ -186,11 +186,16 @@ public class StrategyAdjMatrix implements StrategyStructure {
 
   public StrategyAdjMatrix getTransposto() {
     StrategyAdjMatrix transposto = new StrategyAdjMatrix();
+
     transposto.criarGrafo(this.getAllVertices(), null);
+   
     for (int row = 0; row < this.getVerticeQuantity(); row++) {
       for (int col = 0; col < this.getVerticeQuantity(); col++) {
        // if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) == 0) {
-        transposto.inserirAresta(Integer.toString(row), Integer.toString(col),this.getArestaValue(Integer.toString(col), Integer.toString(row)));      
+        transposto.inserirAresta(this.order.get(row), 
+                                this.order.get(col),
+                                this.getArestaValue(Integer.toString(col), Integer.toString(row)));  
+
       }
     }
     return transposto;
@@ -201,7 +206,8 @@ public class StrategyAdjMatrix implements StrategyStructure {
     int order = this.getVerticeQuantity();
     for (int row = 0; row < order; row++) {
       for (int col = 0; col < order; col++) {
-        if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) != this.getArestaValue(Integer.toString(col), Integer.toString(row))) {
+        if (this.getArestaValue(Integer.toString(row), Integer.toString(col))
+         != this.getArestaValue(Integer.toString(col), Integer.toString(row))) {
           return true; 
         }
       }

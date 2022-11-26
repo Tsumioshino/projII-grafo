@@ -2,6 +2,7 @@ package com.projII_grafo;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.ArrayList;
 
@@ -72,7 +73,86 @@ public class TADGrafo {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  public ArrayList<String> Dijkstra() {
+  
+  //Essa versão n usa Prio Queue, mas sim a distancia minima retirada da matrix
+  private int minDistIndex(int dists[], int V) {
+	  int min = Integer.MAX_VALUE;
+	  int minI = -1;
+	  for(int i = 0; i < V; i++) {
+		  //Talvez <= min?:??????
+		  //Talvez checar já visitados
+		  if(dists[i]< min) {
+			  min = dists[i];
+			  minI = i;
+		  }
+	  }
+	  return minI;
+  }
+  
+  public ArrayList<String> Dijkstra(String origin) {
+	  ArrayList<Integer> dist = new ArrayList<Integer>();
+	  
+	  //PriorityQueue<Integer> queue= new PriorityQueue<Integer>();
+	 
+	  
+	  int V = this.grafo.getVerticeQuantity();
+	  
+	  //Lista com todos os vertices
+	  ArrayList<String> vertices = this.grafo.getAllVertices();
+	  
+	  //Lista para retirar um vertice de cada vez
+	  //Talvez matar o stack? e usar só o vertices sem dar pop
+	  ArrayList<String> stack  = this.grafo.getAllVertices();
+	  
+	  
+	  //Lista com as distancias de cada vertice até a origem
+	  int dists[] = new int[V];
+	  
+	  for(int i = 0; i< V; i++) {
+		  dists[i] = Integer.MAX_VALUE;  
+	  }
+	  
+	  dists[vertices.indexOf(origin)] = 0;
+	  
+	  //
+	  
+	  //while(stack.isEmpty() != false) {
+	//	  i = stack.pop
+	 // }
+	  
+	  //Talvez usar a função getVerticeAdj
+	  for(int i = 0; i <= V; i++) {
+		  
+		  int u = minDistIndex(dists, V);
+		  
+		  for(int v = 0; v < V; v++) {
+			  //Criar metodo para navegar ou acessar a matrix do grafo
+			  //Get aresta value e update !!!
+			  
+			  
+			  int arestaValue = this.grafo.getArestaValue(u, v);
+			  if(arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
+				  //relax(u,v,w)
+				  dists[v] = dists[u] + arestaValue;
+			  }
+		  }
+	  }
+	  //Print Dists
+	  System.out.println("\nDijkstra:");
+	  String nodeName = "";
+	  
+	  for(int i =0 ; i< V; i++) {
+		  nodeName = vertices.get(i);
+		  System.out.println("\nDistance From: " + origin);
+		  System.out.println("\nNode:" + nodeName + "Dist: " + dists[i] );
+	  }
+	  
+	  
+	  
+	  
     throw new UnsupportedOperationException("Not implemented yet");
   }
+
+	  
+	  
 }

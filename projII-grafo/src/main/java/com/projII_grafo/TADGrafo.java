@@ -74,44 +74,11 @@ public class TADGrafo {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  //public static void teste() {
-	  //System.out.println(grafo.getAllVertices());
- // }
+  
   public ArrayList<String> Dijkstra(String Origin) {
+	  //
 	  
-	  PriorityQueue<Integer> queue= new PriorityQueue<Integer>();
-	  //add a origem
-	  
-	  ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(Origin);
-	  
-	  while(queue.isEmpty() != false) {
-		  //pop a cabeça
-		  //cabeça
-		  //neighbors = this.grafo.getVerticeAdjacencia(cabeca);
-		  //na matrix verifcar pesos e relaxar se preciso
-		  
-	  }
-//	  this.grafo
-//	  ListaPrioridade;//Implementar um priority queue com heap 
-//	  
-//	  
-//	  while(ListaPrioridade.isEmpty) {
-//		  Object shortest = ListaPrioridade.popMax();
-//		  
-//		  Object.
-//		  
-//	  }
-	  //Implementaçao nel
-	  //Escolher o modo de representação TADgrafo(matrixAdj)
-	  
-	  //Todas as arestas com custo 'infinito'
-	  for (int row = 0; row < this.grafo.getVerticeQuantity(); row++) {
-	      for (int col = 0; col < this.grafo.getVerticeQuantity(); col++) {
-	    	  updateAresta();
-	    	  
-	       
-	      }
-	  }
+
 	  
 //	 
     throw new UnsupportedOperationException("Not implemented yet");

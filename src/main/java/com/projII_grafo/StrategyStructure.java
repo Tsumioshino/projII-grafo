@@ -1,6 +1,7 @@
 package com.projII_grafo;
 
 import java.util.List;
+
 import java.util.ArrayList;
 
 public interface StrategyStructure {
@@ -14,6 +15,8 @@ public interface StrategyStructure {
   public ArrayList<String> getVerticeAdjacencia(String n1); 
 
   public int getArestaValue(String li, String el);
+  
+  public int getArestaValue(int row, int col);
 
   public void inserirVertice(String vertice); 
 
@@ -43,10 +46,13 @@ public interface StrategyStructure {
 
   public StrategyStructure getTransposto();
 
-  public boolean isDigrafo(); 
+  public boolean isDigrafo();
+  
+  public void updateAresta(String n1, String n2, int peso);
+  
+  public void updateAresta(int n1, int n2, int peso); 
+  }
+
+ 
 
 
-
-  @Override
-  public String toString(); 
-}

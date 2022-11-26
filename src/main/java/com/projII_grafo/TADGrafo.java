@@ -69,8 +69,56 @@ public class TADGrafo {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  public ArrayList<String> Prim() {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public ArrayList<String> Prim(String origin) {
+	  
+	  
+	  //Lista com todos os vertices
+	  ArrayList<String> vertices = this.grafo.getAllVertices();
+	  
+	  int V = this.grafo.getVerticeQuantity();
+	  
+	  
+	  
+	  
+	  
+	  //Guarda os vertices da MST
+	  int parenTree[] = new int[V];
+	  
+	  //String parentTree[] = new String[V];
+	  
+	  
+	  
+	  //Lista com as distancias locais de cada vertice
+	  int dists[] = new int[V];
+	  
+	  parenTree[0] = -1;
+	  
+	  //dists[vertices.indexOf(origin)] = 0;
+	  
+	  
+	 
+	  for(int i = 0; i< V; i++) {
+		  dists[i] = Integer.MAX_VALUE;  
+	  }
+	  
+	  dists[vertices.indexOf(origin)] = 0;
+	 
+	  
+	  
+	  for(int i = 0; i <= V; i++) {
+		  
+		  int u = minDistIndex(dists, V);
+		  
+		  for(int v = 0; v < V; v++) {
+			  int arestaValue = this.grafo.getArestaValue(u, v);
+			  if(arestaValue != 0 && arestaValue < dists[v]) {
+				  parenTree[v] = u;
+				  dists[v] = arestaValue;
+			  }
+		  }
+	  }
+	  
+	  throw new UnsupportedOperationException("Not implemented yet");
   }
 
   

@@ -20,7 +20,7 @@ public class TADGrafo {
   public ArrayList<String> getConjuntoVertices() {
     return this.grafo.getAllVertices();
   }
-
+  
   public LinkedList<Object> getVerticeListAdj() {
     throw new UnsupportedOperationException("Not implemented yet"); 
   }
@@ -71,21 +71,17 @@ public class TADGrafo {
 
   public ArrayList<String> Prim(String origin) {
 	  
-	  
 	  //Lista com todos os vertices
 	  ArrayList<String> vertices = this.grafo.getAllVertices();
 	  
 	  int V = this.grafo.getVerticeQuantity();
 	  
-	  
-	  
-	  
+	  Boolean visited[] = new Boolean[V];
 	  
 	  //Guarda os vertices da MST
 	  int parenTree[] = new int[V];
 	  
 	  //String parentTree[] = new String[V];
-	  
 	  
 	  
 	  //Lista com as distancias locais de cada vertice
@@ -95,27 +91,32 @@ public class TADGrafo {
 	  
 	  //dists[vertices.indexOf(origin)] = 0;
 	  
-	  
-	 
 	  for(int i = 0; i< V; i++) {
 		  dists[i] = Integer.MAX_VALUE;  
 	  }
 	  
 	  dists[vertices.indexOf(origin)] = 0;
 	 
-	  
-	  
 	  for(int i = 0; i <= V; i++) {
 		  
-		  int u = minDistIndex(dists, V);
+		  int u = minDistIndex(dists, V, visited);
 		  
 		  for(int v = 0; v < V; v++) {
 			  int arestaValue = this.grafo.getArestaValue(u, v);
-			  if(arestaValue != 0 && arestaValue < dists[v]) {
+			  if(visited[v] == false && arestaValue != 0 && arestaValue < dists[v]) {
 				  parenTree[v] = u;
 				  dists[v] = arestaValue;
 			  }
 		  }
+	  }
+	  
+	  System.out.println("\nPrim:");
+	  String nodeName = "";
+	  
+	  for(int i =0 ; i< V; i++) {
+		  nodeName = vertices.get(i);
+		  
+		  System.out.println("Aresta: " + parenTree[i] + "->" + nodeName + "Weight:" + this.grafo.getArestaValue(i, parenTree[i]));
 	  }
 	  
 	  throw new UnsupportedOperationException("Not implemented yet");
@@ -123,13 +124,13 @@ public class TADGrafo {
 
   
   //Essa versão n usa Prio Queue, mas sim a distancia minima retirada da matrix
-  private int minDistIndex(int dists[], int V) {
+  private int minDistIndex(int dists[], int V, Boolean visited[]) {
 	  int min = Integer.MAX_VALUE;
 	  int minI = -1;
 	  for(int i = 0; i < V; i++) {
 		  //Talvez <= min?:??????
 		  //Talvez checar já visitados
-		  if(dists[i]< min) {
+		  if(visited[i] == false && dists[i]< min) {
 			  min = dists[i];
 			  minI = i;
 		  }
@@ -144,7 +145,7 @@ public class TADGrafo {
 	 
 	  
 	  int V = this.grafo.getVerticeQuantity();
-	  
+	  Boolean visited[] = new Boolean[V];
 	  //Lista com todos os vertices
 	  ArrayList<String> vertices = this.grafo.getAllVertices();
 	  
@@ -157,7 +158,8 @@ public class TADGrafo {
 	  int dists[] = new int[V];
 	  
 	  for(int i = 0; i< V; i++) {
-		  dists[i] = Integer.MAX_VALUE;  
+		  dists[i] = Integer.MAX_VALUE;
+		  visited[i] = false;
 	  }
 	  
 	  dists[vertices.indexOf(origin)] = 0;
@@ -169,9 +171,10 @@ public class TADGrafo {
 	 // }
 	  
 	  //Talvez usar a função getVerticeAdj
-	  for(int i = 0; i <= V; i++) {
+	  for(int i = 0; i < V-1; i++) {
 		  
-		  int u = minDistIndex(dists, V);
+		  int u = minDistIndex(dists, V, visited);
+		  visited[u] = true;
 		  
 		  for(int v = 0; v < V; v++) {
 			  //Criar metodo para navegar ou acessar a matrix do grafo
@@ -179,7 +182,7 @@ public class TADGrafo {
 			  
 			  
 			  int arestaValue = this.grafo.getArestaValue(u, v);
-			  if(arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
+			  if(visited[v] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
 				  //relax(u,v,w)
 				  dists[v] = dists[u] + arestaValue;
 			  }

@@ -369,6 +369,7 @@ public class StrategyAdjList implements StrategyStructure {
 @Override
 public int getArestaValue(int row, int col) {
 	// TODO Auto-generated method stub
+  
 	return 0;
 }
 

@@ -97,6 +97,7 @@ public class TADGrafo {
 	  
 	  dists[vertices.indexOf(origin)] = 0;
 	 
+
 	  for(int i = 0; i <= V; i++) {
 		  
 		  int u = minDistIndex(dists, V, visited);
@@ -130,7 +131,7 @@ public class TADGrafo {
 	  for(int i = 0; i < V; i++) {
 		  //Talvez <= min?:??????
 		  //Talvez checar já visitados
-		  if(visited[i] == false && dists[i]< min) {
+		  if(visited[i] == false && dists[i]<= min) {
 			  min = dists[i];
 			  minI = i;
 		  }
@@ -180,8 +181,12 @@ public class TADGrafo {
 			  //Criar metodo para navegar ou acessar a matrix do grafo
 			  //Get aresta value e update !!!
 			  
-			  
-			  int arestaValue = this.grafo.getArestaValue(u, v);
+			  Integer iU = u;
+			  Integer iV = v;
+			  System.out.println("u: " + iU.toString());
+			  System.out.println("v: " + iV.toString());
+			  int arestaValue = this.grafo.getArestaValue(iU.toString(), iV.toString());
+			  System.out.println("ArestaValue: " + arestaValue);
 			  if(visited[v] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
 				  //relax(u,v,w)
 				  dists[v] = dists[u] + arestaValue;

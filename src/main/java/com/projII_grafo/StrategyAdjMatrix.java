@@ -41,10 +41,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
   public ArrayList<String> getVerticeAdjacencia(String vertice) {
     ArrayList<String> adjacencia = new ArrayList<String>();
     if (this.verticeExists(vertice)) {
-      int index1 = this.order.indexOf(vertice);
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        if (this.getArestaValue(Integer.toString(index1), Integer.toString(i)) != 0) { // se existir aresta
-          adjacencia.add(this.order.get(i));
+        String destino = this.order.get(i);
+        if (this.getArestaValue(vertice, destino) != 0) { // se existir aresta
+          adjacencia.add(destino);
         }
       }
     } 
@@ -119,9 +119,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
   @Override
   public boolean arestaExists(String n1, String n2) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
-      String index1 = Integer.toString(this.order.indexOf(n1));
-      String index2 = Integer.toString(this.order.indexOf(n2));
-      return (this.getArestaValue(index1, index2) > 0)? true : false;
+      return (this.getArestaValue(n1, n2) > 0)? true : false;
     }
     return false;
   } 
@@ -159,16 +157,16 @@ public class StrategyAdjMatrix implements StrategyStructure {
   @Override
   public int getGrauGeralND(String n1) {
     if (this.verticeExists(n1)) {
-      String index1 = Integer.toString(this.order.indexOf(n1));
       int grau = 0;
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        int ida = this.getArestaValue(index1, Integer.toString(i));
-        int volta = this.getArestaValue(Integer.toString(i), index1); 
+        String destino = this.order.get(i);
+        int ida = this.getArestaValue(n1, destino);
+        int volta = this.getArestaValue(destino, n1); 
         if (ida == 0) {
           continue;
         } 
         if (ida == volta) {
-          grau += (Integer.parseInt(index1) == i)? 2 : 1;
+          grau += (n1.equals(destino))? 2 : 1;
         }
       }
       return grau;
@@ -212,10 +210,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
    
     for (int row = 0; row < this.getVerticeQuantity(); row++) {
       for (int col = 0; col < this.getVerticeQuantity(); col++) {
-       // if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) == 0) {
-        transposto.inserirAresta(this.order.get(row), 
-                                this.order.get(col),
-                                this.getArestaValue(Integer.toString(col), Integer.toString(row)));  
+        String origem = this.order.get(row);
+        String destino = this.order.get(col);
+        transposto.inserirAresta(origem, 
+                                destino,
+                                this.getArestaValue(destino, origem));  
 
       }
     }
@@ -228,8 +227,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     int order = this.getVerticeQuantity();
     for (int row = 0; row < order; row++) {
       for (int col = 0; col < order; col++) {
-        if (this.getArestaValue(Integer.toString(row), Integer.toString(col))
-         != this.getArestaValue(Integer.toString(col), Integer.toString(row))) {
+        String origem = this.order.get(row);
+        String destino = this.order.get(col);
+        if (this.getArestaValue(origem, destino)
+         != this.getArestaValue(destino, origem)) {
           return true; 
         }
       }

@@ -385,12 +385,12 @@ public class StrategyAdjList implements StrategyStructure {
     return grafo;  
   }
 
-@Override
-public int getArestaValue(int row, int col) {
-	// TODO Auto-generated method stub
+// @Override
+// public int getArestaValue(int row, int col) {
+// 	// TODO Auto-generated method stub
   
-	return 0;
-}
+// 	return 0;
+// }
 
 @Override
 public void updateAresta(String n1, String n2, int peso) {

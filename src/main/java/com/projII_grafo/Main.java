@@ -37,7 +37,9 @@ public class Main {
 		System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));
 		TADgrafo.Dijkstra("1");
 		
-		System.out.println(Integer.MAX_VALUE);
+		TADgrafo.Prim("1");
+		
+		
 	}
 
 }

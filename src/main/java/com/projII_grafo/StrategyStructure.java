@@ -1,7 +1,5 @@
 package com.projII_grafo;
 
-import java.util.List;
-
 import java.util.ArrayList;
 
 public interface StrategyStructure {
@@ -14,9 +12,7 @@ public interface StrategyStructure {
 
   public ArrayList<String> getVerticeAdjacencia(String n1); 
 
-  public int getArestaValue(String li, String el);
-  
-  public int getArestaValue(int row, int col);
+  public int getArestaValue(String v1, String v2);
 
   public void inserirVertice(String vertice); 
 

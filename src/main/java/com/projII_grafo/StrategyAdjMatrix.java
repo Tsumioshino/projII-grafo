@@ -1,7 +1,7 @@
 package com.projII_grafo;
+import java.lang.UnsupportedOperationException;
 import java.util.ArrayList;
 
-import java.lang.UnsupportedOperationException;
 
 // FORGET
 // 1. INSERIR VERTICE PERMITE ADICIONAR VERTICE COM NOME IGUAL
@@ -16,6 +16,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = new ArrayList<String>();
   }
 
+  @Override
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.matrix.size() == 0 && this.order.size() == 0) {
       this.inserirConjuntoVertices(vertices);
@@ -25,22 +26,25 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   }
 
+  @Override
   public void resetarGrafo() {
     this.matrix = null;
     this.order = null;
   }
 
+  @Override
   public ArrayList<String> getAllVertices(){
     return this.order;
   }
 
+  @Override
   public ArrayList<String> getVerticeAdjacencia(String vertice) {
     ArrayList<String> adjacencia = new ArrayList<String>();
     if (this.verticeExists(vertice)) {
-      int index1 = this.order.indexOf(vertice);
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        if (this.getArestaValue(Integer.toString(index1), Integer.toString(i)) != 0) { // se existir aresta
-          adjacencia.add(this.order.get(i));
+        String destino = this.order.get(i);
+        if (this.getArestaValue(vertice, destino) != 0) { // se existir aresta
+          adjacencia.add(destino);
         }
       }
     } 
@@ -48,8 +52,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
   }
 
 
-  public int getArestaValue(String row, String col) {
-    return this.matrix.get(Integer.valueOf(row)).get(Integer.valueOf(col));
+  @Override
+  public int getArestaValue(String origem, String destino) {
+    int origem_ind = this.order.indexOf(origem);
+    int destino_ind = this.order.indexOf(destino);
+    return this.matrix.get(origem_ind).get(destino_ind);
   }
   
   
@@ -58,6 +65,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
   }
   
 
+  @Override
   public void inserirVertice(String vertice) {
     // Insere o vértice sem adicionar coluna
     this.order.add(vertice);
@@ -72,12 +80,14 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   }
 
+  @Override
   public void inserirConjuntoVertices(ArrayList<String> vertices) {
     for (String vertice : vertices) {
       this.inserirVertice(vertice);
     }  
   }
 
+  @Override
   public void inserirAresta(String n1, String n2, int peso) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
       if (this.arestaExists(n1, n2)) {
@@ -91,12 +101,14 @@ public class StrategyAdjMatrix implements StrategyStructure {
     } 
   }
 
+  @Override
   public void inserirConjuntoArestas(ArrayList<String[]> arestas) {
     for (String[] aresta : arestas) {
       this.inserirAresta(aresta[0], aresta[1], Integer.valueOf(aresta[2]));
     }
   } 
   
+  @Override
   public void removerAresta(String n1, String n2) {
     if (this.arestaExists(n1, n2)) {
       int index1 = this.order.indexOf(n1);
@@ -105,23 +117,25 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   } 
  
+  @Override
   public boolean verticeExists(String n1) {
     return (this.order.contains(n1))? true : false;
   } 
 
+  @Override
   public boolean arestaExists(String n1, String n2) {
     if (this.verticeExists(n1) && this.verticeExists(n2)) {
-      String index1 = Integer.toString(this.order.indexOf(n1));
-      String index2 = Integer.toString(this.order.indexOf(n2));
-      return (this.getArestaValue(index1, index2) > 0)? true : false;
+      return (this.getArestaValue(n1, n2) > 0)? true : false;
     }
     return false;
   } 
 
+  @Override
   public int getVerticeQuantity() {
     return this.order.size();
   } 
 
+  @Override
   public int getArestaQuantity() {
     int n_arestas = 0;
     for (ArrayList<Integer> row : this.matrix) { // Percorre a coluna
@@ -132,6 +146,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return n_arestas; 
   } 
 
+  @Override
   public int getGrau(String n1) {
     if (this.verticeExists(n1)) {
       if (this.isDigrafo()) {
@@ -145,18 +160,19 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead
   } 
 
+  @Override
   public int getGrauGeralND(String n1) {
     if (this.verticeExists(n1)) {
-      String index1 = Integer.toString(this.order.indexOf(n1));
       int grau = 0;
       for (int i = 0; i < this.getVerticeQuantity(); i++) {
-        int ida = this.getArestaValue(index1, Integer.toString(i));
-        int volta = this.getArestaValue(Integer.toString(i), index1); 
+        String destino = this.order.get(i);
+        int ida = this.getArestaValue(n1, destino);
+        int volta = this.getArestaValue(destino, n1); 
         if (ida == 0) {
           continue;
         } 
         if (ida == volta) {
-          grau += (Integer.parseInt(index1) == i)? 2 : 1;
+          grau += (n1.equals(destino))? 2 : 1;
         }
       }
       return grau;
@@ -164,6 +180,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead  
   } 
 
+  @Override
   public int getGrauEntradaD(String n1) {
     if (this.verticeExists(n1)) {
       int index1 = this.order.indexOf(n1);
@@ -177,6 +194,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead
   }
 
+  @Override
   public int getGrauSaidaD(String n1) {
     if (this.verticeExists(n1)) {
       int index1 = this.order.indexOf(n1);
@@ -190,6 +208,7 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead  
   } 
 
+  @Override
   public StrategyAdjMatrix getTransposto() {
     StrategyAdjMatrix transposto = new StrategyAdjMatrix();
 
@@ -197,10 +216,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
    
     for (int row = 0; row < this.getVerticeQuantity(); row++) {
       for (int col = 0; col < this.getVerticeQuantity(); col++) {
-       // if (this.getArestaValue(Integer.toString(row), Integer.toString(col)) == 0) {
-        transposto.inserirAresta(this.order.get(row), 
-                                this.order.get(col),
-                                this.getArestaValue(Integer.toString(col), Integer.toString(row)));  
+        String origem = this.order.get(row);
+        String destino = this.order.get(col);
+        transposto.inserirAresta(origem, 
+                                destino,
+                                this.getArestaValue(destino, origem));  
 
       }
     }
@@ -208,12 +228,15 @@ public class StrategyAdjMatrix implements StrategyStructure {
   }
 
 
+  @Override
   public boolean isDigrafo() {
     int order = this.getVerticeQuantity();
     for (int row = 0; row < order; row++) {
       for (int col = 0; col < order; col++) {
-        if (this.getArestaValue(Integer.toString(row), Integer.toString(col))
-         != this.getArestaValue(Integer.toString(col), Integer.toString(row))) {
+        String origem = this.order.get(row);
+        String destino = this.order.get(col);
+        if (this.getArestaValue(origem, destino)
+         != this.getArestaValue(destino, origem)) {
           return true; 
         }
       }

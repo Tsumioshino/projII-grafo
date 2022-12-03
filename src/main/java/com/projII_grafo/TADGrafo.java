@@ -53,7 +53,8 @@ public class TADGrafo {
   }
 
   public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    
+	throw new UnsupportedOperationException("Not implemented yet");
   }
 
   public boolean DFS(boolean ciclo, boolean conexidade) {
@@ -64,10 +65,30 @@ public class TADGrafo {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
+//   private void visitBfs(int V, int color[]) {
+// 	color[u] = grey;
+//   }
+//   public ArrayList<String> BFS(boolean shortest) {
+// 	byte white = 0;
+// 	byte grey = 1;
+// 	byte black = 2;
 
-  public ArrayList<String> BFS(boolean shortest) {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
+// 	int V = this.grafo.getVerticeQuantity();
+
+// 	int color[] = new int[V];
+	
+// 	int dists[] = new int [V];
+
+// 	int predecessor[] = new int[V];
+
+// 	for(int u = 0; u < V; u++){
+// 		if(color[u] == white){
+// 			this.visitBfs(u color);
+// 		}
+// 	}
+
+//     throw new UnsupportedOperationException("Not implemented yet");
+//   }
 
   public ArrayList<String> Prim(String origin) {
 	  
@@ -82,7 +103,6 @@ public class TADGrafo {
 	  int parenTree[] = new int[V];
 	  
 	  //String parentTree[] = new String[V];
-	  
 	  
 	  //Lista com as distancias locais de cada vertice
 	  int dists[] = new int[V];
@@ -185,7 +205,9 @@ public class TADGrafo {
 			  Integer iV = v;
 			  System.out.println("u: " + iU.toString());
 			  System.out.println("v: " + iV.toString());
+			  
 			  int arestaValue = this.grafo.getArestaValue(iU.toString(), iV.toString());
+			  
 			  System.out.println("ArestaValue: " + arestaValue);
 			  if(visited[v] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
 				  //relax(u,v,w)

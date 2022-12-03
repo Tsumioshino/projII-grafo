@@ -59,12 +59,6 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return this.matrix.get(origem_ind).get(destino_ind);
   }
   
-  
-  public int getArestaValue(int row, int col) {
-	return this.matrix.get(row).get(col);
-  }
-  
-
   @Override
   public void inserirVertice(String vertice) {
     // Insere o vértice sem adicionar coluna
@@ -244,19 +238,6 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return false;
   }
   
-  @Override
-  public void updateAresta(int n1, int n2, int peso) {
-	  this.matrix.get(n1).set(n2, peso);
-  }
-	
-  @Override
-  public void updateAresta(String n1, String n2, int peso) {
-	  int index1, index2 = 0;
-	  index1 = this.order.indexOf(n1);
-	  index2 = this.order.indexOf(n2);
-	  this.matrix.get(index1).set(index2, peso);	
-	}
-
   @Override
   public String toString() {
     String grafo = "";

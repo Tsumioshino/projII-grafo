@@ -43,11 +43,7 @@ public interface StrategyStructure {
   public StrategyStructure getTransposto();
 
   public boolean isDigrafo();
-  
-  public void updateAresta(String n1, String n2, int peso);
-  
-  public void updateAresta(int n1, int n2, int peso); 
-  }
+}
 
  
 

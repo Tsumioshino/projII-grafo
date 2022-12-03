@@ -384,5 +384,6 @@ public class StrategyAdjList implements StrategyStructure {
     } 
     return grafo;  
   }
+}
 
 

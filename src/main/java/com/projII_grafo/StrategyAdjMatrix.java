@@ -240,13 +240,23 @@ public class StrategyAdjMatrix implements StrategyStructure {
   
   @Override
   public String toString() {
-    String grafo = "";
+    String grafo = "  ";
+    int i = 0;
+    for (String v : this.order) {
+      grafo += v;
+      grafo += " ";
+    }
+    grafo += "\n";
+
     for (ArrayList<Integer> row : this.matrix) {
+      grafo += this.order.get(i);
+      grafo += " ";
       for (Integer value : row) {
         grafo += Integer.toString(value);
         grafo += " ";
       }
       grafo += "\n";
+      i++;
     }
     return grafo;
   } 

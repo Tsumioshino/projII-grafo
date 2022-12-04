@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Node {
+@ToString
+public class NodeModel {
 
-    private String nome;
-    private int[] teste;
+    private String label;
+    private int id;
 }

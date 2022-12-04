@@ -39,7 +39,7 @@ public class Main {
 		
 		TADgrafo.Prim("1");
 		
-		
+		TADgrafo.BFS("1", "4");
 	}
 
 }

@@ -3,6 +3,7 @@ package com.projII_grafo;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 import java.util.ArrayList;
 
@@ -69,28 +70,106 @@ public class TADGrafo {
 // 	color[u] = grey;
 // 	dis
 //   }
-//   public ArrayList<String> BFS(boolean shortest) {
-// 	byte white = 0;
-// 	byte grey = 1;
-// 	byte black = 2;
-
-// 	int V = this.grafo.getVerticeQuantity();
-
-// 	int color[] = new int[V];
+  public ArrayList<String> BFS(String origemU, String destinoV) {
+	byte white = 0;
+	byte grey = 1;
+	byte black = 2;
+	ArrayList<String> neighbors;
+	int V = this.grafo.getVerticeQuantity();
 	
-// 	int dists[] = new int [V];
+	ArrayList<String> vertices = this.grafo.getAllVertices();
+	System.out.println("Vertices: " + vertices);
+	int color[] = new int[V];
+	
+	int dists[] = new int [V];
 
-// 	int predecessor[] = new int[V];
+	Integer predecessor[] = new Integer[V];
+	
+	for(int u = 0; u < V; u++){
+		color[u] = white;
+		dists[u] = Integer.MAX_VALUE;
+		predecessor[u] = -1;
+	}
+	
+	for(int u = 0; u < V; u++){
+		if(color[u] == white){
+			//Visita BFS
+			color[u] = grey;
+			dists[u] = 0;
 
-// 	for(int u = 0; u < V; u++){
-// 		if(color[u] == white){
-// 			this.visitBfs(u color);
-// 		}
-// 	}
+			//Queue = new 
+			LinkedList<Integer> queue = new LinkedList<Integer>();
+			//Queue.enfileira(new Integer u)
+			queue.add(u);
+			System.out.println("A1");
+			while(!queue.isEmpty()){
+				System.out.println("A");
+				Integer firstOut = queue.pop();
+				
+				u = firstOut;
+				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
+				if(!this.grafo.getVerticeAdjacencia(vertices.get(u)).isEmpty()){
+					System.out.println("B");
+					//String verticeEdge = neighbors.get(0);
+					
+					//while(verticeEdge != null){
+					
+					while(neighbors.size() !=  0){
+						String verticeEdge = neighbors.get(0);
+						neighbors.remove(0);
+						//int v = a.v2();
+						//String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
+						int v = vertices.indexOf(verticeEdge);
+						System.out.println("verticeEdge" + verticeEdge);
+						System.out.println("v " + v);
+						if(color[v] == white){
+							color[v] = grey;
+							dists[v] = dists[u] + 1;
+							predecessor[v] = u;
+							queue.add(v);
+							//Queue(new Integer (v))
+						}
+						//verticeEdge = neighbors.get(0);
+					}
+				}
+				color[u] = black;
 
-//     throw new UnsupportedOperationException("Not implemented yet");
-//   }
+			}
+			//
+		}
+		
+	}
 
+	System.out.println("Colors: " + color);
+	for(int i = 0; i < predecessor.length; i++){
+		System.out.println("Pred: " + predecessor[i]);
+
+	}
+	System.out.println("destinoV: " + destinoV);
+	printBFS(origemU, destinoV, predecessor, vertices);
+	
+    return vertices;
+  }
+
+  public void printBFS(String Origem, String V, Integer predecessor[], ArrayList<String> vertices){
+	
+	int origem = vertices.indexOf(Origem);
+	Integer v = vertices.indexOf(V);
+	// System.out.println("Vertices: " + vertices);
+	// System.out.println("V: " + V);
+	// System.out.println("IV: " + v);
+	if (origem == v){
+		System.out.println(origem);
+	}
+	else if(predecessor[v] == -1){
+		System.out.println("Não existe caminho entre " + origem + " e " + v);
+
+	}
+	else{
+		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
+		System.out.println(v);
+	}
+  }
   public ArrayList<String> Prim(String origin) {
 	  
 	  //Lista com todos os vertices

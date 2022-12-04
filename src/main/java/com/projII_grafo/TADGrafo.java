@@ -1,16 +1,17 @@
 package com.projII_grafo;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-import java.lang.UnsupportedOperationException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // FORGET
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
+@NoArgsConstructor
+@Getter
+@Setter
 public class TADGrafo {
   public StrategyStructure grafo;
 

@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WassabiappApplication {
+public class GrafosApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WassabiappApplication.class, args);
+		SpringApplication.run(GrafosApplication.class, args);
 	}
 }

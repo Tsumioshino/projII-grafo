@@ -53,10 +53,74 @@ public class TADGrafo {
     return this.DFS(false, true);
   }
 
-  public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
-    
-	throw new UnsupportedOperationException("Not implemented yet");
-  }
+  //public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
+	public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
+		ArrayList<Object> dfs = new ArrayList<>();
+		// byte white = 0;
+		// byte grey = 1;
+		// byte black = 2;
+		// int time = 0;
+		byte white = 0;
+		byte grey = 1;
+		byte black = 2;
+		int time = 0;
+		int V = this.grafo.getVerticeQuantity();
+		
+		
+		ArrayList<String> vertices = this.grafo.getAllVertices();
+		System.out.println("Vertices: " + vertices);
+		int color[] = new int[V];
+		
+		int dists[] = new int[V];
+
+		int times[] = new int[V];
+
+		Integer predecessor[] = new Integer[V];
+
+
+		for(int u = 0; u < V; u++){
+			color[u] = white;
+			predecessor[u] = -1;
+		}
+
+		for(int u =0; u < V; u++){
+			if(color[u] == white){
+				
+			}
+		}
+
+		return dfs;
+	}
+	
+	public int DFS(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
+		//time = DFS
+		byte white = 0;
+		byte grey = 1;
+		byte black = 2;
+		color[u] = grey;
+		dists[u] = ++time;
+		ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
+	
+		if(!neighbors.isEmpty()){
+			
+
+			while(!neighbors.isEmpty()){
+				String verticeEdge = neighbors.get(0);
+				neighbors.remove(0);
+
+				int v = vertices.indexOf(verticeEdge);
+
+				if(color[v] == white){
+					predecessor[v] = u;
+
+					time = DFS(v, time, color, vertices, dists, predecessor, times);
+				}
+			}
+		}
+		color[u] = black;
+		times[u] = ++time;
+		return time;
+    }
 
   public boolean DFS(boolean ciclo, boolean conexidade) {
     throw new UnsupportedOperationException("Not implemented yet");
@@ -108,12 +172,13 @@ public class TADGrafo {
 				
 				u = firstOut;
 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
-				if(!this.grafo.getVerticeAdjacencia(vertices.get(u)).isEmpty()){
+				if(!neighbors.isEmpty()){
 					System.out.println("B");
 					//String verticeEdge = neighbors.get(0);
 					
 					//while(verticeEdge != null){
 					
+					//!neighbors.isEmpty()
 					while(neighbors.size() !=  0){
 						String verticeEdge = neighbors.get(0);
 						neighbors.remove(0);
@@ -147,6 +212,7 @@ public class TADGrafo {
 	}
 	System.out.println("destinoV: " + destinoV);
 	printBFS(origemU, destinoV, predecessor, vertices);
+	System.out.println("destinoV: " + destinoV);
 	
     return vertices;
   }
@@ -167,8 +233,9 @@ public class TADGrafo {
 	}
 	else{
 		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
-		System.out.println(v);
+		System.out.println("Vertice: " + v);
 	}
+	
   }
   public ArrayList<String> Prim(String origin) {
 	  

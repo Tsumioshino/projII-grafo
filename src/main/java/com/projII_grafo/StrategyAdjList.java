@@ -26,8 +26,27 @@ public class StrategyAdjList implements StrategyStructure {
     public String getAresta() {
       return this.peso_aresta;
     }
-  }
 
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) { // literalmente mesmo objeto
+        return true;
+      }
+      if (this.getClass() != obj.getClass()) { // devem ser VerticeAresta no minimo
+        return false;
+      }
+      VerticeAresta v_a = (VerticeAresta) obj; // type casting
+      if (this.getVertice() != v_a.getVertice()) {
+        return false;
+      }
+
+      if (this.getAresta() != v_a.getAresta()) {
+        return false;
+      }
+
+      return true;
+    }
+  }
   ArrayList<LinkedList<VerticeAresta>> adjList;
 
   public StrategyAdjList() {
@@ -310,8 +329,8 @@ public class StrategyAdjList implements StrategyStructure {
   public StrategyAdjList getTransposto() {
     StrategyAdjList transposto = new StrategyAdjList();
     transposto.criarGrafo(this.getAllVertices(), null);
-    String head = null;
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      String head = null;
       for (VerticeAresta cel : v_adj) {
         if (head == null) {
           head = cel.getVertice();
@@ -364,5 +383,7 @@ public class StrategyAdjList implements StrategyStructure {
       grafo += "\n";
     } 
     return grafo;  
-  } 
+  }
 }
+
+

@@ -166,15 +166,12 @@ public class TADGrafo {
 			LinkedList<Integer> queue = new LinkedList<Integer>();
 			//Queue.enfileira(new Integer u)
 			queue.add(u);
-			System.out.println("A1");
 			while(!queue.isEmpty()){
-				System.out.println("A");
 				Integer firstOut = queue.pop();
 				
 				u = firstOut;
 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
 				if(!neighbors.isEmpty()){
-					System.out.println("B");
 					//String verticeEdge = neighbors.get(0);
 					
 					//while(verticeEdge != null){
@@ -186,8 +183,8 @@ public class TADGrafo {
 						//int v = a.v2();
 						//String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
 						int v = vertices.indexOf(verticeEdge);
-						System.out.println("verticeEdge" + verticeEdge);
-						System.out.println("v " + v);
+						System.out.println("verticeEdge " + verticeEdge);
+						//System.out.println("v " + v);
 						if(color[v] == white){
 							color[v] = grey;
 							dists[v] = dists[u] + 1;
@@ -207,8 +204,8 @@ public class TADGrafo {
 	}
 
 	System.out.println("Colors: " + color);
-	for(int i = 0; i < predecessor.length; i++){
-		System.out.println("Pred: " + predecessor[i]);
+	for(int i = 1; i < predecessor.length; i++){
+		System.out.println("Pred: " + vertices.get((int )predecessor[i]));
 
 	}
 	System.out.println("destinoV: " + destinoV);
@@ -234,7 +231,7 @@ public class TADGrafo {
 	}
 	else{
 		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
-		System.out.println("Vertice: " + v);
+		System.out.println("Vertice: " + vertices.get(v));
 	}
 	
   }

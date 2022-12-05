@@ -16,6 +16,8 @@ import lombok.ToString;
 public class GrafoModel {
     private String origem;
     private String destino;
+    private int quantidadeAresta;
+    private int quantidadeVertice;
     private List<NodeModel> nodes;
     private List<EdgeModel> edges;
 }

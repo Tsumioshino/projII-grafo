@@ -23,8 +23,82 @@ public class TADGrafo {
     return Integer.toString(this.grafo.getVerticeQuantity()) + ", " + Integer.toString(this.grafo.getArestaQuantity());
   }
 
-  public ArrayList<Object> classificarAresta() {
-    return this.DFS(true, false, false);
+  public String classificarAresta(String v_inicial) {
+		byte white = 0; byte grey = 1; byte black = 2; // Cores,
+		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
+		ArrayList<String> visitados = new ArrayList<String>(); // Lista com vértices ja percorridos
+
+		int vertices_chegada[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
+		int vertices_morte[] = new int[vertices.size()]; // Vetor que indica ultima expansao do vertice
+		byte vertices_cor[] = new byte[vertices.size()]; // Inicializando cor branca
+
+		ArrayList<String> ordem_visita = new ArrayList<String>(); // Fila de prioridade
+		ordem_visita.add(v_inicial); 
+
+		int contador = 1;
+
+		while (vertices.size() != visitados.size()) {
+			if (ordem_visita.size() == 0) { // Grafo Desconexo
+				for (String vertice : vertices) {
+					if (!visitados.contains(vertice)) {
+						ordem_visita.add(vertice);
+						break;		
+					}
+				}
+			}
+			System.out.println(ordem_visita);
+
+			String current = ordem_visita.remove(0);
+			int current_index = vertices.indexOf(current);
+			int fila_java_fix = 0;
+			ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(current);
+			ArrayList<String> neighbors_not_visited = new ArrayList<String>();
+			if (vertices_cor[current_index] == white) {
+				vertices_chegada[current_index] = contador++;
+				vertices_cor[current_index] = grey;
+
+				// Classificacao de Aresta
+				for (String neighbor : neighbors) {
+					int n_index = vertices.indexOf(neighbor);
+					String aresta_type = "";
+					if (vertices_cor[n_index] == white) { aresta_type = "ARESTA DE ARVORE"; }
+
+					else if (vertices_cor[n_index] == grey) { aresta_type = "ARESTA DE RETORNO"; }
+
+					else if ((vertices_cor[n_index] == black) 
+					&& (vertices_chegada[current_index] < vertices_chegada[n_index])) { aresta_type = "ARESTA DE AVANCO"; }
+
+					else if ((vertices_cor[n_index] == black)
+					&& (vertices_chegada[current_index] > vertices_chegada[n_index])) { aresta_type = "ARESTA DE CRUZAMENTO"; }
+					
+					System.out.println(current + " to " + neighbor + "(" + aresta_type + ")");
+					
+					// Adiciona vizinhos para percorrer, caso nao percorridos
+					if (vertices_cor[n_index] == white) {
+						ordem_visita.add(fila_java_fix++, neighbor);
+						neighbors_not_visited.add(neighbor);
+					}
+				}
+			}
+			// Torna o vertice preto, se ele nao tiver mais vizinho para percorrer
+			if ((neighbors_not_visited.size() == 0) && (vertices_cor[current_index] == grey)) {
+				vertices_morte[current_index] = contador++;
+				vertices_cor[current_index] = black;
+				visitados.add(current);
+				System.out.println(current + " died at " + vertices_morte[current_index]);
+
+				continue;
+			}
+			if (vertices_cor[current_index] == black) {
+				continue;
+			}
+			ordem_visita.add(fila_java_fix, current);
+			
+		}
+		for (int i = 0; i < vertices_morte.length; i++) {
+			System.out.println(vertices_morte[i]);
+		}
+	 	return "";
   }
 
   public ArrayList<Object> ordenacaoTopologica() throws Exception {

@@ -117,11 +117,12 @@ public class TADGrafo {
 			ordem_visita.add(fila_java_fix, current);
 			
 		}
+
 	 	return api_string;
   }
 
-  public ArrayList<Object> ordenacaoTopologica() throws Exception {
-    if (this.grafo.isDigrafo() && !this.hasCiclo() && this.isConexo()) {
+  public ArrayList<Object> ordenacaoTopologica(String v_inicial) throws Exception {
+    if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
       return this.DFS(false, true, false);  
     }
     throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
@@ -131,9 +132,82 @@ public class TADGrafo {
     return this.DFS(false, false, true);
   }
 
-  public boolean hasCiclo() {
-    return this.DFS(true, false);
-  }
+  public boolean hasCiclo(String v_inicial) {
+		byte white = 0; byte grey = 1; byte black = 2; // Cores,
+		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
+		ArrayList<String> visitados = new ArrayList<String>(); // Lista com vértices ja percorridos
+
+		int many_visited[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
+		int vertices_vizinhos[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
+
+		int vertices_chegada[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
+		int vertices_morte[] = new int[vertices.size()]; // Vetor que indica ultima expansao do vertice
+		byte vertices_cor[] = new byte[vertices.size()]; // Inicializando cor branca
+
+		ArrayList<String> ordem_visita = new ArrayList<String>(); // Fila de prioridade
+		ordem_visita.add(v_inicial); 
+
+		int contador = 1;
+
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices_vizinhos[i] = this.grafo.getVerticeAdjacencia(vertices.get(i)).size();
+		}
+
+		while (vertices.size() != visitados.size()) {
+			if (ordem_visita.size() == 0) { // Grafo Desconexo
+				for (String vertice : vertices) {
+					if (!visitados.contains(vertice)) {
+						ordem_visita.add(vertice);
+						break;		
+					}
+				}	
+			}
+			System.out.println(ordem_visita);
+			String current = ordem_visita.remove(0);
+			int current_index = vertices.indexOf(current);
+			int fila_java_fix = 0;
+			ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(current);
+			ArrayList<String> neighbors_not_visited = new ArrayList<String>();
+			
+			if ((vertices_cor[current_index] == white) || (vertices_cor[current_index] == grey)) {
+				if (vertices_cor[current_index] == white) {
+					vertices_chegada[current_index] = contador++;
+					vertices_cor[current_index] = grey;
+				}
+				if (many_visited[current_index] != vertices_vizinhos[current_index]) {
+					String neighbor = neighbors.get(many_visited[current_index]); 
+					many_visited[current_index] += 1;
+					int n_index = vertices.indexOf(neighbor);
+
+					if (vertices_cor[n_index] == grey) { return true; } // Aresta de Retorno (Ciclo)
+										
+					// Adiciona vizinhos para percorrer, caso nao percorridos
+					if (vertices_cor[n_index] == white) {
+						ordem_visita.add(fila_java_fix++, neighbor);
+						neighbors_not_visited.add(neighbor);
+					}
+				}
+				
+			}
+			// Torna o vertice preto, se ele nao tiver mais vizinho para percorrer
+			if ((neighbors_not_visited.size() == 0) && (vertices_cor[current_index] == grey)) {
+					if (many_visited[current_index] != vertices_vizinhos[current_index]) {
+						ordem_visita.add(vertices.get(current_index));
+						continue;
+					}
+				vertices_morte[current_index] = contador++;
+				vertices_cor[current_index] = black;
+				visitados.add(current);
+
+				continue;
+			}
+			if (vertices_cor[current_index] == black) {
+				continue;
+			}
+			ordem_visita.add(fila_java_fix, current);	
+		}
+	 	return false;  
+	}
 
   public boolean isConexo() {
     return this.DFS(false, true);

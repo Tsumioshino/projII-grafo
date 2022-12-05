@@ -2,9 +2,6 @@ package com.projII_grafo;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
 import java.util.ArrayList;
 
 import java.lang.UnsupportedOperationException;
@@ -22,10 +19,6 @@ public class TADGrafo {
     return this.grafo.getAllVertices();
   }
   
-  public LinkedList<Object> getVerticeListAdj() {
-    throw new UnsupportedOperationException("Not implemented yet"); 
-  }
-
   public String getVerticeArestaQuantity() {
     return Integer.toString(this.grafo.getVerticeQuantity()) + ", " + Integer.toString(this.grafo.getArestaQuantity());
   }

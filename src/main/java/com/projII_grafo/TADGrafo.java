@@ -24,6 +24,7 @@ public class TADGrafo {
   }
 
   public String classificarAresta(String v_inicial) {
+		String api_string = "";
 		byte white = 0; byte grey = 1; byte black = 2; // Cores,
 		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
 		ArrayList<String> visitados = new ArrayList<String>(); // Lista com vértices ja percorridos
@@ -46,8 +47,6 @@ public class TADGrafo {
 					}
 				}
 			}
-			System.out.println(ordem_visita);
-
 			String current = ordem_visita.remove(0);
 			int current_index = vertices.indexOf(current);
 			int fila_java_fix = 0;
@@ -61,16 +60,19 @@ public class TADGrafo {
 				for (String neighbor : neighbors) {
 					int n_index = vertices.indexOf(neighbor);
 					String aresta_type = "";
-					if (vertices_cor[n_index] == white) { aresta_type = "ARESTA DE ARVORE"; }
+					if (vertices_cor[n_index] == white) { aresta_type = "ARESTA_DE_ARVORE"; }
 
-					else if (vertices_cor[n_index] == grey) { aresta_type = "ARESTA DE RETORNO"; }
+					else if (vertices_cor[n_index] == grey) { aresta_type = "ARESTA_DE_RETORNO"; }
 
 					else if ((vertices_cor[n_index] == black) 
-					&& (vertices_chegada[current_index] < vertices_chegada[n_index])) { aresta_type = "ARESTA DE AVANCO"; }
+					&& (vertices_chegada[current_index] < vertices_chegada[n_index])) { aresta_type = "ARESTA_DE_AVANCO"; }
 
 					else if ((vertices_cor[n_index] == black)
-					&& (vertices_chegada[current_index] > vertices_chegada[n_index])) { aresta_type = "ARESTA DE CRUZAMENTO"; }
+					&& (vertices_chegada[current_index] > vertices_chegada[n_index])) { aresta_type = "ARESTA_DE_CRUZAMENTO"; }
 					
+					api_string += current; api_string += " "; api_string += neighbor;
+					api_string += " ";  api_string += aresta_type; api_string += "\n";
+
 					System.out.println(current + " to " + neighbor + "(" + aresta_type + ")");
 					
 					// Adiciona vizinhos para percorrer, caso nao percorridos
@@ -85,7 +87,6 @@ public class TADGrafo {
 				vertices_morte[current_index] = contador++;
 				vertices_cor[current_index] = black;
 				visitados.add(current);
-				System.out.println(current + " died at " + vertices_morte[current_index]);
 
 				continue;
 			}
@@ -95,10 +96,7 @@ public class TADGrafo {
 			ordem_visita.add(fila_java_fix, current);
 			
 		}
-		for (int i = 0; i < vertices_morte.length; i++) {
-			System.out.println(vertices_morte[i]);
-		}
-	 	return "";
+	 	return api_string;
   }
 
   public ArrayList<Object> ordenacaoTopologica() throws Exception {

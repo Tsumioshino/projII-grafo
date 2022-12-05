@@ -1,5 +1,4 @@
 package com.projII_grafo;
-import java.lang.UnsupportedOperationException;
 import java.util.ArrayList;
 
 
@@ -8,8 +7,8 @@ import java.util.ArrayList;
 // ISSO VAI DAR RUIM EM ALGORITMOS DE BUSCA, PROVAVELMENTE.
 public class StrategyAdjMatrix implements StrategyStructure {
 
-  ArrayList<String> order;
-  ArrayList<ArrayList<Integer>> matrix;
+  public ArrayList<String> order;
+  public ArrayList<ArrayList<Integer>> matrix;
 
   public StrategyAdjMatrix() {
     this.matrix = new ArrayList<ArrayList<Integer>>();

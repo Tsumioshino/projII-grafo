@@ -14,5 +14,6 @@ import lombok.ToString;
 public class EdgeModel {
 
     private int from;
-    private int to;    
+    private int to;
+    private String value;
 }

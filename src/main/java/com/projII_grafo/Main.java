@@ -14,24 +14,27 @@ public class Main {
 		ArrayList<String> vertices = new ArrayList<String>();
 		ArrayList<String[]> arestas = new ArrayList<String[]>();
 		
+	
+		
+		vertices.add("1");
+		
+		vertices.add("2");
+		
+		vertices.add("3");
+		
+		vertices.add("4");
+		
+		String a[] = {"1", "2", "2"}; 
+		arestas.add(a);
+		
+		String b[] = {"2", "3", "4"}; 
+		arestas.add(b);
+		
+		String c[] = {"3", "4", "5"}; 
+		arestas.add(c);
 		
 		TADgrafo.grafo.criarGrafo(vertices, arestas);
-		
-		
-		TADgrafo.grafo.inserirVertice("1");
-		
-		TADgrafo.grafo.inserirVertice("2");
-		
-		TADgrafo.grafo.inserirVertice("3");
-		
-		TADgrafo.grafo.inserirVertice("4");
-		
-		TADgrafo.grafo.inserirAresta("1", "2", 2);
-		
-		TADgrafo.grafo.inserirAresta("2", "3", 4);
-		
-		TADgrafo.grafo.inserirAresta("3", "4", 5);
-		
+
 		System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		System.out.println(TADgrafo.getConjuntoVertices());
 		System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));
@@ -40,6 +43,7 @@ public class Main {
 		TADgrafo.Prim("1");
 		
 		TADgrafo.BFS("1", "4");
+		System.out.println(TADgrafo.grafo.toString());
 	}
 
 }

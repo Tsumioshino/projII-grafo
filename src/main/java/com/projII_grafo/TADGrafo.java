@@ -60,9 +60,7 @@ public class TADGrafo {
 		// byte grey = 1;
 		// byte black = 2;
 		// int time = 0;
-		byte white = 0;
-		byte grey = 1;
-		byte black = 2;
+		byte white = 0; byte grey = 1; byte black = 2;
 		int time = 0;
 		int V = this.grafo.getVerticeQuantity();
 		
@@ -94,9 +92,7 @@ public class TADGrafo {
 	
 	public int DFS(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
 		//time = DFS
-		byte white = 0;
-		byte grey = 1;
-		byte black = 2;
+		byte white = 0; byte grey = 1; byte black = 2;
 		color[u] = grey;
 		dists[u] = ++time;
 		ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
@@ -120,7 +116,7 @@ public class TADGrafo {
 		color[u] = black;
 		times[u] = ++time;
 		return time;
-    }
+  }
 
   public boolean DFS(boolean ciclo, boolean conexidade) {
     throw new UnsupportedOperationException("Not implemented yet");
@@ -135,26 +131,24 @@ public class TADGrafo {
 // 	dis
 //   }
   public ArrayList<String> BFS(String origemU, String destinoV) {
-	byte white = 0;
-	byte grey = 1;
-	byte black = 2;
+	byte white = 0;	byte grey = 1; byte black = 2;
 	ArrayList<String> neighbors;
 	int V = this.grafo.getVerticeQuantity();
-	
+
 	ArrayList<String> vertices = this.grafo.getAllVertices();
 	System.out.println("Vertices: " + vertices);
 	int color[] = new int[V];
-	
+
 	int dists[] = new int [V];
 
 	Integer predecessor[] = new Integer[V];
-	
+
 	for(int u = 0; u < V; u++){
 		color[u] = white;
 		dists[u] = Integer.MAX_VALUE;
 		predecessor[u] = -1;
 	}
-	
+
 	for(int u = 0; u < V; u++){
 		if(color[u] == white){
 			//Visita BFS
@@ -218,24 +212,23 @@ public class TADGrafo {
   }
 
   public void printBFS(String Origem, String V, Integer predecessor[], ArrayList<String> vertices){
-	
-	int origem = vertices.indexOf(Origem);
-	Integer v = vertices.indexOf(V);
-	// System.out.println("Vertices: " + vertices);
-	// System.out.println("V: " + V);
-	// System.out.println("IV: " + v);
-	if (origem == v){
-		System.out.println(origem);
-	}
-	else if(predecessor[v] == -1){
-		System.out.println("Não existe caminho entre " + origem + " e " + v);
+		int origem = vertices.indexOf(Origem);
+		Integer v = vertices.indexOf(V);
+		// System.out.println("Vertices: " + vertices);
+		// System.out.println("V: " + V);
+		// System.out.println("IV: " + v);
+		if (origem == v){
+			System.out.println(origem);
+		}
+		else if(predecessor[v] == -1){
+			System.out.println("Não existe caminho entre " + origem + " e " + v);
 
-	}
-	else{
-		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
-		System.out.println("Vertice: " + v);
-	}
-	
+		}
+		else{
+			printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
+			System.out.println("Vertice: " + v);
+		}
+		
   }
   public ArrayList<String> Prim(String origin) {
 	  
@@ -252,7 +245,7 @@ public class TADGrafo {
 	  //String parentTree[] = new String[V];
 	  
 	  //Lista com as distancias locais de cada vertice
-	  int dists[] = new int[V];
+	  double dists[] = new double[V];
 	  
 	  parenTree[0] = origin;
 	  
@@ -276,12 +269,14 @@ public class TADGrafo {
 		  neighbr = this.grafo.getVerticeAdjacencia(vertices.get(u));
 
 		  for(String v : neighbr){
-			int arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
+				double arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
 
-			if(visited[vertices.indexOf(v)] == false && arestaValue != 0 && arestaValue < dists[vertices.indexOf(v)]) {
-				parenTree[vertices.indexOf(v)] = vertices.get(u);
-				dists[vertices.indexOf(v)] = arestaValue;
-			}
+				if (visited[vertices.indexOf(v)] == false 
+						&& arestaValue != 0 
+						&& arestaValue < dists[vertices.indexOf(v)]) {
+							parenTree[vertices.indexOf(v)] = vertices.get(u);
+							dists[vertices.indexOf(v)] = arestaValue;
+				}
 		  }
 	  }
 	  
@@ -299,14 +294,15 @@ public class TADGrafo {
 
   
   //Essa versão n usa Prio Queue, mas sim a distancia minima retirada da matrix
-  private int minDistIndex(int dists[], int V, Boolean visited[]) {
+  private int minDistIndex(double dists[], int V, Boolean visited[]) {
 	  int min = Integer.MAX_VALUE;
+		double minD = min;
 	  int minI = -1;
 	  for(int i = 0; i < V; i++) {
-		  //Talvez <= min?:??????
+		  //Talvez <= minD?:??????
 		  //Talvez checar já visitados
-		  if(visited[i] == false && dists[i]<= min) {
-			  min = dists[i];
+		  if(visited[i] == false && dists[i]<= minD) {
+			  minD = dists[i];
 			  minI = i;
 		  }
 	  }
@@ -314,7 +310,7 @@ public class TADGrafo {
   }
   
   public ArrayList<String> Dijkstra(String origin) {
-	  ArrayList<Integer> dist = new ArrayList<Integer>();
+	  ArrayList<Double> dist = new ArrayList<Double>();
 	  
 	  //PriorityQueue<Integer> queue= new PriorityQueue<Integer>();
 	 
@@ -330,7 +326,7 @@ public class TADGrafo {
 	  
 	  
 	  //Lista com as distancias de cada vertice até a origem
-	  int dists[] = new int[V];
+	  double dists[] = new double[V];
 	  
 	  for(int i = 0; i< V; i++) {
 		  dists[i] = Integer.MAX_VALUE;
@@ -349,24 +345,27 @@ public class TADGrafo {
 	  //ArrayList<String> neighbr = new ArrayList<String>();
 
 	  for(int i = 0; i < V-1; i++) {
-		  ArrayList<String> neighbr = new ArrayList<String>();
-		  Integer u = minDistIndex(dists, V, visited);
-		  visited[u] = true;
-		  //System.out.println("ArestaValue: " + arestaValue);
-		  neighbr = this.grafo.getVerticeAdjacencia(vertices.get(u));
+			ArrayList<String> neighbr = new ArrayList<String>();
+			int u = minDistIndex(dists, V, visited);
+			visited[u] = true;
+			//System.out.println("ArestaValue: " + arestaValue);
+			neighbr = this.grafo.getVerticeAdjacencia(vertices.get(u));
 
-		  for(String v : neighbr){
+			for (String v : neighbr) {
 			
 			// if(visited[vertices.indexOf(v)] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
 			// 	//relax(u,v,w)
 			// 	dists[vertices.indexOf(v)] = dists[u] + arestaValue;
-		    // }
-			int arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
+				// }
+				double arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
 
-			if(visited[vertices.indexOf(v)] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[vertices.indexOf(v)]) {
-				//relax(u,v,w)
-				dists[vertices.indexOf(v)] = dists[u] + arestaValue;
-		    }
+				if (visited[vertices.indexOf(v)] == false 
+				&& arestaValue != 0 
+				&& dists[u] != Integer.MAX_VALUE 
+				&& dists[u] + arestaValue < dists[vertices.indexOf(v)]) {
+					//relax(u,v,w)
+					dists[vertices.indexOf(v)] = dists[u] + arestaValue;
+				}
 
 		  }
 		  
@@ -397,14 +396,7 @@ public class TADGrafo {
 		  nodeName = vertices.get(i);
 		  System.out.println("\nDistance From: " + origin);
 		  System.out.println("\nNode:" + nodeName + "Dist: " + dists[i] );
-	  }
-	  
-	  
-	  
-	  
+	  } 
 	  return vertices;
-  }
-
-	  
-	  
+  }	  
 }

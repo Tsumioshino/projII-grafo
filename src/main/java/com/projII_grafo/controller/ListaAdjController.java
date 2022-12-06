@@ -143,7 +143,7 @@ public class ListaAdjController {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
 		for (EdgeModel edgeModel : grafoModel.getEdges()) {
-			String a[] = {verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()), edgeModel.getValue()};
+			String a[] = {verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()), Double.toString(edgeModel.getValue())};
 			arestas.add(a);
 		}
 		this.tadGrafo.grafo.criarGrafo(vertices, arestas);

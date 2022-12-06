@@ -108,7 +108,7 @@ public class MatrizController {
 			for (String classificacao : classificacoes) {
 				String[] classif = classificacao.split(" ");
 				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) && 
-					verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
+				verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
 					edgeModel.setTipoAresta(ClassificacaoAresta.valueOf(classif[2]));
 					break;
 				}
@@ -151,7 +151,7 @@ public class MatrizController {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
 		for (EdgeModel edgeModel : grafoModel.getEdges()) {
-			String a[] = {verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()), edgeModel.getValue()};
+			String a[] = {verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()), Double.toString(edgeModel.getValue())};
 			arestas.add(a);
 		}
 		this.tadGrafo.grafo.criarGrafo(vertices, arestas);

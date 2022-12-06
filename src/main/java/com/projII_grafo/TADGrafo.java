@@ -137,9 +137,11 @@ public class TADGrafo {
    * @return ArrayList<Object>
    * @throws Exception
    */
-  public ArrayList<Object> ordenacaoTopologica(String v_inicial) throws Exception {
+  public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
     if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
-      return this.DFS(false, true, false);  
+
+
+      	return this.DFS(false, true, false);  
     }
     throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
   }
@@ -148,7 +150,7 @@ public class TADGrafo {
   /** 
    * @return ArrayList<Object>
    */
-  public ArrayList<Object> getComponentesFortes() {
+  public LinkedList<String> getComponentesFortes() {
     return this.DFS(false, false, true);
   }
 
@@ -242,45 +244,85 @@ public class TADGrafo {
     return this.DFS(false, true);
   }
 
+  public int DFSLastDeadVerticeIndex(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
+	//time = DFS
+	byte white = 0; byte grey = 1; byte black = 2;
+	color[u] = grey;
+	dists[u] = ++time;
+	ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
+
+	if(!neighbors.isEmpty()){
+
+		while(!neighbors.isEmpty()){
+			String verticeEdge = neighbors.get(0);
+			neighbors.remove(0);
+
+			int v = vertices.indexOf(verticeEdge);
+
+			if(color[v] == white){
+				predecessor[v] = u;
+
+				time = DFS(v, time, color, vertices, dists, predecessor, times);
+			
+			}
+		}
+	}
+	color[u] = black;
+
+	times[u] = ++time;
+	
+	return time;
+  }
   
   /** 
    * @return ArrayList<Object>
    */
   //public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
-	public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
-		ArrayList<Object> dfs = new ArrayList<>();
+	public LinkedList<String> DFS(boolean aresta, boolean topologia, boolean force) {
+		//ArrayList<Object> dfs = new ArrayList<>();
+		LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
+		LinkedList<String> timesDeath = new LinkedList<String>();
 		// byte white = 0;
 		// byte grey = 1;
 		// byte black = 2;
 		// int time = 0;
 		byte white = 0; byte grey = 1; byte black = 2;
 		int time = 0;
+		int deadVerticeIndex = 0;
+
 		int V = this.grafo.getVerticeQuantity();
-		
+		int times[] = new int[V];
 		
 		ArrayList<String> vertices = this.grafo.getAllVertices();
 		System.out.println("Vertices: " + vertices);
 		int color[] = new int[V];
 		
+		int predecessor[] = new int[V];
+
 		int dists[] = new int[V];
-
-		int times[] = new int[V];
-
-		Integer predecessor[] = new Integer[V];
-
 
 		for(int u = 0; u < V; u++){
 			color[u] = white;
 			predecessor[u] = -1;
 		}
-
-		for(int u =0; u < V; u++){
+		for(int u = 0; u < V; u++){
 			if(color[u] == white){
 				
+				time = DFS(u, time, color, vertices, dists, predecessor, times);
+				timesDeath.add(((Integer) time).toString());
+				if(topologia){
+					deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists, predecessor, times);
+					deadVerticesTopologia.add(vertices.get(deadVerticeIndex));
+				}
 			}
 		}
 
-		return dfs;
+	
+		if(topologia){
+			return deadVerticesTopologia;
+		}
+		
+		return timesDeath;
 	}
 	
 	
@@ -302,7 +344,6 @@ public class TADGrafo {
 		ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
 	
 		if(!neighbors.isEmpty()){
-			
 
 			while(!neighbors.isEmpty()){
 				String verticeEdge = neighbors.get(0);
@@ -318,7 +359,9 @@ public class TADGrafo {
 			}
 		}
 		color[u] = black;
+
 		times[u] = ++time;
+		
 		return time;
   }
 

@@ -16,4 +16,5 @@ public class EdgeModel {
     private int from;
     private int to;
     private String value;
+    private ClassificacaoAresta tipoAresta;
 }

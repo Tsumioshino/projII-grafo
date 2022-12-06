@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projII_grafo.StrategyAdjMatrix;
 import com.projII_grafo.StrategyStructure;
 import com.projII_grafo.TADGrafo;
+import com.projII_grafo.model.ClassificacaoAresta;
 import com.projII_grafo.model.EdgeModel;
 import com.projII_grafo.model.GrafoModel;
 import com.projII_grafo.model.NodeModel;
@@ -34,7 +35,6 @@ public class MatrizController {
 	@PostMapping(value = "/matriz/verificarAresta/")
     public boolean verificarAresta(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
-		//System.out.println(this.grafo.grafo.toString());
 		return this.tadGrafo.grafo.arestaExists(grafo.getOrigem(), grafo.getDestino());
     }
 
@@ -66,6 +66,48 @@ public class MatrizController {
 		converteFront(grafo);
 		return this.tadGrafo.grafo.getGrau(grafo.getOrigem());
     }
+	
+
+	@PostMapping(value = "/matriz/obterClassificacaoAresta/")
+    public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafo){
+		Map<Integer, String> verticesDict = new HashMap<>();
+		converteFront(grafo);
+		for (NodeModel node : grafo.getNodes()) {
+			verticesDict.put(node.getId(), node.getLabel());
+		}
+		String[] classificacoes = this.tadGrafo.classificarAresta(grafo.getOrigem()).split("\n");
+		for (EdgeModel edgeModel : grafo.getEdges()) {
+			for (String classificacao : classificacoes) {
+				String[] classif = classificacao.split(" ");
+				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) && 
+					verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
+					edgeModel.setTipoAresta(ClassificacaoAresta.valueOf(classif[2]));
+					break;
+				}
+			}
+		}
+		return grafo;
+    }
+
+	/*
+	 * Verifica ciclo
+	 */
+	//@PostMapping(value = "/matriz/verificarCiclo/")
+    //public String verificarCiclo(@RequestBody GrafoModel grafo){
+	//	converteFront(grafo);
+	//	return this.tadGrafo.grafo.(grafo.getOrigem());
+    //}
+
+
+	/*
+	 * Verifica ord
+	 */
+	//@PostMapping(value = "/matriz/obterOrdenacaoTopologica/")
+    //public String obterOrdenacaoTopologica(@RequestBody GrafoModel grafo){
+	//	converteFront(grafo);
+	//	return this.tadGrafo.ordenacaoTopologica(grafo.getOrigem());
+    //}
+	
 
 	private void converteFront(GrafoModel grafoModel){
 		Map<Integer, String> verticesDict = new HashMap<>();
@@ -83,4 +125,5 @@ public class MatrizController {
 		}
 		this.tadGrafo.grafo.criarGrafo(vertices, arestas);
 	}
+
 }

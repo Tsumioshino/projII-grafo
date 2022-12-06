@@ -127,8 +127,6 @@ public class TADGrafo {
 		}
 	 	return api_string;
   }
-  }
-
   
   /** 
    * @param v_inicial

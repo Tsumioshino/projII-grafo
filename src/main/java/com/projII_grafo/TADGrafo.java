@@ -344,30 +344,116 @@ public class TADGrafo {
 /** 
  * @return ArrayList<String>
  */
+
+//BFS geral
 //   private void visitBfs(int V, int color[]) {
 // 	color[u] = grey;
 // 	dis
 //   }
-  public ArrayList<String> BFS(String origemU, String destinoV) {
-	byte white = 0;	byte grey = 1; byte black = 2;
+//   public ArrayList<String> BFS(String origemU, String destinoV) {
+// 	byte white = 0;	byte grey = 1; byte black = 2;
+// 	ArrayList<String> neighbors;
+// 	int V = this.grafo.getVerticeQuantity();
+
+// 	ArrayList<String> vertices = this.grafo.getAllVertices();
+// 	System.out.println("Vertices: " + vertices);
+// 	int color[] = new int[V];
+
+// 	int dists[] = new int [V];
+
+// 	Integer predecessor[] = new Integer[V];
+
+// 	for(int u = 0; u < V; u++){
+// 		color[u] = white;
+// 		dists[u] = Integer.MAX_VALUE;
+// 		predecessor[u] = -1;
+// 	}
+
+// 	for(int u = 0; u < V; u++){
+// 		if(color[u] == white){
+// 			//Visita BFS
+// 			color[u] = grey;
+// 			dists[u] = 0;
+
+// 			//Queue = new 
+// 			LinkedList<Integer> queue = new LinkedList<Integer>();
+// 			//Queue.enfileira(new Integer u)
+// 			queue.add(u);
+// 			while(!queue.isEmpty()){
+// 				Integer firstOut = queue.pop();
+				
+// 				u = firstOut;
+// 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
+// 				if(!neighbors.isEmpty()){
+// 					//String verticeEdge = neighbors.get(0);
+					
+// 					//while(verticeEdge != null){
+					
+// 					//!neighbors.isEmpty()
+// 					while(neighbors.size() !=  0){
+// 						String verticeEdge = neighbors.get(0);
+// 						neighbors.remove(0);
+// 						//int v = a.v2();
+// 						//String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
+// 						int v = vertices.indexOf(verticeEdge);
+// 						System.out.println("verticeEdge " + verticeEdge);
+// 						//System.out.println("v " + v);
+// 						if(color[v] == white){
+// 							color[v] = grey;
+// 							dists[v] = dists[u] + 1;
+// 							predecessor[v] = u;
+// 							queue.add(v);
+// 							//Queue(new Integer (v))
+// 						}
+// 						//verticeEdge = neighbors.get(0);
+// 					}
+// 				}
+// 				color[u] = black;
+
+// 			}
+// 			//
+// 		}
+		
+// 	}
+
+// 	System.out.println("Colors: " + color);
+// 	for(int i = 1; i < predecessor.length; i++){
+// 		System.out.println("Pred: " + vertices.get((int )predecessor[i]));
+
+// 	}
+// 	System.out.println("destinoV: " + destinoV);
+// 	printBFS(origemU, destinoV, predecessor, vertices);
+// 	System.out.println("destinoV: " + destinoV);
+	
+//     return vertices;
+//   }
+
+
+//BFS a partir de uma origem até um destino
+public ArrayList<String> BFS(String origemU, String destinoV) {
+	byte white = 0;
+	byte grey = 1;
+	byte black = 2;
 	ArrayList<String> neighbors;
 	int V = this.grafo.getVerticeQuantity();
-
+	
 	ArrayList<String> vertices = this.grafo.getAllVertices();
 	System.out.println("Vertices: " + vertices);
 	int color[] = new int[V];
-
+	
 	int dists[] = new int [V];
 
 	Integer predecessor[] = new Integer[V];
-
+	
 	for(int u = 0; u < V; u++){
 		color[u] = white;
 		dists[u] = Integer.MAX_VALUE;
 		predecessor[u] = -1;
 	}
-
-	for(int u = 0; u < V; u++){
+	
+	int u = vertices.indexOf(origemU);
+	
+	System.out.println("U: " + u);
 		if(color[u] == white){
 			//Visita BFS
 			color[u] = grey;
@@ -377,12 +463,17 @@ public class TADGrafo {
 			LinkedList<Integer> queue = new LinkedList<Integer>();
 			//Queue.enfileira(new Integer u)
 			queue.add(u);
+			System.out.println("A1");
 			while(!queue.isEmpty()){
+				System.out.println("A");
 				Integer firstOut = queue.pop();
 				
 				u = firstOut;
+				System.out.println("Uout: " + vertices.get(u));
 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
+				System.out.println("neighbors: " + neighbors);
 				if(!neighbors.isEmpty()){
+					System.out.println("B");
 					//String verticeEdge = neighbors.get(0);
 					
 					//while(verticeEdge != null){
@@ -394,8 +485,8 @@ public class TADGrafo {
 						//int v = a.v2();
 						//String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
 						int v = vertices.indexOf(verticeEdge);
-						System.out.println("verticeEdge " + verticeEdge);
-						//System.out.println("v " + v);
+						System.out.println("verticeEdge" + verticeEdge);
+						System.out.println("v " + v);
 						if(color[v] == white){
 							color[v] = grey;
 							dists[v] = dists[u] + 1;
@@ -410,22 +501,29 @@ public class TADGrafo {
 
 			}
 			//
-		}
+		}	
 		
-	}
+	
 
 	System.out.println("Colors: " + color);
-	for(int i = 1; i < predecessor.length; i++){
-		System.out.println("Pred: " + vertices.get((int )predecessor[i]));
+	for(int i = 0; i < predecessor.length; i++){
+		if((int)predecessor[i] != -1){
+			System.out.println("I: " +i);
+			System.out.println("Vertices: " + vertices.get(i));
+			System.out.println("Pred: " + vertices.get((int)predecessor[i]));
+		}
+		else{
+			System.out.println("I: " +i);
+		}
+		
 
 	}
-	System.out.println("destinoV: " + destinoV);
+	//System.out.println("destinoV: " + destinoV);
 	printBFS(origemU, destinoV, predecessor, vertices);
-	System.out.println("destinoV: " + destinoV);
+	//System.out.println("destinoV: " + destinoV);
 	
     return vertices;
-  }
-
+}
   
   /** 
    * @param Origem
@@ -434,24 +532,24 @@ public class TADGrafo {
    * @param vertices
    */
   public void printBFS(String Origem, String V, Integer predecessor[], ArrayList<String> vertices){
-		int origem = vertices.indexOf(Origem);
-		Integer v = vertices.indexOf(V);
-		// System.out.println("Vertices: " + vertices);
-		// System.out.println("V: " + V);
-		// System.out.println("IV: " + v);
-		if (origem == v){
-			System.out.println(origem);
-		}
-		else if(predecessor[v] == -1){
-			System.out.println("Não existe caminho entre " + origem + " e " + v);
-
+	
+	int origem = vertices.indexOf(Origem);
+	Integer v = vertices.indexOf(V);
+	
+	if (origem == v){
+		System.out.println("Vertice: " +Origem);
+	}
+	else if(predecessor[v] == -1){
+		System.out.println("Não existe caminho entre " + origem + " e " + v);
 	}
 	else{
+		
 		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
 		System.out.println("Vertice: " + vertices.get(v));
-	}
+		}
 	
-  }
+		
+}
   
   /** 
    * @param origin

@@ -42,6 +42,8 @@ public interface StrategyStructure {
 
   public StrategyStructure getTransposto();
 
+  public StrategyStructure getNotDigrafo();
+
   public boolean isDigrafo();
 }
 

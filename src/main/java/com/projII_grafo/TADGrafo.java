@@ -138,12 +138,15 @@ public class TADGrafo {
    * @throws Exception
    */
   public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
-    if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
-
+    //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
+	if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial)) {
 
       	return this.DFS(false, true, false);  
     }
-    throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
+	else{
+		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
+
+	}
   }
 
   
@@ -271,7 +274,7 @@ public class TADGrafo {
 
 	times[u] = ++time;
 	
-	return time;
+	return u;
   }
   
   /** 

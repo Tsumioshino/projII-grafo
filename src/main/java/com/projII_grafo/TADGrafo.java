@@ -34,7 +34,6 @@ public class TADGrafo {
    * @return String
    */
   public String classificarAresta(String v_inicial) {
-  public String classificarAresta(String v_inicial) {
 		String api_string = "";
 		byte white = 0; byte grey = 1; byte black = 2; // Cores,
 		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices

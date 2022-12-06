@@ -16,6 +16,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	
+	/** 
+	 * @param http
+	 * @return SecurityFilterChain
+	 * @throws Exception
+	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
@@ -27,6 +33,10 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	
+	/** 
+	 * @return CorsConfigurationSource
+	 */
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();

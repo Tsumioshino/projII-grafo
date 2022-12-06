@@ -12,14 +12,27 @@ public class TADGrafo {
     this.grafo = representacao;
   }
 
+  
+  /** 
+   * @return ArrayList<String>
+   */
   public ArrayList<String> getConjuntoVertices() {
     return this.grafo.getAllVertices();
   }
   
+  
+  /** 
+   * @return String
+   */
   public String getVerticeArestaQuantity() {
     return Integer.toString(this.grafo.getVerticeQuantity()) + ", " + Integer.toString(this.grafo.getArestaQuantity());
   }
 
+  
+  /** 
+   * @param v_inicial
+   * @return String
+   */
   public String classificarAresta(String v_inicial) {
 		String api_string = "";
 		byte white = 0; byte grey = 1; byte black = 2; // Cores,
@@ -118,6 +131,12 @@ public class TADGrafo {
 	 	return api_string;
   }
 
+  
+  /** 
+   * @param v_inicial
+   * @return ArrayList<Object>
+   * @throws Exception
+   */
   public ArrayList<Object> ordenacaoTopologica(String v_inicial) throws Exception {
     if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
       return this.DFS(false, true, false);  
@@ -125,10 +144,19 @@ public class TADGrafo {
     throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
   }
 
+  
+  /** 
+   * @return ArrayList<Object>
+   */
   public ArrayList<Object> getComponentesFortes() {
     return this.DFS(false, false, true);
   }
 
+  
+  /** 
+   * @param v_inicial
+   * @return boolean
+   */
   public boolean hasCiclo(String v_inicial) {
 		byte white = 0; byte grey = 1; byte black = 2; // Cores,
 		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
@@ -206,10 +234,18 @@ public class TADGrafo {
 	 	return false;  
 	}
 
+  
+  /** 
+   * @return boolean
+   */
   public boolean isConexo() {
     return this.DFS(false, true);
   }
 
+  
+  /** 
+   * @return ArrayList<Object>
+   */
   //public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
 	public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
 		ArrayList<Object> dfs = new ArrayList<>();
@@ -247,6 +283,17 @@ public class TADGrafo {
 		return dfs;
 	}
 	
+	
+	/** 
+	 * @param u
+	 * @param time
+	 * @param color[]
+	 * @param vertices
+	 * @param dists[]
+	 * @param predecessor[]
+	 * @param times[]
+	 * @return int
+	 */
 	public int DFS(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
 		//time = DFS
 		byte white = 0; byte grey = 1; byte black = 2;
@@ -275,14 +322,28 @@ public class TADGrafo {
 		return time;
   }
 
+  
+  /** 
+   * @param ciclo
+   * @param conexidade
+   * @return boolean
+   */
   public boolean DFS(boolean ciclo, boolean conexidade) {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
+  
+  /** 
+   * @return ArrayList<ArrayList<String>>
+   */
   protected ArrayList<ArrayList<String>> DFSTransposto() {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
+
+/** 
+ * @return ArrayList<String>
+ */
 //   private void visitBfs(int V, int color[]) {
 // 	color[u] = grey;
 // 	dis
@@ -365,6 +426,13 @@ public class TADGrafo {
     return vertices;
   }
 
+  
+  /** 
+   * @param Origem
+   * @param V
+   * @param predecessor[]
+   * @param vertices
+   */
   public void printBFS(String Origem, String V, Integer predecessor[], ArrayList<String> vertices){
 		int origem = vertices.indexOf(Origem);
 		Integer v = vertices.indexOf(V);
@@ -384,6 +452,11 @@ public class TADGrafo {
 	}
 	
   }
+  
+  /** 
+   * @param origin
+   * @return ArrayList<String>
+   */
   public ArrayList<String> Prim(String origin) {
 	  
 	  //Lista com todos os vertices
@@ -447,6 +520,13 @@ public class TADGrafo {
   }
 
   
+  
+  /** 
+   * @param dists[]
+   * @param V
+   * @param visited[]
+   * @return int
+   */
   //Essa versão n usa Prio Queue, mas sim a distancia minima retirada da matrix
   private int minDistIndex(double dists[], int V, Boolean visited[]) {
 	  int min = Integer.MAX_VALUE;
@@ -463,6 +543,11 @@ public class TADGrafo {
 	  return minI;
   }
   
+  
+  /** 
+   * @param origin
+   * @return ArrayList<String>
+   */
   public ArrayList<String> Dijkstra(String origin) {
 	  ArrayList<Double> dist = new ArrayList<Double>();
 	  

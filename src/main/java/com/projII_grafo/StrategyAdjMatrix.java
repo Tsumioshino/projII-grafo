@@ -15,6 +15,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = new ArrayList<String>();
   }
 
+  
+  /** 
+   * @param vertices
+   * @param arestas
+   */
   @Override
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.matrix.size() == 0 && this.order.size() == 0) {
@@ -31,11 +36,20 @@ public class StrategyAdjMatrix implements StrategyStructure {
     this.order = null;
   }
 
+  
+  /** 
+   * @return ArrayList<String>
+   */
   @Override
   public ArrayList<String> getAllVertices(){
     return this.order;
   }
 
+  
+  /** 
+   * @param vertice
+   * @return ArrayList<String>
+   */
   @Override
   public ArrayList<String> getVerticeAdjacencia(String vertice) {
     ArrayList<String> adjacencia = new ArrayList<String>();
@@ -51,6 +65,12 @@ public class StrategyAdjMatrix implements StrategyStructure {
   }
 
 
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   * @return double
+   */
   @Override
   public double getArestaValue(String v_origem, String v_destino) {
     int origem_ind = this.order.indexOf(v_origem);
@@ -58,6 +78,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return this.matrix.get(origem_ind).get(destino_ind);
   }
   
+  
+  /** 
+   * @param vertice
+   */
   @Override
   public void inserirVertice(String vertice) {
     // Insere o vértice sem adicionar coluna
@@ -73,6 +97,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   }
 
+  
+  /** 
+   * @param vertices
+   */
   @Override
   public void inserirConjuntoVertices(ArrayList<String> vertices) {
     for (String vertice : vertices) {
@@ -80,6 +108,12 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }  
   }
 
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   * @param peso
+   */
   @Override
   public void inserirAresta(String v_origem, String v_destino, double peso) {
     if (this.verticeExists(v_origem) && this.verticeExists(v_destino)) {
@@ -94,6 +128,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     } 
   }
 
+  
+  /** 
+   * @param arestas
+   */
   @Override
   public void inserirConjuntoArestas(ArrayList<String[]> arestas) {
     for (String[] aresta : arestas) {
@@ -101,6 +139,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   } 
   
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   */
   @Override
   public void removerAresta(String v_origem, String v_destino) {
     if (this.arestaExists(v_origem, v_destino)) {
@@ -110,11 +153,22 @@ public class StrategyAdjMatrix implements StrategyStructure {
     }
   } 
  
+  
+  /** 
+   * @param vertice
+   * @return boolean
+   */
   @Override
   public boolean verticeExists(String vertice) {
     return (this.order.contains(vertice))? true : false;
   } 
 
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   * @return boolean
+   */
   @Override
   public boolean arestaExists(String v_origem, String v_destino) {
     if (this.verticeExists(v_origem) && this.verticeExists(v_destino)) {
@@ -123,11 +177,19 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return false;
   } 
 
+  
+  /** 
+   * @return int
+   */
   @Override
   public int getVerticeQuantity() {
     return this.order.size();
   } 
 
+  
+  /** 
+   * @return int
+   */
   @Override
   public int getArestaQuantity() {
     int n_arestas = 0;
@@ -139,6 +201,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return n_arestas; 
   } 
 
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
   @Override
   public int getGrau(String vertice) {
     if (this.verticeExists(vertice)) {
@@ -153,6 +220,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead
   } 
 
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
   @Override
   public int getGrauGeralND(String vertice) {
     if (this.verticeExists(vertice)) {
@@ -173,6 +245,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead  
   } 
 
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
   @Override
   public int getGrauEntradaD(String vertice) {
     if (this.verticeExists(vertice)) {
@@ -187,6 +264,11 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead
   }
 
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
   @Override
   public int getGrauSaidaD(String vertice) {
     if (this.verticeExists(vertice)) {
@@ -201,6 +283,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return -1; // Maybe should return error instead  
   } 
 
+  
+  /** 
+   * @return StrategyAdjMatrix
+   */
   @Override
   public StrategyAdjMatrix getTransposto() {
     StrategyAdjMatrix transposto = new StrategyAdjMatrix();
@@ -221,6 +307,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
   }
 
 
+  
+  /** 
+   * @return boolean
+   */
   @Override
   public boolean isDigrafo() {
     int order = this.getVerticeQuantity();
@@ -237,6 +327,10 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return false;
   }
   
+  
+  /** 
+   * @return String
+   */
   @Override
   public String toString() {
     String grafo = "  ";

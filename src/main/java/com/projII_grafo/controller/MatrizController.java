@@ -22,28 +22,51 @@ public class MatrizController {
 
 	private TADGrafo tadGrafo;
 
+	
+	/** 
+	 * @return String
+	 */
 	@GetMapping("/")
 	public String home(){
 		return "oi";
 	}
 
+	
+	/** 
+	 * @param teste
+	 */
 	@PostMapping("/")
 	public void retornaAll(@RequestBody String teste){
 		System.out.println(teste);
 	}
     
+	
+	/** 
+	 * @param grafo
+	 * @return boolean
+	 */
 	@PostMapping(value = "/matriz/verificarAresta/")
     public boolean verificarAresta(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		return this.tadGrafo.grafo.arestaExists(grafo.getOrigem(), grafo.getDestino());
     }
 
+	
+	/** 
+	 * @param grafo
+	 * @return ArrayList<String>
+	 */
 	@PostMapping(value = "/matriz/obterListaAdj/")
     public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		return this.tadGrafo.grafo.getVerticeAdjacencia(grafo.getOrigem());
     }
 
+	
+	/** 
+	 * @param grafo
+	 * @return GrafoModel
+	 */
 	@PostMapping(value = "/matriz/quantidadeVerticesArestas/")
     public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
@@ -52,6 +75,11 @@ public class MatrizController {
 		return grafo;
     }
 
+	
+	/** 
+	 * @param grafo
+	 * @return GrafoModel
+	 */
 	@PostMapping(value = "/matriz/buscaLargura/")
     public GrafoModel buscaLargura(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
@@ -61,6 +89,11 @@ public class MatrizController {
 		return grafo;
     }
 
+	
+	/** 
+	 * @param grafo
+	 * @return int
+	 */
 	@PostMapping(value = "/matriz/obterGrauVertice/")
     public int obterGrauVertice(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
@@ -68,6 +101,11 @@ public class MatrizController {
     }
 	
 
+	
+	/** 
+	 * @param grafo
+	 * @return GrafoModel
+	 */
 	@PostMapping(value = "/matriz/obterClassificacaoAresta/")
     public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafo){
 		Map<Integer, String> verticesDict = new HashMap<>();
@@ -89,14 +127,17 @@ public class MatrizController {
 		return grafo;
     }
 
-	/*
+	
+	/** 
 	 * Verifica ciclo
+	 * @param grafo
+	 * @return boolean
 	 */
-	//@PostMapping(value = "/matriz/verificarCiclo/")
-    //public String verificarCiclo(@RequestBody GrafoModel grafo){
-	//	converteFront(grafo);
-	//	return this.tadGrafo.grafo.(grafo.getOrigem());
-    //}
+	@PostMapping(value = "/matriz/verificarCiclo/")
+    public boolean verificarCiclo(@RequestBody GrafoModel grafo){
+		converteFront(grafo);
+		return this.tadGrafo.hasCiclo(grafo.getOrigem());
+    }
 
 
 	/*

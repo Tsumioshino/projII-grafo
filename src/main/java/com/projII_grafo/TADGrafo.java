@@ -34,13 +34,18 @@ public class TADGrafo {
    * @return String
    */
   public String classificarAresta(String v_inicial) {
+  public String classificarAresta(String v_inicial) {
 		String api_string = "";
 		byte white = 0; byte grey = 1; byte black = 2; // Cores,
 		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
 		ArrayList<String> visitados = new ArrayList<String>(); // Lista com vértices ja percorridos
 
-		int many_visited[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
-		int vertices_vizinhos[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
+		int vertices_vizinhos_visitados[] = new int[vertices.size()]; // Vetor com o total de adjacencias ja visitadas
+		int vertices_vizinhos_total[] = new int[vertices.size()]; // Vetor com o total de adjacencias de cada vertice
+
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices_vizinhos_total[i] = this.grafo.getVerticeAdjacencia(vertices.get(i)).size();
+		}
 
 		int vertices_chegada[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
 		int vertices_morte[] = new int[vertices.size()]; // Vetor que indica ultima expansao do vertice
@@ -51,41 +56,35 @@ public class TADGrafo {
 
 		int contador = 1;
 
-		for (int i = 0; i < vertices.size(); i++) {
-			vertices_vizinhos[i] = this.grafo.getVerticeAdjacencia(vertices.get(i)).size();
-		}
-
-		while (vertices.size() != visitados.size()) {
+		while (vertices.size() != visitados.size()) { // Enquanto existir vertice pra visitar
 			if (ordem_visita.size() == 0) { // Grafo Desconexo
 				for (String vertice : vertices) {
 					if (!visitados.contains(vertice)) {
 						ordem_visita.add(vertice);
-						break;		
+						break; // Apenas um dos vertices desconexos sao adicionados por vez
 					}
 				}	
 			}
-			System.out.println(ordem_visita);
-			String current = ordem_visita.remove(0);
+			String current = ordem_visita.remove(0); // Vertice atual sendo percorrido
 			int current_index = vertices.indexOf(current);
 			int fila_java_fix = 0;
-			ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(current);
+			ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(current); // Adjacencia do vertice sendo percorrido
 			ArrayList<String> neighbors_not_visited = new ArrayList<String>();
 			
-			if ((vertices_cor[current_index] == white) || (vertices_cor[current_index] == grey)) {
+			if ((vertices_cor[current_index] == white) || (vertices_cor[current_index] == grey)) { // Se vertice nao estiver morto
 				if (vertices_cor[current_index] == white) {
 					vertices_chegada[current_index] = contador++;
 					vertices_cor[current_index] = grey;
 				}
 				// Classificacao de Aresta
-				if (many_visited[current_index] != vertices_vizinhos[current_index]) {
-					String neighbor = neighbors.get(many_visited[current_index]); 
-					many_visited[current_index] += 1;
+				if (vertices_vizinhos_visitados[current_index] != vertices_vizinhos_total[current_index]) { // Entao tem aresta nao percorrida
+					String neighbor = neighbors.get(vertices_vizinhos_visitados[current_index]); // E voce pega o destino
+					vertices_vizinhos_visitados[current_index] += 1; 
 					int n_index = vertices.indexOf(neighbor);
 	
+
+					// E classifica aresta correspondente
 					String aresta_type = "";
-				//	if (vertices_morte[n_index] > 0) {
-				//		continue;
-				//	}
 					if (vertices_cor[n_index] == white) { aresta_type = "ARESTA_DE_ARVORE"; }
 
 					else if (vertices_cor[n_index] == grey) { aresta_type = "ARESTA_DE_RETORNO"; }
@@ -101,7 +100,7 @@ public class TADGrafo {
 
 					System.out.println(current + " to " + neighbor + "(" + aresta_type + ")");
 					
-					// Adiciona vizinhos para percorrer, caso nao percorridos
+					// Percorrido a aresta, decide se vai percorrer o vertice
 					if (vertices_cor[n_index] == white) {
 						ordem_visita.add(fila_java_fix++, neighbor);
 						neighbors_not_visited.add(neighbor);
@@ -111,7 +110,7 @@ public class TADGrafo {
 			}
 			// Torna o vertice preto, se ele nao tiver mais vizinho para percorrer
 			if ((neighbors_not_visited.size() == 0) && (vertices_cor[current_index] == grey)) {
-					if (many_visited[current_index] != vertices_vizinhos[current_index]) {
+					if (vertices_vizinhos_visitados[current_index] != vertices_vizinhos_total[current_index]) {
 						ordem_visita.add(vertices.get(current_index));
 						continue;
 					}
@@ -121,14 +120,14 @@ public class TADGrafo {
 
 				continue;
 			}
+
 			if (vertices_cor[current_index] == black) {
 				continue;
 			}
 			ordem_visita.add(fila_java_fix, current);
-			
 		}
-
 	 	return api_string;
+  }
   }
 
   

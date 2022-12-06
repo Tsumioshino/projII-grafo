@@ -22,16 +22,6 @@ public class MatrizController {
 
 	private TADGrafo tadGrafo;
 
-	
-	/** 
-	 * @return String
-	 */
-	@GetMapping("/")
-	public String home(){
-		return "oi";
-	}
-
-	
 	/** 
 	 * @param teste
 	 */

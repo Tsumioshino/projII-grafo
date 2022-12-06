@@ -24,24 +24,6 @@ public class ListaAdjController {
 
 	
 	/** 
-	 * @return String
-	 */
-	@GetMapping("/")
-	public String home(){
-		return "oi";
-	}
-
-	
-	/** 
-	 * @param teste
-	 */
-	@PostMapping("/")
-	public void retornaAll(@RequestBody String teste){
-		System.out.println(teste);
-	}
-    
-	
-	/** 
 	 * @param grafo
 	 * @return boolean
 	 */

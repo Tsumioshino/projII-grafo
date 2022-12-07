@@ -375,6 +375,9 @@ public class StrategyAdjList implements StrategyStructure {
             head = cel.getVertice();
             continue;
           } 
+          if (head == null) {
+            break;
+          }
           grau += ((cel.getVertice()).equals(head))? 2 : 1;
         }
         if (head != null) {

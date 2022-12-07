@@ -143,25 +143,25 @@ public class TADGrafo {
    * @return LinkedList<String>
    * @throws Exception
    */
-  public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
-    //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
-	if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial)) {
+//   public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
+//     //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
+// 	if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial)) {
 
-      	return this.DFS(false, true, false);  
-    }
-	else{
-		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
+//       	return this.DFS(false, true, false);  
+//     }
+// 	else{
+// 		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
 
-	}
-  }
+// 	}
+//   }
 
   
   /** 
    * @return LinkedList<String>
    */
-  public LinkedList<String> getComponentesFortes() {
-    return this.DFS(false, false, true, false);
-  }
+//   public LinkedList<String> getComponentesFortes() {
+//     return this.DFS(false, false, true, false);
+//   }
 
   
   /** 
@@ -249,96 +249,27 @@ public class TADGrafo {
   /** 
    * @return boolean
    */
-  public boolean isConexo(String v_inicial) {
-		String api_string = "";
-		byte white = 0; byte grey = 1; byte black = 2; // Cores,
-		ArrayList<String> vertices = this.getConjuntoVertices(); // Lista com todos os vertices
-		ArrayList<String> visitados = new ArrayList<String>(); // Lista com vértices ja percorridos
+  public boolean isConexo() {
+    return this.DFS(false, true);
+  }
 
-		int vertices_vizinhos_visitados[] = new int[vertices.size()]; // Vetor com o total de adjacencias ja visitadas
-		int vertices_vizinhos_total[] = new int[vertices.size()]; // Vetor com o total de adjacencias de cada vertice
+//   public int DFSLastDeadVerticeIndex(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
+// 	//time = DFS
+// 	byte white = 0; byte grey = 1; byte black = 2;
+// 	color[u] = grey;
+// 	dists[u] = ++time;
+// 	ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
 
-		StrategyStructure not_oriented = this.grafo.getNotDigrafo();
+// 	if(!neighbors.isEmpty()){
 
-		for (int i = 0; i < vertices.size(); i++) {
-			vertices_vizinhos_total[i] = not_oriented.getVerticeAdjacencia(vertices.get(i)).size();
-		}
+// 		while(!neighbors.isEmpty()){
+// 			String verticeEdge = neighbors.get(0);
+// 			neighbors.remove(0);
 
-		int vertices_chegada[] = new int[vertices.size()]; // Vetor que indicam primeira vez que vertice foi visitado
-		int vertices_morte[] = new int[vertices.size()]; // Vetor que indica ultima expansao do vertice
-		byte vertices_cor[] = new byte[vertices.size()]; // Inicializando cor branca
+// 			int v = vertices.indexOf(verticeEdge);
 
-		ArrayList<String> ordem_visita = new ArrayList<String>(); // Fila de prioridade
-		ordem_visita.add(v_inicial);
-
-		int contador = 1;
-
-		while (vertices.size() != visitados.size()) { // Enquanto existir vertice pra visitar
-			if (ordem_visita.size() == 0) { // Grafo Desconexo
-				return false;
-			}
-			String current = ordem_visita.remove(0); // Vertice atual sendo percorrido
-			int current_index = vertices.indexOf(current);
-			int fila_java_fix = 0;
-			ArrayList<String> neighbors = not_oriented.getVerticeAdjacencia(current); // Adjacencia do vertice sendo percorrido
-			ArrayList<String> neighbors_not_visited = new ArrayList<String>();
-			
-			if ((vertices_cor[current_index] == white) || (vertices_cor[current_index] == grey)) { // Se vertice nao estiver morto
-				if (vertices_cor[current_index] == white) {
-					vertices_chegada[current_index] = contador++;
-					vertices_cor[current_index] = grey;
-				}
-				// Classificacao de Aresta
-				if (vertices_vizinhos_visitados[current_index] != vertices_vizinhos_total[current_index]) { // Entao tem aresta nao percorrida
-					String neighbor = neighbors.get(vertices_vizinhos_visitados[current_index]); // E voce pega o destino
-					vertices_vizinhos_visitados[current_index] += 1; 
-					int n_index = vertices.indexOf(neighbor);
-					
-					// Percorrido a aresta, decide se vai percorrer o vertice
-					if (vertices_cor[n_index] == white) {
-						ordem_visita.add(fila_java_fix++, neighbor);
-						neighbors_not_visited.add(neighbor);
-					}
-				}
-			}
-			// Torna o vertice preto, se ele nao tiver mais vizinho para percorrer
-			if ((neighbors_not_visited.size() == 0) && (vertices_cor[current_index] == grey)) {
-					if (vertices_vizinhos_visitados[current_index] != vertices_vizinhos_total[current_index]) {
-						ordem_visita.add(vertices.get(current_index));
-						continue;
-					}
-				vertices_morte[current_index] = contador++;
-				vertices_cor[current_index] = black;
-				visitados.add(current);
-
-				continue;
-			}
-
-			if (vertices_cor[current_index] == black) {
-				continue;
-			}
-			ordem_visita.add(fila_java_fix, current);
-		}
-	 	return true;
-	}
-
-  public int DFSLastDeadVerticeIndex(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
-	//time = DFS
-	byte white = 0; byte grey = 1; byte black = 2;
-	color[u] = grey;
-	dists[u] = ++time;
-	ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));;
-
-	if(!neighbors.isEmpty()){
-
-		while(!neighbors.isEmpty()){
-			String verticeEdge = neighbors.get(0);
-			neighbors.remove(0);
-
-			int v = vertices.indexOf(verticeEdge);
-
-			if(color[v] == white){
-				predecessor[v] = u;
+// 			if(color[v] == white){
+// 				predecessor[v] = u;
 
   
   
@@ -347,82 +278,82 @@ public class TADGrafo {
    */
   //public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean force) {
 	
-	public LinkedList<String> DFS(boolean aresta, boolean topologia, boolean force, boolean conexidade) {
-		//ArrayList<Object> dfs = new ArrayList<>();
-		LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
-		LinkedList<String> timesDeath = new LinkedList<String>();
-		LinkedList<String> colors = new LinkedList<String>();
-		LinkedList<String> fortes = new LinkedList<String>();
+	// public LinkedList<String> DFS(boolean aresta, boolean topologia, boolean force, boolean conexidade) {
+	// 	//ArrayList<Object> dfs = new ArrayList<>();
+	// 	LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
+	// 	LinkedList<String> timesDeath = new LinkedList<String>();
+	// 	LinkedList<String> colors = new LinkedList<String>();
+	// 	LinkedList<String> fortes = new LinkedList<String>();
 
-		// byte white = 0;
-		// byte grey = 1;
-		// byte black = 2;
-		// int time = 0;
+	// 	// byte white = 0;
+	// 	// byte grey = 1;
+	// 	// byte black = 2;
+	// 	// int time = 0;
 		
 
-		byte white = 0; byte grey = 1; byte black = 2;
-		int time = 0;
-		int deadVerticeIndex = 0;
+	// 	byte white = 0; byte grey = 1; byte black = 2;
+	// 	int time = 0;
+	// 	int deadVerticeIndex = 0;
 
-		int V = this.grafo.getVerticeQuantity();
-		int times[] = new int[V];
+	// 	int V = this.grafo.getVerticeQuantity();
+	// 	int times[] = new int[V];
 		
-		ArrayList<String> vertices = this.grafo.getAllVertices();
-		System.out.println("Vertices: " + vertices);
-		int color[] = new int[V];
+	// 	ArrayList<String> vertices = this.grafo.getAllVertices();
+	// 	System.out.println("Vertices: " + vertices);
+	// 	int color[] = new int[V];
 		
-		int predecessor[] = new int[V];
+	// 	int predecessor[] = new int[V];
 
-		int dists[] = new int[V];
+	// 	int dists[] = new int[V];
 
-		for(int u = 0; u < V; u++){
-			color[u] = white;
-			predecessor[u] = -1;
-		}
-		for(int u = 0; u < V; u++){
-			if(color[u] == white){
+	// 	for(int u = 0; u < V; u++){
+	// 		color[u] = white;
+	// 		predecessor[u] = -1;
+	// 	}
+	// 	for(int u = 0; u < V; u++){
+	// 		if(color[u] == white){
 				
-				time = DFS(u, time, color, vertices, dists, predecessor, times);
-				timesDeath.add(((Integer) time).toString());
-				if(topologia){
-					deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists, predecessor, times);
-					deadVerticesTopologia.add(vertices.get(deadVerticeIndex));
-				}
-				if(force){
-					deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists, predecessor, times);
-					StrategyStructure repre = this.grafo.getTransposto();
-					TADGrafo grafoTrans = new TADGrafo(repre);
+	// 			time = DFS(u, time, color, vertices, dists, predecessor, times);
+	// 			timesDeath.add(((Integer) time).toString());
+	// 			if(topologia){
+	// 				deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists, predecessor, times);
+	// 				deadVerticesTopologia.add(vertices.get(deadVerticeIndex));
+	// 			}
+	// 			if(force){
+	// 				deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists, predecessor, times);
+	// 				StrategyStructure repre = this.grafo.getTransposto();
+	// 				TADGrafo grafoTrans = new TADGrafo(repre);
 
-					//fortes.add();
-				}
-				// if(conexidade){
-				// 	System.out.println("Conexidade: ");
-				// 	DFSVisited(u, time, color, vertices, dists, predecessor, times);
-				// 	//System.out.println("Color1: " + color);
-				// }
-			}
-		}
+	// 				//fortes.add();
+	// 			}
+	// 			// if(conexidade){
+	// 			// 	System.out.println("Conexidade: ");
+	// 			// 	DFSVisited(u, time, color, vertices, dists, predecessor, times);
+	// 			// 	//System.out.println("Color1: " + color);
+	// 			// }
+	// 		}
+	// 	}
 
 		
-		if(topologia){
-			return deadVerticesTopologia;
-		}
-		if(force){
-			return fortes;
-		}
-		// if(conexidade){
+	// 	if(topologia){
+	// 		return deadVerticesTopologia;
+	// 	}
+	// 	if(force){
+	// 		return fortes;
+	// 	}
+	// 	// if(conexidade){
 
-		// 	for(int i = 0; i < color.length; i++){
-		// 		System.out.println("Color: " + color[i]);
-		// 		colors.add(((Integer)color[i]).toString());
-		// 	}
-		// 	return colors;
+	// 	// 	for(int i = 0; i < color.length; i++){
+	// 	// 		System.out.println("Color: " + color[i]);
+	// 	// 		colors.add(((Integer)color[i]).toString());
+	// 	// 	}
+	// 	// 	return colors;
 			
-		// }
+	// 	// }
 		
 		
-		return timesDeath;
-	}
+	// 	return timesDeath;
+	// }
 	
 	
 	/** 
@@ -467,6 +398,60 @@ public class TADGrafo {
 		//topologia.add(vertices.get(u));
 		return time;
   }
+  public LinkedList<String> DFSFromVertice(String origemU){
+	byte white = 0; byte grey = 1; byte black = 2;
+	ArrayList<String> vertices = this.getConjuntoVertices();
+	int V = this.grafo.getVerticeQuantity();    
+	//ArrayList<String> visited = new ArrayList<String>(); 
+	this.visited = new ArrayList<String>();
+	ArrayList<String> visitedOrder = new ArrayList<String>(); 
+	LinkedList<String> deadVertices = new LinkedList<String>();
+
+	int times[] = new int[V];
+	int dists[] = new int[V];
+
+	LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
+	//Topologia
+	this.topologia = new LinkedList<String>();
+
+	int time = 0;
+	ArrayList<String> ordem_visita = new ArrayList<String>();
+
+	int colors[] = new int[V];
+
+	int visitedAdj[] = new int[V];
+	int predecessor[] = new int[V];
+
+	for (int u = 0; u < V; u++) {
+		predecessor[u] = -1;
+		colors[u] = white;
+	}
+	ordem_visita.add(origemU); 
+
+	while(V != this.visited.size()){//Enquanto não visitar todos
+		if (ordem_visita.size() == 0) { // Grafo Desconexo
+			for (String vertice : vertices) {
+				if (!this.visited.contains(vertice)) {
+					ordem_visita.add(vertice);
+					break; // Apenas um dos vertices desconexos sao adicionados por vez
+				}
+			}	
+		}
+		String current = ordem_visita.remove(0); // Vertice atual sendo percorrido
+		int current_indexU = vertices.indexOf(current);
+
+		if(colors[current_indexU] == white){
+			time = DFS(current_indexU, time, colors, vertices, dists, predecessor, times);
+			System.out.println("Time: " + time);
+
+		}
+
+
+	}
+	//topologia.add("ABS");
+	System.out.println(this.topologia);
+	return this.topologia;
+}
 
   
   /** 

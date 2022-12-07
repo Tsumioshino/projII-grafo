@@ -59,10 +59,10 @@ public class Main {
 		//System.out.println(TADgrafo.grafo.toString());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("a"));
 		//System.out.println("Topo");
-		//System.out.println(TADgrafo.ordenacaoTopologica("b"));
-		System.out.println(TADgrafo.BFS("b", "d"));
-		System.out.println(TADgrafo.respostaBFS);
-		//System.out.println(TADgrafo.DFSFromVertice("b"));
+		//System.out.println(TADgrafo.topologia('b'));
+		//System.out.println(TADgrafo.BFS("b", "d"));
+		//System.out.println(TADgrafo.respostaBFS);
+		//System.out.println(TADgrafo.Dijkstra("b"));
 		//System.out.println(TADgrafo.isConexo());
 		//TADgrafo.ordenacaoTopologica("b");	
 		//System.out.println(TADgrafo.grafo.toString());

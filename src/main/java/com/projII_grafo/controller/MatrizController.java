@@ -117,6 +117,17 @@ public class MatrizController {
 		return this.tadGrafo.hasCiclo(grafo.getOrigem());
     }
 
+	@PostMapping(value = "/matriz/prim/")
+    public ArrayList<String> obterAGM(@RequestBody GrafoModel grafo){
+		converteFront(grafo);
+		return this.tadGrafo.Prim(grafo.getOrigem());
+    }
+
+	@PostMapping(value = "/matriz/dijkstra/")
+    public ArrayList<String> obterDijkstra(@RequestBody GrafoModel grafo){
+		converteFront(grafo);
+		return this.tadGrafo.Dijkstra(grafo.getOrigem());
+    }
 
 	/*
 	 * Verifica ord

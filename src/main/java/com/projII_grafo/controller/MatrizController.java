@@ -19,16 +19,7 @@ import com.projII_grafo.model.NodeModel;
 @RestController
 public class MatrizController {
 
-	private TADGrafo tadGrafo;
-
-	/** 
-	 * @param teste
-	 */
-	@PostMapping("/")
-	public void retornaAll(@RequestBody String teste){
-		System.out.println(teste);
-	}
-    
+	private TADGrafo tadGrafo;  
 	
 	/** 
 	 * @param grafo
@@ -72,7 +63,8 @@ public class MatrizController {
 	@PostMapping(value = "/matriz/buscaLargura/") //fiz
     public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
-		return tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+		tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+		return tadGrafo.respostaBFS;
     }
 
 	

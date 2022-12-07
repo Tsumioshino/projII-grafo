@@ -1,8 +1,9 @@
 package com.projII_grafo;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 // FORGET
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
@@ -10,6 +11,7 @@ public class TADGrafo {
   public LinkedList<String> topologia;
   public ArrayList<String> visited;
   public LinkedList<String> deadVertices;
+  public ArrayList<String> respostaBFS = new ArrayList<>();
 
   public StrategyStructure grafo;
 
@@ -574,7 +576,7 @@ public class TADGrafo {
 
 
 //BFS a partir de uma origem até um destino
-public ArrayList<String> BFS(String origemU, String destinoV) {
+public Map<String, String> BFS(String origemU, String destinoV) {
 	byte white = 0;
 	byte grey = 1;
 	byte black = 2;
@@ -597,7 +599,7 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 	
 	int u = vertices.indexOf(origemU);
 	
-	System.out.println("U: " + u);
+	//System.out.println("U: " + u);
 		if(color[u] == white){
 			//Visita BFS
 			color[u] = grey;
@@ -607,17 +609,15 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 			LinkedList<Integer> queue = new LinkedList<Integer>();
 			//Queue.enfileira(new Integer u)
 			queue.add(u);
-			System.out.println("A1");
 			while(!queue.isEmpty()){
-				System.out.println("A");
 				Integer firstOut = queue.pop();
 				
 				u = firstOut;
-				System.out.println("Uout: " + vertices.get(u));
+				//System.out.println("Uout: " + vertices.get(u));
 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
-				System.out.println("neighbors: " + neighbors);
+				//System.out.println("neighbors: " + neighbors);
 				if(!neighbors.isEmpty()){
-					System.out.println("B");
+					//System.out.println("B");
 					//String verticeEdge = neighbors.get(0);
 					
 					//while(verticeEdge != null){
@@ -629,8 +629,8 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 						//int v = a.v2();
 						//String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
 						int v = vertices.indexOf(verticeEdge);
-						System.out.println("verticeEdge" + verticeEdge);
-						System.out.println("v " + v);
+						//System.out.println("verticeEdge" + verticeEdge);
+						//System.out.println("v " + v);
 						if(color[v] == white){
 							color[v] = grey;
 							dists[v] = dists[u] + 1;
@@ -642,31 +642,33 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 					}
 				}
 				color[u] = black;
-
 			}
 			//
 		}	
 		
 	
 
-	System.out.println("Colors: " + color);
+	//System.out.println("Colors: " + color);
+	Map<String, String> predecessores = new HashMap<>();
 	for(int i = 0; i < predecessor.length; i++){
 		if((int)predecessor[i] != -1){
-			System.out.println("I: " +i);
+			//System.out.println("I: " +i);
 			System.out.println("Vertices: " + vertices.get(i));
 			System.out.println("Pred: " + vertices.get((int)predecessor[i]));
+			predecessores.put(vertices.get(i), vertices.get((int)predecessor[i]));
 		}
 		else{
-			System.out.println("I: " +i);
+			//System.out.println("I: " +i);
 		}
 		
 
 	}
 	//System.out.println("destinoV: " + destinoV);
+
 	printBFS(origemU, destinoV, predecessor, vertices);
 	//System.out.println("destinoV: " + destinoV);
 	
-    return vertices;
+    return predecessores;
 }
   
   /** 
@@ -682,6 +684,7 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 	
 	if (origem == v){
 		System.out.println("Vertice: " +Origem);
+		respostaBFS.add(Origem);
 	}
 	else if(predecessor[v] == -1){
 		System.out.println("Não existe caminho entre " + origem + " e " + v);
@@ -690,7 +693,9 @@ public ArrayList<String> BFS(String origemU, String destinoV) {
 		
 		printBFS(Origem, vertices.get(predecessor[v]), predecessor, vertices);
 		System.out.println("Vertice: " + vertices.get(v));
-		}
+		respostaBFS.add(vertices.get(v));
+
+	}
 	
 		
   }

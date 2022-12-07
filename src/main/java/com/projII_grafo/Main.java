@@ -7,8 +7,9 @@ public class Main {
 	
 	/** 
 	 * @param args
+	 * @throws Exception
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		//Testing...
 		StrategyStructure repre = new StrategyAdjMatrix();
 		//StrategyStructure repre = new StrategyAdjList();
@@ -27,7 +28,9 @@ public class Main {
 		vertices.add("c");
 		
 		vertices.add("d");
-		
+
+		//vertices.add("f");
+
 		String a1[] = {"b", "a", "2"};
 		arestas.add(a1);
 		String b1[] = {"c", "b", "4"}; 
@@ -35,14 +38,14 @@ public class Main {
 		String c1[] = {"d", "c", "5"}; 
 		arestas.add(c1);
 
-		String a[] = {"a", "b", "2"};
-		arestas.add(a);
+		// String a[] = {"a", "b", "2"};
+		// arestas.add(a);
 		
-		String b[] = {"b", "c", "4"}; 
-		arestas.add(b);
+		// String b[] = {"b", "c", "4"}; 
+		// arestas.add(b);
 		
-		String c[] = {"c", "d", "5"}; 
-		arestas.add(c);
+		// String c[] = {"c", "d", "5"}; 
+		// arestas.add(c);
 		
 		TADgrafo.grafo.criarGrafo(vertices, arestas);
 
@@ -55,7 +58,12 @@ public class Main {
 		System.out.println(TADgrafo.grafo.isDigrafo());
 		System.out.println(TADgrafo.grafo.toString());
 		System.out.println(TADgrafo.grafo.getVerticeAdjacencia("a"));
-		//TADgrafo.BFS("d", "a");	
+		//System.out.println("Topo");
+		//System.out.println(TADgrafo.ordenacaoTopologica("b"));
+		
+		System.out.println(TADgrafo.DFSFromVertice("b"));
+		//System.out.println(TADgrafo.isConexo());
+		//TADgrafo.ordenacaoTopologica("b");	
 		//System.out.println(TADgrafo.grafo.toString());
 	}
 

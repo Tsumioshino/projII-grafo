@@ -306,6 +306,33 @@ public class StrategyAdjMatrix implements StrategyStructure {
     return transposto;
   }
 
+  public StrategyAdjMatrix getNotDigrafo() {
+    if (!this.isDigrafo()) {
+      StrategyAdjMatrix notDigrafo = new StrategyAdjMatrix();
+      notDigrafo.criarGrafo(this.getAllVertices(), null);
+      for (int row = 0; row < this.getVerticeQuantity(); row++) {
+        for (int col = 0; col < this.getVerticeQuantity(); col++) {
+
+          String origem = this.order.get(row);
+          String destino = this.order.get(col);
+
+          if (this.arestaExists(origem, destino)) { 
+            notDigrafo.inserirAresta(origem, 
+                                    destino,
+                                    this.getArestaValue(origem, destino));  
+          }
+          if (!this.arestaExists(destino, origem)) { 
+            notDigrafo.inserirAresta(destino, 
+                                    origem,
+                                    this.getArestaValue(destino, origem));  
+          }
+        }
+      }
+      return notDigrafo;
+     }
+     return this;
+  }
+
 
   
   /** 

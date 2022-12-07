@@ -439,6 +439,35 @@ public class StrategyAdjList implements StrategyStructure {
     return transposto;
   }
 
+  public StrategyAdjList getNotDigrafo() {
+    if (!isDigrafo()) {
+    StrategyAdjList notDigrafo = new StrategyAdjList();
+    notDigrafo.criarGrafo(this.getAllVertices(), null);
+
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      String head = null;
+      for (VerticeAresta cel : v_adj) {
+        if (head == null) {
+          head = cel.getVertice();
+          continue;
+        }
+        String edge = cel.getVertice();
+        if (this.arestaExists(head, edge)) { 
+          notDigrafo.inserirAresta(head, 
+                                   edge,
+                                   this.getArestaValue(head, edge)); // E coloca a aresta no Vertice que possuia uma aresta vindo (agora saindo)
+        }
+        if (!this.arestaExists(edge, head)) { 
+          notDigrafo.inserirAresta(edge, 
+                                  head,
+                                  this.getArestaValue(edge, head));  
+        }
+      }
+    }
+    return notDigrafo;
+  }
+  return this;
+  }
   
   /** 
    * @return boolean

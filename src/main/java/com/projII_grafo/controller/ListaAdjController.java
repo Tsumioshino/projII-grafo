@@ -65,7 +65,8 @@ public class ListaAdjController {
 	@PostMapping(value = "/listaAdjacencia/buscaLargura/")
     public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
-		return tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+		tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+		return tadGrafo.respostaBFS;
     }
 
 	

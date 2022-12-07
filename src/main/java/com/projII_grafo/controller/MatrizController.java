@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +35,7 @@ public class MatrizController {
 	 * @return boolean
 	 */
 	@PostMapping(value = "/matriz/verificarAresta/")
-    public boolean verificarAresta(@RequestBody GrafoModel grafo){
+    public boolean verificarAresta(@RequestBody GrafoModel grafo){ //ja fiz
 		converteFront(grafo);
 		return this.tadGrafo.grafo.arestaExists(grafo.getOrigem(), grafo.getDestino());
     }
@@ -46,7 +45,7 @@ public class MatrizController {
 	 * @param grafo
 	 * @return ArrayList<String>
 	 */
-	@PostMapping(value = "/matriz/obterListaAdj/")
+	@PostMapping(value = "/matriz/obterListaAdj/") //ja fiz
     public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		return this.tadGrafo.grafo.getVerticeAdjacencia(grafo.getOrigem());
@@ -57,7 +56,7 @@ public class MatrizController {
 	 * @param grafo
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/matriz/quantidadeVerticesArestas/")
+	@PostMapping(value = "/matriz/quantidadeVerticesArestas/") //fiz
     public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		grafo.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
@@ -70,13 +69,10 @@ public class MatrizController {
 	 * @param grafo
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/matriz/buscaLargura/")
-    public GrafoModel buscaLargura(@RequestBody GrafoModel grafo){
+	@PostMapping(value = "/matriz/buscaLargura/") //fiz
+    public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
-		tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
-		grafo.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
-		grafo.setQuantidadeVertice(this.tadGrafo.grafo.getVerticeQuantity());
-		return grafo;
+		return tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
     }
 
 	
@@ -84,7 +80,7 @@ public class MatrizController {
 	 * @param grafo
 	 * @return int
 	 */
-	@PostMapping(value = "/matriz/obterGrauVertice/")
+	@PostMapping(value = "/matriz/obterGrauVertice/") //fiz
     public int obterGrauVertice(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		return this.tadGrafo.grafo.getGrau(grafo.getOrigem());
@@ -96,7 +92,7 @@ public class MatrizController {
 	 * @param grafo
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/matriz/obterClassificacaoAresta/")
+	@PostMapping(value = "/matriz/obterClassificacaoAresta/") // ja fiz
     public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafo){
 		Map<Integer, String> verticesDict = new HashMap<>();
 		converteFront(grafo);

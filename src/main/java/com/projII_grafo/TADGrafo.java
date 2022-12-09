@@ -721,9 +721,9 @@ public Map<String, String> BFS(String origemU, String destinoV) {
   
   /** 
    * @param origin
-   * @return ArrayList<String>
+   * @return double[]
    */
-  public ArrayList<String> Prim(String origin) {
+  public double[] Prim(String origin) {
 	  
 	  //Lista com todos os vertices
 	  ArrayList<String> vertices = this.grafo.getAllVertices();
@@ -782,7 +782,10 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 		  System.out.println("Aresta: " + parenTree[i] + "->" + nodeName + "Weight: " + dists[i]);
 	  }
 	  
-	  return vertices;
+	  //Retorna as min distancias dos caminhos entre a vertice de inicio e todos os vertices
+	  
+	  System.out.println("Dists:");
+	  return dists;
   }
 
   
@@ -812,9 +815,9 @@ public Map<String, String> BFS(String origemU, String destinoV) {
   
   /** 
    * @param origin
-   * @return ArrayList<String>
+   * @return double[]
    */
-  public ArrayList<String> Dijkstra(String origin) {
+  public double[] Dijkstra(String origin) {
 	  ArrayList<Double> dist = new ArrayList<Double>();
 	  
 	  //PriorityQueue<Integer> queue= new PriorityQueue<Integer>();
@@ -901,7 +904,10 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 		  nodeName = vertices.get(i);
 		  System.out.println("\nDistance From: " + origin);
 		  System.out.println("\nNode:" + nodeName + "Dist: " + dists[i] );
-	  } 
-	  return vertices;
+	  }
+	  //Retorna as min distancias dos caminhos entre a vertice de inicio e todos os vertices
+	  
+	  System.out.println("Dists:");
+	  return dists;
   }	  
 }

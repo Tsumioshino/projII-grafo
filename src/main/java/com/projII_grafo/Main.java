@@ -60,14 +60,9 @@ public class Main {
 		String b1[] = {"b", "c", "4"}; 
 		arestas.add(b1);
 
-		String c1[] = {"c", "a", "5"}; 
+		String c1[] = {"d", "e", "5"}; 
 		arestas.add(c1);
 
-		String c2[] = {"b", "d", "5"}; 
-		arestas.add(c2);
-
-		String c3[] = {"d", "e", "5"}; 
-		arestas.add(c3);
 		// String a[] = {"a", "b", "2"};
 		// arestas.add(a);
 		
@@ -86,7 +81,7 @@ public class Main {
 		//System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		//System.out.println(TADgrafo.getConjuntoVertices());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));
-		System.out.println(TADgrafo.Prim("a"));
+		//System.out.println(TADgrafo.Prim("a"));
 		
 		//TADgrafo.Prim("1");
 		//System.out.println(TADgrafo.grafo.isDigrafo());
@@ -94,13 +89,16 @@ public class Main {
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("a"));
 		//System.out.println("Topo");
 		//System.out.println(TADgrafo.ordenacaoTopologica("b"));
-		System.out.println(TADgrafo.BFS("b", "d"));
-		System.out.println(TADgrafo.respostaBFS);
+		// System.out.println(TADgrafo.BFS("b", "d"));
+		// System.out.println(TADgrafo.respostaBFS);
+
+		System.out.println(TADgrafo.ordenacaoTopologica("a"));
+
 		//System.out.println(TADgrafo.DFSFromVertice("b"));
 		//System.out.println(TADgrafo.isConexo());
 		//TADgrafo.ordenacaoTopologica("b");	
 		//System.out.println(TADgrafo.grafo.toString());
-		System.out.println(TADgrafo.DFStrongyConnected("a"));
+		//System.out.println(TADgrafo.DFStrongyConnected("a"));
 
 	}
 

@@ -353,6 +353,7 @@ public class TADGrafo {
 		System.out.println("Topologia: " + this.topologia);
 		return this.topologia;
 	}
+
 	public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
 		if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.BFSPathExist()) {
 			System.out.println("Topologia: ");
@@ -361,7 +362,7 @@ public class TADGrafo {
 		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
 	}
 
-	public LinkedList<String> DFStrongyConnected(String origemU) {
+	public ArrayList<ArrayList<String>> DFStrongyConnected(String origemU) {
 		byte white = 0;
 		ArrayList<String> vertices = this.getConjuntoVertices();
 		this.strongyConnected = new ArrayList<ArrayList<String>>();
@@ -469,7 +470,7 @@ public class TADGrafo {
 		System.out.println("Stack: " + this.DFStack);
 		// topologia.add("ABS");
 		System.out.println(this.topologia);
-		return this.topologia;
+		return this.strongyConnected;
 	}
 
 	// Versão do dfs para remover o max da lista deathTimes passado por

@@ -309,7 +309,7 @@ public class TADGrafo {
 		this.visited = new ArrayList<String>();
 		this.deadVertices = new LinkedList<String>();
 		this.deathTimes = new LinkedList<Integer>();
-
+		this.DFStack = new LinkedList<String>();
 		int times[] = new int[V];
 		int dists[] = new int[V];
 
@@ -342,15 +342,23 @@ public class TADGrafo {
 			int current_indexU = vertices.indexOf(current);
 
 			if (colors[current_indexU] == white) {
-				time = DFS(current_indexU, time, colors, vertices, dists, predecessor, times, this.grafo);
+				time = DFSV1(current_indexU, time, colors, vertices, dists, predecessor, times, this.grafo);
 				System.out.println("Time: " + time);
 
 			}
 
 		}
 		// topologia.add("ABS");
-		System.out.println(this.topologia);
+		
+		System.out.println("Topologia: " + this.topologia);
 		return this.topologia;
+	}
+	public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
+		if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.BFSPathExist()) {
+			System.out.println("Topologia: ");
+		  	return this.DFSFromVertice(v_inicial);
+		}
+		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
 	}
 
 	public LinkedList<String> DFStrongyConnected(String origemU) {
@@ -550,7 +558,7 @@ public class TADGrafo {
 
 		// Adiciona os vertices e seus tempos
 		System.out.println("topoDead: " + vertices.get(u));
-		this.topologia.addFirst(vertices.get(u));
+		this.topologia.add(vertices.get(u));
 		// Tempo de morte dos vertices
 		this.deadVertices.add(vertices.get(u));
 		this.deathTimes.add(time);

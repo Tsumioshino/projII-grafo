@@ -50,7 +50,7 @@ public class Main {
 		
 		vertices.add("d");
 
-		vertices.add("e");
+		//vertices.add("e");
 
 		//vertices.add("f");
 		//a0 b1 c2 d3 e4
@@ -60,7 +60,7 @@ public class Main {
 		String b1[] = {"b", "c", "4"}; 
 		arestas.add(b1);
 
-		String c1[] = {"d", "e", "5"}; 
+		String c1[] = {"c", "d", "5"}; 
 		arestas.add(c1);
 
 		// String a[] = {"a", "b", "2"};
@@ -77,7 +77,7 @@ public class Main {
 
 		TADGrafo TADgrafo2 = new TADGrafo(TADgrafo.grafo.getTransposto());
 		System.out.println(TADgrafo2.grafo.toString());
-		
+		System.out.println(TADgrafo.ordenacaoTopologica("a"));
 		//System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		//System.out.println(TADgrafo.getConjuntoVertices());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));

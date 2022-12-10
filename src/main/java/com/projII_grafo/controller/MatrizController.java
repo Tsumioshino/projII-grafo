@@ -156,6 +156,13 @@ public class MatrizController {
 		return this.tadGrafo.Dijkstra(grafoModel.getOrigem());
 	}
 
+	@PostMapping(value = "/matriz/fortementeConexo/")
+	public ArrayList<String> obterFortementeConexo(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		LinkedList<String> resposta = this.tadGrafo.DFStrongyConnected(grafoModel.getOrigem());
+		return null;
+	}
+
 	@PostMapping(value = "/matriz/ordenacaoTopologica/")
 	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
 		return this.tadGrafo.DFSFromVertice(grafoModel.getOrigem()); // ordenacaoTopologica

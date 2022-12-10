@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class NodeModel {
-
     private String label;
     private int id;
+    private String group;
 }

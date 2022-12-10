@@ -5,10 +5,10 @@ package com.projII_grafo.model;
  */
 
 public enum ClassificacaoAresta {
-    ARESTA_DE_ARVORE("green"),
-    ARESTA_DE_AVANCO("blue"),
-    ARESTA_DE_CRUZAMENTO("red"),
-    ARESTA_DE_RETORNO("pink");
+    ARESTA_DE_ARVORE("#36FF00"),
+    ARESTA_DE_AVANCO("#FF8700"),
+    ARESTA_DE_CRUZAMENTO("#000FFF"),
+    ARESTA_DE_RETORNO("#FF2D00");
     
     private String color;
 

@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class EdgeModel {
-
+    private int id;
     private int from;
     private int to;
     private double value;

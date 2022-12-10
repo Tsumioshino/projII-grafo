@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-
 
 // FORGET
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
@@ -152,17 +150,17 @@ public class TADGrafo {
    * @return LinkedList<String>
    * @throws Exception
    */
-//   public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
-//     //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
-// 	if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial)) {
+  public LinkedList<String> ordenacaoTopologica(String v_inicial) throws Exception {
+    //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo()) {
+	if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && BFSPathExist()) {
+		System.out.println("Topologia: ");
+      	return this.DFSTopo(v_inicial);  
+    }
+	else{
+		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
 
-//       	return this.DFS(false, true, false);  
-//     }
-// 	else{
-// 		throw new Exception("Ordenação Topológica não pode ser utilizado em grafos não-orientados, que possuam ciclos ou que são conexos");
-
-// 	}
-//   }
+	}
+  }
 
   
   /** 
@@ -471,6 +469,65 @@ public class TADGrafo {
 	return this.topologia;
 }
 
+public LinkedList<String> DFSTopo(String origemU){
+	byte white = 0; byte grey = 1; byte black = 2;
+	ArrayList<String> vertices = this.getConjuntoVertices();
+	this.strongyConnected = new ArrayList<ArrayList<String>>();
+	int V = this.grafo.getVerticeQuantity();    
+	
+	this.DFStack = new LinkedList<String>();
+	this.visited = new ArrayList<String>();
+	this.deadVertices = new LinkedList<String>();
+	this.deathTimes = new LinkedList<Integer>();
+	
+	
+	int times[] = new int[V];
+	int dists[] = new int[V];
+
+	//Topologia
+	this.topologia = new LinkedList<String>();
+
+	int time = 0;
+	ArrayList<String> ordem_visita = new ArrayList<String>();
+
+	int colors[] = new int[V];
+
+	int predecessor[] = new int[V];
+
+	for (int u = 0; u < V; u++) {
+		predecessor[u] = -1;
+		colors[u] = white;
+	}
+	ordem_visita.add(origemU); 
+
+	while(V != this.visited.size()){//Enquanto não visitar todos
+		if (ordem_visita.size() == 0) { // Grafo Desconexo
+			for (String vertice : vertices) {
+				if (!this.visited.contains(vertice)) {
+					ordem_visita.add(vertice);
+					break; // Apenas um dos vertices desconexos sao adicionados por vez
+				}
+			}	
+		}
+		String current = ordem_visita.remove(0); // Vertice atual sendo percorrido
+		int current_indexU = vertices.indexOf(current);
+
+		if(colors[current_indexU] == white){
+			//Gera deathTimes
+			time = DFSV1(current_indexU, time, colors, vertices, dists, predecessor, times, this.grafo);
+			
+			System.out.println("Time: " + time);
+			
+		}
+
+
+	}
+	
+	
+	
+	System.out.println("Topologia: " + this.topologia);
+	return this.topologia;
+}
 
 
 public LinkedList<String> DFStrongyConnected(String origemU){
@@ -682,7 +739,7 @@ public int DFSV1(int u, int time, int color[], ArrayList<String> vertices, int d
 
 	//Adiciona os vertices e seus tempos
 	System.out.println("topoDead: "  + vertices.get(u));
-	this.topologia.addFirst(vertices.get(u));
+	this.topologia.add(vertices.get(u));
 	//Tempo de morte dos vertices
 	this.deadVertices.add(vertices.get(u));
 	this.deathTimes.add(time);

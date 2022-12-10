@@ -1026,6 +1026,7 @@ public class TADGrafo {
 			System.out.println("\nNode: " + nodeName + "Dist from source '" + origin + "'' : " + dists[i]);
 			System.out.println("Dist from Antecessor '" + predecessor[i] + "' : " + distPredecessor[i]);
 			resposta.add(origin + " " + nodeName + " " + dists[i]);
+			//resposta.add(predecessor[i] + " " + nodeName + " " + dists[i]); para atualizar os pesos do grafo q exibe.
 		}
 
 		// Retorna as min distancias dos caminhos entre a vertice de inicio e todos os

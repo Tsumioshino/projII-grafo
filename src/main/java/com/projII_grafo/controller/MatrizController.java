@@ -29,71 +29,71 @@ public class MatrizController {
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return boolean
 	 */
 	@PostMapping(value = "/matriz/verificarAresta/")
-	public boolean verificarAresta(@RequestBody GrafoModel grafo) { // ja fiz
-		converteFront(grafo);
-		return this.tadGrafo.grafo.arestaExists(grafo.getOrigem(), grafo.getDestino());
+	public boolean verificarAresta(@RequestBody GrafoModel grafoModel) { // ja fiz
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.arestaExists(grafoModel.getOrigem(), grafoModel.getDestino());
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return ArrayList<String>
 	 */
 	@PostMapping(value = "/matriz/obterListaAdj/") // ja fiz
-	public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.grafo.getVerticeAdjacencia(grafo.getOrigem());
+	public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.getVerticeAdjacencia(grafoModel.getOrigem());
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
 	@PostMapping(value = "/matriz/quantidadeVerticesArestas/") // fiz
-	public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		grafo.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
-		grafo.setQuantidadeVertice(this.tadGrafo.grafo.getVerticeQuantity());
-		return grafo;
+	public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		grafoModel.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
+		grafoModel.setQuantidadeVertice(this.tadGrafo.grafo.getVerticeQuantity());
+		return grafoModel;
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
 	@PostMapping(value = "/matriz/buscaLargura/") // fiz
-	public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+	public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		tadGrafo.BFS(grafoModel.getOrigem(), grafoModel.getDestino());
 		return tadGrafo.respostaBFS;
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return int
 	 */
 	@PostMapping(value = "/matriz/obterGrauVertice/") // fiz
-	public int obterGrauVertice(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.grafo.getGrau(grafo.getOrigem());
+	public int obterGrauVertice(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.getGrau(grafoModel.getOrigem());
 	}
 
 	/**
-	 * @param grafo
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
 	@PostMapping(value = "/matriz/obterClassificacaoAresta/") // ja fiz
-	public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafo) {
+	public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafoModel) {
 		Map<Integer, String> verticesDict = new HashMap<>();
-		converteFront(grafo);
-		for (NodeModel node : grafo.getNodes()) {
+		converteFront(grafoModel);
+		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
-		String[] classificacoes = this.tadGrafo.classificarAresta(grafo.getOrigem()).split("\n");
-		for (EdgeModel edgeModel : grafo.getEdges()) {
+		String[] classificacoes = this.tadGrafo.classificarAresta(grafoModel.getOrigem()).split("\n");
+		for (EdgeModel edgeModel : grafoModel.getEdges()) {
 			for (String classificacao : classificacoes) {
 				String[] classif = classificacao.split(" ");
 				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) &&
@@ -104,37 +104,61 @@ public class MatrizController {
 				}
 			}
 		}
-		return grafo;
+		return grafoModel;
 	}
 
 	/**
 	 * Verifica ciclo
 	 * 
-	 * @param grafo
+	 * @param grafoModel
 	 * @return boolean
 	 */
 	@PostMapping(value = "/matriz/verificarCiclo/")
-	public boolean verificarCiclo(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.hasCiclo(grafo.getOrigem());
+	public boolean verificarCiclo(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.hasCiclo(grafoModel.getOrigem());
 	}
 
 	@PostMapping(value = "/matriz/prim/")
-	public ArrayList<String> obterAGM(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.Prim(grafo.getOrigem());
+	public ArrayList<String> obterAGM(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.Prim(grafoModel.getOrigem());
+	}
+	
+	@PostMapping(value = "/matriz/dijkstraPesosAtt/")
+	public GrafoModel obterDijkstraPesosAtt(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		Map<Integer, String> verticesDict = new HashMap<>();
+		for (NodeModel node : grafoModel.getNodes()) {
+			verticesDict.put(node.getId(), node.getLabel());
+		}
+		for (String	resposta : this.tadGrafo.Dijkstra(grafoModel.getOrigem())) {
+			String[] respostas = resposta.split(" ");
+			for (EdgeModel edgeModel : grafoModel.getEdges()) {
+				if (edgeModel.getTo() == edgeModel.getFrom()) {
+					grafoModel.getEdges().remove(edgeModel);
+					break;
+				}
+				if (verticesDict.get(edgeModel.getFrom()).equals(respostas[0]) && 
+				verticesDict.get(edgeModel.getTo()).equals(respostas[1])) {
+					edgeModel.setLabel(respostas[2]);
+					edgeModel.setValue(Double.parseDouble(respostas[2]));
+					break;
+				}
+			}
+		}
+		return grafoModel;
 	}
 
 	@PostMapping(value = "/matriz/dijkstra/")
-	public ArrayList<String> obterDijkstra(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.Dijkstra(grafo.getOrigem());
+	public ArrayList<String> obterDijkstra(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.Dijkstra(grafoModel.getOrigem());
 	}
 
 	@PostMapping(value = "/matriz/ordenacaoTopologica/")
-	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafo) {
-		converteFront(grafo);
-		return this.tadGrafo.DFSFromVertice(grafo.getOrigem());
+	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
+		return this.tadGrafo.DFSFromVertice(grafoModel.getOrigem()); // ordenacaoTopologica
 	}
 
 	private void converteFront(GrafoModel grafoModel) {

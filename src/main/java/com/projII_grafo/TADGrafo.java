@@ -13,9 +13,9 @@ public class TADGrafo {
 	public LinkedList<String> topologia;
 	public ArrayList<ArrayList<String>> strongyConnected;
 	public ArrayList<String> visited;
-	public LinkedList<String> deadVertices;
-	public LinkedList<Integer> deathTimes;
-	public LinkedList<String> DFStack;
+	public LinkedList<String> deadVertices = new LinkedList<>();
+	public LinkedList<Integer> deathTimes = new LinkedList<>();
+	public LinkedList<String> DFStack = new LinkedList<>();
 	public ArrayList<String> respostaBFS = new ArrayList<>();
 
 	public StrategyStructure grafo;

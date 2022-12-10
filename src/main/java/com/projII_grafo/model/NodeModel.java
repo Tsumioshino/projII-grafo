@@ -14,5 +14,5 @@ import lombok.ToString;
 public class NodeModel {
     private String label;
     private int id;
-    private String group;
+    private String color;
 }

@@ -2,8 +2,11 @@ package com.projII_grafo.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -157,10 +160,26 @@ public class MatrizController {
 	}
 
 	@PostMapping(value = "/matriz/fortementeConexo/")
-	public ArrayList<String> obterFortementeConexo(@RequestBody GrafoModel grafoModel) {
+	public GrafoModel obterFortementeConexo(@RequestBody GrafoModel grafoModel) {
 		converteFront(grafoModel);
-		LinkedList<String> resposta = this.tadGrafo.DFStrongyConnected(grafoModel.getOrigem());
-		return null;
+		ArrayList<ArrayList<String>> grupos = this.tadGrafo.DFStrongyConnected(grafoModel.getOrigem());
+		Set<String> coresExistentes = new HashSet<>();
+		for (ArrayList<String> grupo : grupos) {
+			System.out.println("O GRUPO TEM TAMANHO: " + grupo.size());
+			String cor = generateColor();
+			while(coresExistentes.contains(cor)){
+				cor = generateColor();
+			}
+			coresExistentes.add(cor);
+			for (String label : grupo) {
+				for (NodeModel nodeModel : grafoModel.getNodes()) {
+					if(nodeModel.getLabel().equals(label)){
+						nodeModel.setColor(cor);
+					}
+				}
+			}
+		}
+		return grafoModel;
 	}
 
 	@PostMapping(value = "/matriz/ordenacaoTopologica/")
@@ -186,4 +205,13 @@ public class MatrizController {
 		this.tadGrafo.grafo.criarGrafo(vertices, arestas);
 	}
 
+	private String generateColor(){
+		Random random = new Random();
+
+		// create a big random number - maximum is ffffff (hex) = 16777215 (dez)
+		int nextInt = random.nextInt(0xffffff + 1);
+		
+		// format it as hexadecimal string (with hashtag and leading zeros)
+		return String.format("#%06x", nextInt);
+	}
 }

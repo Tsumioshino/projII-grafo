@@ -2,13 +2,17 @@ package com.projII_grafo.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projII_grafo.StrategyAdjList;
+import com.projII_grafo.StrategyAdjMatrix;
 import com.projII_grafo.StrategyStructure;
 import com.projII_grafo.TADGrafo;
 import com.projII_grafo.model.ClassificacaoAresta;
@@ -22,116 +26,165 @@ public class ListaAdjController {
 	private TADGrafo tadGrafo;
 
 	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return boolean
 	 */
 	@PostMapping(value = "/listaAdjacencia/verificarAresta/")
-    public boolean verificarAresta(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		return this.tadGrafo.grafo.arestaExists(grafo.getOrigem(), grafo.getDestino());
-    }
+	public boolean verificarAresta(@RequestBody GrafoModel grafoModel) { // ja fiz
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.arestaExists(grafoModel.getOrigem(), grafoModel.getDestino());
+	}
 
-	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return ArrayList<String>
 	 */
-	@PostMapping(value = "/listaAdjacencia/obterListaAdj/")
-    public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		return this.tadGrafo.grafo.getVerticeAdjacencia(grafo.getOrigem());
-    }
+	@PostMapping(value = "/listaAdjacencia/obterListaAdj/") // ja fiz
+	public ArrayList<String> obterListaAdj(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.getVerticeAdjacencia(grafoModel.getOrigem());
+	}
 
-	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/listaAdjacencia/quantidadeVerticesArestas/")
-    public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		grafo.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
-		grafo.setQuantidadeVertice(this.tadGrafo.grafo.getVerticeQuantity());
-		return grafo;
-    }
+	@PostMapping(value = "/listaAdjacencia/quantidadeVerticesArestas/") // fiz
+	public GrafoModel quantidadeVerticesArestas(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		grafoModel.setQuantidadeAresta(this.tadGrafo.grafo.getArestaQuantity());
+		grafoModel.setQuantidadeVertice(this.tadGrafo.grafo.getVerticeQuantity());
+		return grafoModel;
+	}
 
-	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/listaAdjacencia/buscaLargura/")
-    public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		tadGrafo.BFS(grafo.getOrigem(), grafo.getDestino());
+	@PostMapping(value = "/listaAdjacencia/buscaLargura/") // fiz
+	public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		tadGrafo.BFS(grafoModel.getOrigem(), grafoModel.getDestino());
 		return tadGrafo.respostaBFS;
-    }
+	}
 
-	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return int
 	 */
-	@PostMapping(value = "/listaAdjacencia/obterGrauVertice/")
-    public int obterGrauVertice(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		return this.tadGrafo.grafo.getGrau(grafo.getOrigem());
-    }
-	
+	@PostMapping(value = "/listaAdjacencia/obterGrauVertice/") // fiz
+	public int obterGrauVertice(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.grafo.getGrau(grafoModel.getOrigem());
+	}
 
-	
-	/** 
-	 * @param grafo
+	/**
+	 * @param grafoModel
 	 * @return GrafoModel
 	 */
-	@PostMapping(value = "/listaAdjacencia/obterClassificacaoAresta/")
-    public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafo){
+	@PostMapping(value = "/listaAdjacencia/obterClassificacaoAresta/") // ja fiz
+	public GrafoModel obterClassificacaoAresta(@RequestBody GrafoModel grafoModel) {
 		Map<Integer, String> verticesDict = new HashMap<>();
-		converteFront(grafo);
-		for (NodeModel node : grafo.getNodes()) {
+		converteFront(grafoModel);
+		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
-		String[] classificacoes = this.tadGrafo.classificarAresta(grafo.getOrigem()).split("\n");
-		for (EdgeModel edgeModel : grafo.getEdges()) {
+		String[] classificacoes = this.tadGrafo.classificarAresta(grafoModel.getOrigem()).split("\n");
+		for (EdgeModel edgeModel : grafoModel.getEdges()) {
 			for (String classificacao : classificacoes) {
 				String[] classif = classificacao.split(" ");
-				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) && 
-					verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
+				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) &&
+						verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
 					edgeModel.setTipoAresta(ClassificacaoAresta.valueOf(classif[2]));
+					edgeModel.setColor(ClassificacaoAresta.valueOf(classif[2]).getColor());
 					break;
 				}
 			}
 		}
-		return grafo;
-    }
+		return grafoModel;
+	}
 
-	
-	/** 
+	/**
 	 * Verifica ciclo
-	 * @param grafo
+	 * 
+	 * @param grafoModel
 	 * @return boolean
 	 */
 	@PostMapping(value = "/listaAdjacencia/verificarCiclo/")
-    public boolean verificarCiclo(@RequestBody GrafoModel grafo){
-		converteFront(grafo);
-		return this.tadGrafo.hasCiclo(grafo.getOrigem());
-    }
+	public boolean verificarCiclo(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.hasCiclo(grafoModel.getOrigem());
+	}
 
-
-	/*
-	 * Verifica ord
-	 */
-	//@PostMapping(value = "/listaAdjacencia/obterOrdenacaoTopologica/")
-    //public String obterOrdenacaoTopologica(@RequestBody GrafoModel grafo){
-	//	converteFront(grafo);
-	//	return this.tadGrafo.ordenacaoTopologica(grafo.getOrigem());
-    //}
+	@PostMapping(value = "/listaAdjacencia/prim/")
+	public ArrayList<String> obterAGM(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.Prim(grafoModel.getOrigem());
+	}
 	
-
-	private void converteFront(GrafoModel grafoModel){
+	@PostMapping(value = "/listaAdjacencia/dijkstraPesosAtt/")
+	public GrafoModel obterDijkstraPesosAtt(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
 		Map<Integer, String> verticesDict = new HashMap<>();
-		StrategyStructure repre = new StrategyAdjList();
+		for (NodeModel node : grafoModel.getNodes()) {
+			verticesDict.put(node.getId(), node.getLabel());
+		}
+		for (String	resposta : this.tadGrafo.Dijkstra(grafoModel.getOrigem())) {
+			String[] respostas = resposta.split(" ");
+			for (EdgeModel edgeModel : grafoModel.getEdges()) {
+				if (edgeModel.getTo() == edgeModel.getFrom()) {
+					grafoModel.getEdges().remove(edgeModel);
+					break;
+				}
+				if (verticesDict.get(edgeModel.getFrom()).equals(respostas[0]) && 
+				verticesDict.get(edgeModel.getTo()).equals(respostas[1])) {
+					edgeModel.setLabel(respostas[2]);
+					edgeModel.setValue(Double.parseDouble(respostas[2]));
+					break;
+				}
+			}
+		}
+		return grafoModel;
+	}
+
+	@PostMapping(value = "/listaAdjacencia/dijkstra/")
+	public ArrayList<String> obterDijkstra(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		return this.tadGrafo.Dijkstra(grafoModel.getOrigem());
+	}
+
+	@PostMapping(value = "/listaAdjacencia/fortementeConexo/")
+	public GrafoModel obterFortementeConexo(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		ArrayList<ArrayList<String>> grupos = this.tadGrafo.DFStrongyConnected(grafoModel.getOrigem());
+		Set<String> coresExistentes = new HashSet<>();
+		for (ArrayList<String> grupo : grupos) {
+			System.out.println("O GRUPO TEM TAMANHO: " + grupo.size());
+			String cor = generateColor();
+			while(coresExistentes.contains(cor)){
+				cor = generateColor();
+			}
+			coresExistentes.add(cor);
+			for (String label : grupo) {
+				for (NodeModel nodeModel : grafoModel.getNodes()) {
+					if(nodeModel.getLabel().equals(label)){
+						nodeModel.setColor(cor);
+					}
+				}
+			}
+		}
+		return grafoModel;
+	}
+
+	@PostMapping(value = "/listaAdjacencia/ordenacaoTopologica/")
+	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
+		return this.tadGrafo.DFSFromVertice(grafoModel.getOrigem()); // ordenacaoTopologica
+	}
+
+	private void converteFront(GrafoModel grafoModel) {
+		Map<Integer, String> verticesDict = new HashMap<>();
+		StrategyStructure repre = new StrategyAdjMatrix();
 		this.tadGrafo = new TADGrafo(repre);
 		ArrayList<String> vertices = new ArrayList<String>();
 		ArrayList<String[]> arestas = new ArrayList<String[]>();
@@ -140,10 +193,21 @@ public class ListaAdjController {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
 		for (EdgeModel edgeModel : grafoModel.getEdges()) {
-			String a[] = {verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()), Double.toString(edgeModel.getValue())};
+			String a[] = { verticesDict.get(edgeModel.getFrom()), verticesDict.get(edgeModel.getTo()),
+					Double.toString(edgeModel.getValue()) };
 			arestas.add(a);
 		}
 		this.tadGrafo.grafo.criarGrafo(vertices, arestas);
+	}
+
+	private String generateColor(){
+		Random random = new Random();
+
+		// create a big random number - maximum is ffffff (hex) = 16777215 (dez)
+		int nextInt = random.nextInt(0xffffff + 1);
+		
+		// format it as hexadecimal string (with hashtag and leading zeros)
+		return String.format("#%06x", nextInt);
 	}
 
 }

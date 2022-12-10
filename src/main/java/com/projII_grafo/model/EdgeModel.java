@@ -18,4 +18,5 @@ public class EdgeModel {
     private double value;
     private String label;
     private ClassificacaoAresta tipoAresta;
+    private String color;
 }

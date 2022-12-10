@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +18,18 @@ import com.projII_grafo.model.EdgeModel;
 import com.projII_grafo.model.GrafoModel;
 import com.projII_grafo.model.NodeModel;
 
+
 @RestController
 public class MatrizController {
 
 	private TADGrafo tadGrafo;  
 	
+	@GetMapping(value="/teste")
+	public ClassificacaoAresta getMethodName() {
+		return ClassificacaoAresta.ARESTA_DE_ARVORE;
+	}
+	
+
 	/** 
 	 * @param grafo
 	 * @return boolean
@@ -99,6 +107,7 @@ public class MatrizController {
 				if (verticesDict.get(edgeModel.getFrom()).equals(classif[0]) && 
 				verticesDict.get(edgeModel.getTo()).equals(classif[1])) {
 					edgeModel.setTipoAresta(ClassificacaoAresta.valueOf(classif[2]));
+					edgeModel.setColor(ClassificacaoAresta.valueOf(classif[2]).getColor());
 					break;
 				}
 			}

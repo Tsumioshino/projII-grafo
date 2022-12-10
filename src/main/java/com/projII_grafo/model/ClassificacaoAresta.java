@@ -5,8 +5,18 @@ package com.projII_grafo.model;
  */
 
 public enum ClassificacaoAresta {
-    ARESTA_DE_ARVORE,
-    ARESTA_DE_AVANCO,
-    ARESTA_DE_CRUZAMENTO,
-    ARESTA_DE_RETORNO    
+    ARESTA_DE_ARVORE("green"),
+    ARESTA_DE_AVANCO("blue"),
+    ARESTA_DE_CRUZAMENTO("red"),
+    ARESTA_DE_RETORNO("pink");
+    
+    private String color;
+
+    private ClassificacaoAresta(String color){
+        this.color = color;
+    }
+
+    public String getColor(){
+        return this.color;
+    }
 }

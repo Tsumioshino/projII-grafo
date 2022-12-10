@@ -21,6 +21,27 @@ public class Main {
 		
 	
 		
+		// vertices.add("a");
+		
+		// vertices.add("b");
+		
+		// vertices.add("c");
+		
+		// vertices.add("d");
+
+		// //vertices.add("f");
+
+		// String a1[] = {"a", "b", "2"};
+		// arestas.add(a1);
+		// String b1[] = {"b", "c", "4"}; 
+		// arestas.add(b1);
+		// String c1[] = {"c", "d", "5"}; 
+		// arestas.add(c1);
+
+		// String c2[] = {"d", "c", "5"}; 
+		// arestas.add(c2);
+
+
 		vertices.add("a");
 		
 		vertices.add("b");
@@ -29,17 +50,24 @@ public class Main {
 		
 		vertices.add("d");
 
-		//vertices.add("f");
+		vertices.add("e");
 
-		String a1[] = {"a", "b", "2"};
+		//vertices.add("f");
+		//a0 b1 c2 d3 e4
+		String a1[] = {"a", "b", "3"};
 		arestas.add(a1);
+		
 		String b1[] = {"b", "c", "4"}; 
 		arestas.add(b1);
-		String c1[] = {"c", "d", "5"}; 
+
+		String c1[] = {"c", "a", "5"}; 
 		arestas.add(c1);
 
-		String c2[] = {"d", "c", "5"}; 
+		String c2[] = {"b", "d", "5"}; 
 		arestas.add(c2);
+
+		String c3[] = {"d", "e", "5"}; 
+		arestas.add(c3);
 		// String a[] = {"a", "b", "2"};
 		// arestas.add(a);
 		
@@ -50,7 +78,11 @@ public class Main {
 		// arestas.add(c);
 		
 		TADgrafo.grafo.criarGrafo(vertices, arestas);
+		System.out.println(TADgrafo.grafo.toString());
 
+		TADGrafo TADgrafo2 = new TADGrafo(TADgrafo.grafo.getTransposto());
+		System.out.println(TADgrafo2.grafo.toString());
+		
 		//System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		//System.out.println(TADgrafo.getConjuntoVertices());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));

@@ -1,6 +1,7 @@
 package com.projII_grafo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -9,8 +10,11 @@ import java.util.Map;
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
 public class TADGrafo {
 	public LinkedList<String> topologia;
+	public ArrayList<ArrayList<String>> strongyConnected;
 	public ArrayList<String> visited;
 	public LinkedList<String> deadVertices;
+	public LinkedList<Integer> deathTimes;
+	public LinkedList<String> DFStack;
 	public ArrayList<String> respostaBFS = new ArrayList<>();
 
 	public StrategyStructure grafo;
@@ -162,33 +166,6 @@ public class TADGrafo {
 
 	/**
 	 * @param v_inicial
-	 * @return LinkedList<String>
-	 * @throws Exception
-	 */
-	// public LinkedList<String> ordenacaoTopologica(String v_inicial) throws
-	// Exception {
-	// //if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial) && this.isConexo())
-	// {
-	// if (this.grafo.isDigrafo() && !this.hasCiclo(v_inicial)) {
-
-	// return this.DFS(false, true, false);
-	// }
-	// else{
-	// throw new Exception("Ordenação Topológica não pode ser utilizado em grafos
-	// não-orientados, que possuam ciclos ou que são conexos");
-
-	// }
-	// }
-
-	/**
-	 * @return LinkedList<String>
-	 */
-	// public LinkedList<String> getComponentesFortes() {
-	// return this.DFS(false, false, true, false);
-	// }
-
-	/**
-	 * @param v_inicial
 	 * @return boolean
 	 */
 	public boolean hasCiclo(String v_inicial) {
@@ -273,116 +250,6 @@ public class TADGrafo {
 	}
 
 	/**
-	 * @return boolean
-	 */
-	public boolean isConexo() {
-		return this.DFS(false, true);
-	}
-
-	// public int DFSLastDeadVerticeIndex(int u, int time, int color[],
-	// ArrayList<String> vertices, int dists[], int predecessor[], int times[]) {
-	// //time = DFS
-	// byte white = 0; byte grey = 1; byte black = 2;
-	// color[u] = grey;
-	// dists[u] = ++time;
-	// ArrayList<String> neighbors =
-	// this.grafo.getVerticeAdjacencia(vertices.get(u));;
-
-	// if(!neighbors.isEmpty()){
-
-	// while(!neighbors.isEmpty()){
-	// String verticeEdge = neighbors.get(0);
-	// neighbors.remove(0);
-
-	// int v = vertices.indexOf(verticeEdge);
-
-	// if(color[v] == white){
-	// predecessor[v] = u;
-
-	/**
-	 * @return ArrayList<Object>
-	 */
-	// public ArrayList<Object> DFS(boolean aresta, boolean topologia, boolean
-	// force) {
-
-	// public LinkedList<String> DFS(boolean aresta, boolean topologia, boolean
-	// force, boolean conexidade) {
-	// //ArrayList<Object> dfs = new ArrayList<>();
-	// LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
-	// LinkedList<String> timesDeath = new LinkedList<String>();
-	// LinkedList<String> colors = new LinkedList<String>();
-	// LinkedList<String> fortes = new LinkedList<String>();
-
-	// // byte white = 0;
-	// // byte grey = 1;
-	// // byte black = 2;
-	// // int time = 0;
-
-	// byte white = 0; byte grey = 1; byte black = 2;
-	// int time = 0;
-	// int deadVerticeIndex = 0;
-
-	// int V = this.grafo.getVerticeQuantity();
-	// int times[] = new int[V];
-
-	// ArrayList<String> vertices = this.grafo.getAllVertices();
-	// System.out.println("Vertices: " + vertices);
-	// int color[] = new int[V];
-
-	// int predecessor[] = new int[V];
-
-	// int dists[] = new int[V];
-
-	// for(int u = 0; u < V; u++){
-	// color[u] = white;
-	// predecessor[u] = -1;
-	// }
-	// for(int u = 0; u < V; u++){
-	// if(color[u] == white){
-
-	// time = DFS(u, time, color, vertices, dists, predecessor, times);
-	// timesDeath.add(((Integer) time).toString());
-	// if(topologia){
-	// deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists,
-	// predecessor, times);
-	// deadVerticesTopologia.add(vertices.get(deadVerticeIndex));
-	// }
-	// if(force){
-	// deadVerticeIndex = DFSLastDeadVerticeIndex(u, time, color, vertices, dists,
-	// predecessor, times);
-	// StrategyStructure repre = this.grafo.getTransposto();
-	// TADGrafo grafoTrans = new TADGrafo(repre);
-
-	// //fortes.add();
-	// }
-	// // if(conexidade){
-	// // System.out.println("Conexidade: ");
-	// // DFSVisited(u, time, color, vertices, dists, predecessor, times);
-	// // //System.out.println("Color1: " + color);
-	// // }
-	// }
-	// }
-
-	// if(topologia){
-	// return deadVerticesTopologia;
-	// }
-	// if(force){
-	// return fortes;
-	// }
-	// // if(conexidade){
-
-	// // for(int i = 0; i < color.length; i++){
-	// // System.out.println("Color: " + color[i]);
-	// // colors.add(((Integer)color[i]).toString());
-	// // }
-	// // return colors;
-
-	// // }
-
-	// return timesDeath;
-	// }
-
-	/**
 	 * @param u
 	 * @param time
 	 * @param color[]
@@ -393,15 +260,17 @@ public class TADGrafo {
 	 * @return int
 	 */
 	public int DFS(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[],
-			int times[]) {
+			int times[], StrategyStructure grafoIn) {
 		// time = DFS
 		byte white = 0;
 		byte grey = 1;
 		byte black = 2;
 		color[u] = grey;
 		this.visited.add(vertices.get(u));// Add aos visitados
+		// Componente forte
+		System.out.println();
 		dists[u] = ++time;
-		ArrayList<String> neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
+		ArrayList<String> neighbors = grafoIn.getVerticeAdjacencia(vertices.get(u));
 		;
 
 		if (!neighbors.isEmpty()) {
@@ -415,35 +284,34 @@ public class TADGrafo {
 				if (color[v] == white) {
 					predecessor[v] = u;
 
-					time = DFS(v, time, color, vertices, dists, predecessor, times);
+					time = DFS(v, time, color, vertices, dists, predecessor, times, grafoIn);
 				}
 			}
 		}
 		color[u] = black;
 
 		times[u] = ++time;
-		// Adiciona os vertices mortos
+		// Adiciona os vertices e seus tempos
 		System.out.println("topoDead: " + vertices.get(u));
-		topologia.addFirst(vertices.get(u));
-		// topologia.add(vertices.get(u));
+		this.topologia.addFirst(vertices.get(u));
+
+		this.deadVertices.add(vertices.get(u));
+		this.deathTimes.add(time);
 		return time;
 	}
 
 	public LinkedList<String> DFSFromVertice(String origemU) {
 		byte white = 0;
-		byte grey = 1;
-		byte black = 2;
 		ArrayList<String> vertices = this.getConjuntoVertices();
 		int V = this.grafo.getVerticeQuantity();
 		// ArrayList<String> visited = new ArrayList<String>();
 		this.visited = new ArrayList<String>();
-		ArrayList<String> visitedOrder = new ArrayList<String>();
-		LinkedList<String> deadVertices = new LinkedList<String>();
+		this.deadVertices = new LinkedList<String>();
+		this.deathTimes = new LinkedList<Integer>();
 
 		int times[] = new int[V];
 		int dists[] = new int[V];
 
-		LinkedList<String> deadVerticesTopologia = new LinkedList<String>();
 		// Topologia
 		this.topologia = new LinkedList<String>();
 
@@ -452,7 +320,6 @@ public class TADGrafo {
 
 		int colors[] = new int[V];
 
-		int visitedAdj[] = new int[V];
 		int predecessor[] = new int[V];
 
 		for (int u = 0; u < V; u++) {
@@ -474,7 +341,7 @@ public class TADGrafo {
 			int current_indexU = vertices.indexOf(current);
 
 			if (colors[current_indexU] == white) {
-				time = DFS(current_indexU, time, colors, vertices, dists, predecessor, times);
+				time = DFS(current_indexU, time, colors, vertices, dists, predecessor, times, this.grafo);
 				System.out.println("Time: " + time);
 
 			}
@@ -485,20 +352,261 @@ public class TADGrafo {
 		return this.topologia;
 	}
 
-	/**
-	 * @param ciclo
-	 * @param conexidade
-	 * @return boolean
-	 */
-	public boolean DFS(boolean ciclo, boolean conexidade) {
-		throw new UnsupportedOperationException("Not implemented yet");
+	public LinkedList<String> DFStrongyConnected(String origemU) {
+		byte white = 0;
+		ArrayList<String> vertices = this.getConjuntoVertices();
+		this.strongyConnected = new ArrayList<ArrayList<String>>();
+		int V = this.grafo.getVerticeQuantity();
+
+		this.DFStack = new LinkedList<String>();
+		this.visited = new ArrayList<String>();
+
+		// Listas aux para os tempos de morte dos vertices do primeiro grafo
+
+		int times[] = new int[V];
+		int dists[] = new int[V];
+
+		// Topologia
+		this.topologia = new LinkedList<String>();
+
+		int time = 0;
+		ArrayList<String> ordem_visita = new ArrayList<String>();
+
+		int colors[] = new int[V];
+
+		int predecessor[] = new int[V];
+
+		for (int u = 0; u < V; u++) {
+			predecessor[u] = -1;
+			colors[u] = white;
+		}
+		ordem_visita.add(origemU);
+
+		while (V != this.visited.size()) {// Enquanto não visitar todos
+			if (ordem_visita.size() == 0) { // Grafo Desconexo
+				for (String vertice : vertices) {
+					if (!this.visited.contains(vertice)) {
+						ordem_visita.add(vertice);
+						break; // Apenas um dos vertices desconexos sao adicionados por vez
+					}
+				}
+			}
+			String current = ordem_visita.remove(0); // Vertice atual sendo percorrido
+			int current_indexU = vertices.indexOf(current);
+
+			if (colors[current_indexU] == white) {
+				// Gera deathTimes
+				time = DFSV1(current_indexU, time, colors, vertices, dists, predecessor, times, this.grafo);
+
+				System.out.println("Time: " + time);
+
+			}
+
+		}
+
+		// Collections.sort(deathTimesAux);
+		System.out.println("Grafo Normal: " + this.grafo.toString());
+		StrategyStructure grafoTrans = this.grafo.getTransposto();
+		System.out.println("GrafoTrans: " + grafoTrans.toString());
+
+		for (int i = 0; i < deathTimes.size(); i++) {
+			System.out.println("DeathTimeIs: " + deathTimes.get(i));
+			System.out.println("DeadVertice: " + deadVertices.get(i));
+		}
+		System.out.println("DEathtimes size111: " + this.deathTimes.size());
+		// DFSV2Stack
+		for (int u = 0; u < V; u++) {
+			predecessor[u] = -1;
+			colors[u] = white;
+		}
+		vertices = grafoTrans.getAllVertices();
+		this.DFStack = new LinkedList<String>();
+		for (int i = 0; i < colors.length; i++) {
+			System.out.println("Color1: " + colors[i]);
+		}
+
+		while (!this.deadVertices.isEmpty()) {
+			int maxTimeAux = Collections.max(this.deathTimes);
+			System.out.println("maxTimeAux: " + maxTimeAux);
+			int maxTimeIndex = this.deathTimes.indexOf(maxTimeAux); // Index do maior tempo
+			System.out.println("maxTimeIndex: " + maxTimeIndex);
+			String maxTimeVertice = deadVertices.get((maxTimeIndex)); // Vertice de maior tempo
+			// int maxTimeVerticeIndex = vertices.indexOf(maxTimeVertice);
+			int maxTimeVerticeIndex = vertices.indexOf(maxTimeVertice);
+			//
+
+			System.out.println("Raiz da proxima arvore: " + maxTimeVertice + " Time: " + maxTimeAux);
+
+			ArrayList<String> strongComponent = new ArrayList<String>();
+			ArrayList<String> strongComponent2 = new ArrayList<String>();
+			// strongComponent.add()
+			// strongComponent = DFSRemoveStrong(maxTimeVerticeIndex, maxTimeAux, colors,
+			// vertices, dists, predecessor, times, grafoTrans, strongComponent);
+			strongComponent = DFSV2(maxTimeVerticeIndex, maxTimeAux, colors, vertices, dists, predecessor, times,
+					grafoTrans, strongComponent);
+			// Talvez fzr a DFSRemoveStrong retornar o componenteConnected e add a lista
+			// Add a lista de componentes a strongyConnected
+			// this.strongyConnected.add();
+			this.strongyConnected.add(strongComponent);
+			System.out.println("StrongC2: " + strongComponent2);
+			System.out.println("DEathtimes size222: " + this.deathTimes.size());
+
+			// deathTimesAux.remove(maxTimeIndex); //Pop o max
+
+			// break;
+
+		}
+		System.out.println("StrongsList: " + this.strongyConnected);
+		System.out.println("Stack: " + this.DFStack);
+		// topologia.add("ABS");
+		System.out.println(this.topologia);
+		return this.topologia;
 	}
 
-	/**
-	 * @return ArrayList<ArrayList<String>>
-	 */
-	protected ArrayList<ArrayList<String>> DFSTransposto() {
-		throw new UnsupportedOperationException("Not implemented yet");
+	// Versão do dfs para remover o max da lista deathTimes passado por
+	// DFStrongyConnected
+	public ArrayList<String> DFSRemoveStrong(int u, int time, int color[], ArrayList<String> vertices, int dists[],
+			int predecessor[], int times[], StrategyStructure grafoIn, ArrayList<String> strongComponent) {
+		// time = DFS
+		byte white = 0;
+		byte grey = 1;
+		byte black = 2;
+		color[u] = grey;
+
+		this.visited.add(vertices.get(u));// Add aos visitados
+
+		// Componente forte
+		System.out.println("VerticeStrong: " + vertices.get(u));
+		strongComponent.add(vertices.get(u));
+		System.out.println("DEathtimes sizeStrong1: " + this.deathTimes.size());
+		this.deathTimes.remove(u); // Remove o max da lista
+		System.out.println("DEathtimes sizeStrong2: " + this.deathTimes.size());
+
+		dists[u] = ++time;
+		ArrayList<String> neighbors = grafoIn.getVerticeAdjacencia(vertices.get(u));
+		;
+
+		if (!neighbors.isEmpty()) {
+			String verticeEdge = neighbors.get(0);
+
+			while (!neighbors.isEmpty()) {
+
+				int v = vertices.indexOf(verticeEdge);
+
+				if (color[v] == white && !this.deathTimes.isEmpty()) {
+					System.out.println("1DEat2htimes size: " + this.deathTimes.size());
+					System.out.println("ASDASDASDASDASD");
+					predecessor[v] = u;
+
+					DFSRemoveStrong(v, time, color, vertices, dists, predecessor, times, grafoIn, strongComponent);
+				}
+				verticeEdge = neighbors.get(0);
+				neighbors.remove(0);
+			}
+		}
+		color[u] = black;
+
+		times[u] = ++time;
+		// Adiciona os vertices e seus tempos
+		System.out.println("topoDead: " + vertices.get(u));
+		this.topologia.addFirst(vertices.get(u));
+
+		// this.deadVertices.add(vertices.get(u));
+		// this.deathTimes.add(time);
+		return strongComponent;
+	}
+
+	public int DFSV1(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[],
+			int times[], StrategyStructure grafoIn) {
+		System.out.println("DFSV1");
+		// time = DFS
+		byte white = 0;
+		byte grey = 1;
+		byte black = 2;
+		color[u] = grey; // Marca como visitado
+
+		this.visited.add(vertices.get(u));// Add aos visitados
+		DFStack.add(vertices.get(u));
+
+		dists[u] = ++time;
+		ArrayList<String> neighbors = grafoIn.getVerticeAdjacencia(vertices.get(u));
+		;
+
+		for (String neighbor : neighbors) {
+			int vIndex = vertices.indexOf(neighbor);
+			if (color[vIndex] == white) {
+				predecessor[vIndex] = u;
+				time = DFSV1(vIndex, time, color, vertices, dists, predecessor, times, grafoIn);
+			}
+		}
+
+		// this.DFStack.pop();
+		System.out.println("DFSStackPOP1: " + this.DFStack.pop());
+
+		color[u] = black;
+
+		times[u] = ++time;
+
+		// Adiciona os vertices e seus tempos
+		System.out.println("topoDead: " + vertices.get(u));
+		this.topologia.addFirst(vertices.get(u));
+		// Tempo de morte dos vertices
+		this.deadVertices.add(vertices.get(u));
+		this.deathTimes.add(time);
+
+		return time;
+	}
+
+	// DFS1
+	public ArrayList<String> DFSV2(int u, int time, int color[], ArrayList<String> vertices, int dists[],
+			int predecessor[], int times[], StrategyStructure grafoIn, ArrayList<String> strongComponent) {
+		// time = DFS
+		System.out.println("DFSV2#################################### ");
+		for (int i = 0; i < color.length; i++) {
+			System.out.println("Color: " + color[i]);
+		}
+		byte white = 0;
+		byte grey = 1;
+		byte black = 2;
+		color[u] = grey; // Marca como visitado
+
+		this.visited.add(vertices.get(u));// Add aos visitados
+		DFStack.add(vertices.get(u));
+		// Componente forte
+		System.out.println("VerticeStrong: " + vertices.get(u));
+		strongComponent.add(vertices.get(u));
+		System.out.println("DEathtimes sizeStrong1: " + this.deathTimes.size());
+
+		/// .deathTimes.remove(u); //Remove o max da lista
+		this.deadVertices.remove(vertices.get(u)); // Remove o max da list
+		this.deathTimes.remove(Collections.max(this.deathTimes));
+		System.out.println("DEathtimes sizeStrong2: " + this.deathTimes.size());
+
+		dists[u] = ++time;
+		ArrayList<String> neighbors = grafoIn.getVerticeAdjacencia(vertices.get(u));
+		;
+
+		for (String neighbor : neighbors) {
+			int vIndex = vertices.indexOf(neighbor);
+			if (color[vIndex] == white) {
+				predecessor[vIndex] = u;
+				DFSV2(vIndex, time, color, vertices, dists, predecessor, times, grafoIn, strongComponent);
+			}
+		}
+
+		// this.DFStack.pop();
+		System.out.println("DFSStackPOP: " + this.DFStack.pop());
+
+		color[u] = black;
+
+		times[u] = ++time;
+		// Adiciona os vertices e seus tempos
+		System.out.println("topoDead: " + vertices.get(u));
+		this.topologia.addFirst(vertices.get(u));
+
+		// this.deadVertices.add(vertices.get(u));
+		// this.deathTimes.add(time);
+		return strongComponent;
 	}
 
 	/**
@@ -641,12 +749,6 @@ public class TADGrafo {
 				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
 				// System.out.println("neighbors: " + neighbors);
 				if (!neighbors.isEmpty()) {
-					// System.out.println("B");
-					// String verticeEdge = neighbors.get(0);
-
-					// while(verticeEdge != null){
-
-					// !neighbors.isEmpty()
 					while (neighbors.size() != 0) {
 						String verticeEdge = neighbors.get(0);
 						neighbors.remove(0);
@@ -756,18 +858,26 @@ public class TADGrafo {
 
 		// Lista com as distancias locais de cada vertice
 		double dists[] = new double[V];
-		
+
+		// Dados do antecessor
+		int predecessorIndex[] = new int[V];
+		String[] predecessor = new String[V];
+		double[] distPredecessor = new double[V];
+
 		parenTree[0] = origin;
-		
+
 		// dists[vertices.indexOf(origin)] = 0;
-		
+
 		for (int i = 0; i < V; i++) {
+			predecessorIndex[i] = -1;
+			predecessor[i] = "Null";
 			dists[i] = Integer.MAX_VALUE;
+			distPredecessor[i] = Integer.MAX_VALUE;
 			visited[i] = false;
 		}
-		
+
 		dists[vertices.indexOf(origin)] = 0;
-		
+
 		for (int i = 0; i < V; i++) {
 			ArrayList<String> neighbr = new ArrayList<String>();
 			int u = minDistIndex(dists, V, visited);
@@ -775,30 +885,33 @@ public class TADGrafo {
 			visited[u] = true;
 			// System.out.println("ArestaValue: " + arestaValue);
 			neighbr = this.grafo.getVerticeAdjacencia(vertices.get(u));
-			
+
 			for (String v : neighbr) {
 				double arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
-				
+
 				if (visited[vertices.indexOf(v)] == false
-				&& arestaValue != 0
-				&& arestaValue < dists[vertices.indexOf(v)]) {
+						&& arestaValue != 0
+						&& arestaValue < dists[vertices.indexOf(v)]) {
 					parenTree[vertices.indexOf(v)] = vertices.get(u);
 					dists[vertices.indexOf(v)] = arestaValue;
+
+					int vIndex = vertices.indexOf(v);
+					predecessorIndex[vIndex] = u;
+					predecessor[vIndex] = vertices.get(u);
+					distPredecessor[vIndex] = arestaValue;
 				}
 			}
 		}
-		
+
 		System.out.println("\nPrim:");
 		String nodeName = "";
-		
-		//Resposta
 		ArrayList<String> resposta = new ArrayList<>();
-
 		for (int i = 0; i < V; i++) {
 			nodeName = vertices.get(i);
 			// System.out.println("Weight?: " + dists[i]);
 			resposta.add(parenTree[i] + " " + nodeName + " " + dists[i]);
 			System.out.println("Aresta: " + parenTree[i] + "->" + nodeName + "Weight: " + dists[i]);
+			System.out.println("Dist from Antecessor '" + predecessor[i] + "' : " + distPredecessor[i]);
 		}
 
 		// Retorna as min distancias dos caminhos entre a vertice de inicio e todos os
@@ -835,22 +948,33 @@ public class TADGrafo {
 	 * @return double[]
 	 */
 	public ArrayList<String> Dijkstra(String origin) {
+
 		// PriorityQueue<Integer> queue= new PriorityQueue<Integer>();
+		// A=
 
 		int V = this.grafo.getVerticeQuantity();
 		Boolean visited[] = new Boolean[V];
+
 		// Lista com todos os vertices
+
 		ArrayList<String> vertices = this.grafo.getAllVertices();
 
 		// Lista para retirar um vertice de cada vez
 		// Talvez matar o stack? e usar só o vertices sem dar pop
-		ArrayList<String> stack = this.grafo.getAllVertices();
 
 		// Lista com as distancias de cada vertice até a origem
 		double dists[] = new double[V];
 
+		// Dados do antecessor
+		int predecessorIndex[] = new int[V];
+		String[] predecessor = new String[V];
+		double[] distPredecessor = new double[V];
+
 		for (int i = 0; i < V; i++) {
+			predecessorIndex[i] = -1;
+			predecessor[i] = "Null";
 			dists[i] = Integer.MAX_VALUE;
+			distPredecessor[i] = Integer.MAX_VALUE;
 			visited[i] = false;
 		}
 
@@ -865,7 +989,7 @@ public class TADGrafo {
 		// Talvez usar a função getVerticeAdj
 		// ArrayList<String> neighbr = new ArrayList<String>();
 
-		for (int i = 0; i < V - 1; i++) {
+		for (int i = 0; i < V; i++) {
 			ArrayList<String> neighbr = new ArrayList<String>();
 			int u = minDistIndex(dists, V, visited);
 			visited[u] = true;
@@ -874,11 +998,6 @@ public class TADGrafo {
 
 			for (String v : neighbr) {
 
-				// if(visited[vertices.indexOf(v)] ==false && arestaValue != 0 && dists[u] !=
-				// Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
-				// //relax(u,v,w)
-				// dists[vertices.indexOf(v)] = dists[u] + arestaValue;
-				// }
 				double arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
 
 				if (visited[vertices.indexOf(v)] == false
@@ -887,21 +1006,28 @@ public class TADGrafo {
 						&& dists[u] + arestaValue < dists[vertices.indexOf(v)]) {
 					// relax(u,v,w)
 					dists[vertices.indexOf(v)] = dists[u] + arestaValue;
+
+					int vIndex = vertices.indexOf(v);
+					predecessorIndex[vIndex] = u;
+					predecessor[vIndex] = vertices.get(u);
+					distPredecessor[vIndex] = arestaValue;
 				}
 
 			}
+
 		}
 		// Print Dists
 		System.out.println("\nDijkstra:");
 		String nodeName = "";
-
 		ArrayList<String> resposta = new ArrayList<>();
 		for (int i = 0; i < V; i++) {
 			nodeName = vertices.get(i);
-			System.out.println("\nDistance From: " + origin);
-			System.out.println("\nNode:" + nodeName + "Dist: " + dists[i]);
+
+			System.out.println("\nNode: " + nodeName + "Dist from source '" + origin + "'' : " + dists[i]);
+			System.out.println("Dist from Antecessor '" + predecessor[i] + "' : " + distPredecessor[i]);
 			resposta.add(origin + " " + nodeName + " " + dists[i]);
 		}
+
 		// Retorna as min distancias dos caminhos entre a vertice de inicio e todos os
 		// vertices
 

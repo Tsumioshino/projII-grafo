@@ -86,7 +86,7 @@ public class Main {
 		//System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		//System.out.println(TADgrafo.getConjuntoVertices());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));
-		System.out.println(TADgrafo.Dijkstra("a"));
+		System.out.println(TADgrafo.Prim("a"));
 		
 		//TADgrafo.Prim("1");
 		//System.out.println(TADgrafo.grafo.isDigrafo());

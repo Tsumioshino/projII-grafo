@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 
 // FORGET
 // 1. GET VERTICE QUANTITY AND SET VERTICE QUANTITY NOT SYNCHRONIZED
@@ -1024,14 +1026,22 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 	  
 	  //Lista com as distancias locais de cada vertice
 	  double dists[] = new double[V];
-	  
+
+	  //Dados do antecessor
+	  int predecessorIndex[] = new int[V];
+	  String[] predecessor = new String[V];
+	  double[] distPredecessor = new double[V];
+
 	  parenTree[0] = origin;
 	  
 	  //dists[vertices.indexOf(origin)] = 0;
 	  
 	  for(int i = 0; i< V; i++) {
-		  dists[i] = Integer.MAX_VALUE;
-		  visited[i] = false;
+		predecessorIndex[i] = -1;
+		predecessor[i] = "Null";
+		dists[i] = Integer.MAX_VALUE;
+		distPredecessor[i] = Integer.MAX_VALUE;
+		visited[i] = false;
 	  }
 	  
 	  dists[vertices.indexOf(origin)] = 0;
@@ -1054,6 +1064,11 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 						&& arestaValue < dists[vertices.indexOf(v)]) {
 							parenTree[vertices.indexOf(v)] = vertices.get(u);
 							dists[vertices.indexOf(v)] = arestaValue;
+
+							int vIndex = vertices.indexOf(v);
+							predecessorIndex[vIndex] = u;
+							predecessor[vIndex] = vertices.get(u);
+							distPredecessor[vIndex] = arestaValue;
 				}
 		  }
 	  }
@@ -1065,6 +1080,7 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 		  nodeName = vertices.get(i);
 		  //System.out.println("Weight?: " + dists[i]);
 		  System.out.println("Aresta: " + parenTree[i] + "->" + nodeName + "Weight: " + dists[i]);
+		  System.out.println("Dist from Antecessor '" + predecessor[i] + "' : " + distPredecessor[i]);	 
 	  }
 	  
 	  //Retorna as min distancias dos caminhos entre a vertice de inicio e todos os vertices
@@ -1110,7 +1126,9 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 	  
 	  int V = this.grafo.getVerticeQuantity();
 	  Boolean visited[] = new Boolean[V];
+	  
 	  //Lista com todos os vertices
+
 	  ArrayList<String> vertices = this.grafo.getAllVertices();
 	  
 	  //Lista para retirar um vertice de cada vez
@@ -1121,8 +1139,16 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 	  //Lista com as distancias de cada vertice até a origem
 	  double dists[] = new double[V];
 	  
+	  //Dados do antecessor
+	  int predecessorIndex[] = new int[V];
+	  String[] predecessor = new String[V];
+	  double[] distPredecessor = new double[V];
+
 	  for(int i = 0; i< V; i++) {
+		  predecessorIndex[i] = -1;
+		  predecessor[i] = "Null";
 		  dists[i] = Integer.MAX_VALUE;
+		  distPredecessor[i] = Integer.MAX_VALUE;
 		  visited[i] = false;
 	  }
 	  
@@ -1137,7 +1163,7 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 	  //Talvez usar a função getVerticeAdj
 	  //ArrayList<String> neighbr = new ArrayList<String>();
 
-	  for(int i = 0; i < V-1; i++) {
+	  for(int i = 0; i < V; i++) {
 			ArrayList<String> neighbr = new ArrayList<String>();
 			int u = minDistIndex(dists, V, visited);
 			visited[u] = true;
@@ -1145,11 +1171,7 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 			neighbr = this.grafo.getVerticeAdjacencia(vertices.get(u));
 
 			for (String v : neighbr) {
-			
-			// if(visited[vertices.indexOf(v)] ==false && arestaValue != 0 && dists[u] != Integer.MAX_VALUE && dists[u] + arestaValue < dists[v]) {
-			// 	//relax(u,v,w)
-			// 	dists[vertices.indexOf(v)] = dists[u] + arestaValue;
-				// }
+				
 				double arestaValue = this.grafo.getArestaValue(vertices.get(u), v);
 
 				if (visited[vertices.indexOf(v)] == false 
@@ -1158,6 +1180,11 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 				&& dists[u] + arestaValue < dists[vertices.indexOf(v)]) {
 					//relax(u,v,w)
 					dists[vertices.indexOf(v)] = dists[u] + arestaValue;
+					
+					int vIndex = vertices.indexOf(v);
+					predecessorIndex[vIndex] = u;
+					predecessor[vIndex] = vertices.get(u);
+					distPredecessor[vIndex] = arestaValue;
 				}
 
 		  }
@@ -1169,10 +1196,13 @@ public Map<String, String> BFS(String origemU, String destinoV) {
 	  String nodeName = "";
 	  
 	  for(int i =0 ; i< V; i++) {
-		  nodeName = vertices.get(i);
-		  System.out.println("\nDistance From: " + origin);
-		  System.out.println("\nNode:" + nodeName + "Dist: " + dists[i] );
-	  }
+		nodeName = vertices.get(i);
+		
+		System.out.println("\nNode: " + nodeName + "Dist from source '" + origin + "'' : " + dists[i] );
+		System.out.println("Dist from Antecessor '" + predecessor[i] + "' : " + distPredecessor[i]);
+	  
+	}
+
 	  //Retorna as min distancias dos caminhos entre a vertice de inicio e todos os vertices
 	  
 	  System.out.println("Dists:");

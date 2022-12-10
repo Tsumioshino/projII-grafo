@@ -38,6 +38,8 @@ public class Main {
 		String c1[] = {"c", "d", "5"}; 
 		arestas.add(c1);
 
+		String c2[] = {"d", "c", "5"}; 
+		arestas.add(c2);
 		// String a[] = {"a", "b", "2"};
 		// arestas.add(a);
 		
@@ -66,6 +68,8 @@ public class Main {
 		//System.out.println(TADgrafo.isConexo());
 		//TADgrafo.ordenacaoTopologica("b");	
 		//System.out.println(TADgrafo.grafo.toString());
+		System.out.println(TADgrafo.DFStrongyConnected("a"));
+
 	}
 
 }

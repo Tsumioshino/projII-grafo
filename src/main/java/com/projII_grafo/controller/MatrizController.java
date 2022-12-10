@@ -2,6 +2,7 @@ package com.projII_grafo.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -127,6 +128,12 @@ public class MatrizController {
     public ArrayList<String> obterDijkstra(@RequestBody GrafoModel grafo){
 		converteFront(grafo);
 		return this.tadGrafo.Dijkstra(grafo.getOrigem());
+    }
+
+	@PostMapping(value = "/matriz/ordenacaoTopologica/")
+    public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafo){
+		converteFront(grafo);
+		return this.tadGrafo.DFSFromVertice(grafo.getOrigem());
     }
 
 	/*

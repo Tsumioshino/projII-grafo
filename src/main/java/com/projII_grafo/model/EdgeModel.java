@@ -12,10 +12,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class EdgeModel {
-
+    private int id;
     private int from;
     private int to;
     private double value;
     private String label;
     private ClassificacaoAresta tipoAresta;
+    private String color;
 }

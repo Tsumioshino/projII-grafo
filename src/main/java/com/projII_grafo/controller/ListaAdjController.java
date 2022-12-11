@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projII_grafo.StrategyAdjList;
-import com.projII_grafo.StrategyAdjMatrix;
 import com.projII_grafo.StrategyStructure;
 import com.projII_grafo.TADGrafo;
 import com.projII_grafo.model.ClassificacaoAresta;
@@ -26,7 +26,6 @@ public class ListaAdjController {
 
 	private TADGrafo tadGrafo;
 
-	
 	/**
 	 * @param grafoModel
 	 * @return boolean
@@ -91,7 +90,6 @@ public class ListaAdjController {
 		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
-		System.out.println(this.tadGrafo.grafo);
 		String[] classificacoes = this.tadGrafo.classificarAresta(grafoModel.getOrigem()).split("\n");
 		for (EdgeModel edgeModel : grafoModel.getEdges()) {
 			for (String classificacao : classificacoes) {
@@ -120,33 +118,26 @@ public class ListaAdjController {
 	}
 
 	@PostMapping(value = "/listaAdjacencia/prim/")
-	public ArrayList<String> obterAGM(@RequestBody GrafoModel grafoModel) {
-		converteFront(grafoModel);
-		return this.tadGrafo.Prim(grafoModel.getOrigem());
-	}
-	
-	@PostMapping(value = "/listaAdjacencia/dijkstraPesosAtt/")
-	public GrafoModel obterDijkstraPesosAtt(@RequestBody GrafoModel grafoModel) {
+	public GrafoModel obterAGM(@RequestBody GrafoModel grafoModel) {
 		converteFront(grafoModel);
 		Map<Integer, String> verticesDict = new HashMap<>();
+		ArrayList<EdgeModel> novasEdges = new ArrayList<>();
 		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
-		for (String	resposta : this.tadGrafo.Dijkstra(grafoModel.getOrigem())) {
+		for (String	resposta : this.tadGrafo.Prim(grafoModel.getOrigem())) {
 			String[] respostas = resposta.split(" ");
 			for (EdgeModel edgeModel : grafoModel.getEdges()) {
-				if (edgeModel.getTo() == edgeModel.getFrom()) {
-					grafoModel.getEdges().remove(edgeModel);
-					break;
-				}
 				if (verticesDict.get(edgeModel.getFrom()).equals(respostas[0]) && 
 				verticesDict.get(edgeModel.getTo()).equals(respostas[1])) {
 					edgeModel.setLabel(respostas[2]);
 					edgeModel.setValue(Double.parseDouble(respostas[2]));
+					novasEdges.add(edgeModel);
 					break;
 				}
 			}
 		}
+		grafoModel.setEdges(novasEdges);
 		return grafoModel;
 	}
 
@@ -180,8 +171,20 @@ public class ListaAdjController {
 	}
 
 	@PostMapping(value = "/listaAdjacencia/ordenacaoTopologica/")
-	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
-		return this.tadGrafo.DFSFromVertice(grafoModel.getOrigem()); // ordenacaoTopologica
+	public GrafoModel obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		LinkedList<String> resposta = this.tadGrafo.DFSFromVertice(grafoModel.getOrigem());
+		List<NodeModel> nodes = grafoModel.getNodes();
+		grafoModel.setNodes(new ArrayList<NodeModel>());
+		for (String respString : resposta) {
+			for (NodeModel nodeModel : nodes) {
+				if (respString.equals(nodeModel.getLabel())) {
+					grafoModel.getNodes().add(nodeModel);
+					break;
+				}
+			}
+		}
+		return grafoModel;
 	}
 
 	private void converteFront(GrafoModel grafoModel) {

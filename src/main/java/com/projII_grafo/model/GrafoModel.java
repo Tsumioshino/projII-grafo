@@ -18,6 +18,7 @@ public class GrafoModel {
     private String destino;
     private int quantidadeAresta;
     private int quantidadeVertice;
+    private boolean digrafo;
     private List<NodeModel> nodes;
     private List<EdgeModel> edges;
 }

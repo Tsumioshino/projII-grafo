@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +25,6 @@ import com.projII_grafo.model.NodeModel;
 public class MatrizController {
 
 	private TADGrafo tadGrafo;
-
-	@GetMapping(value = "/teste")
-	public ClassificacaoAresta getMethodName() {
-		return ClassificacaoAresta.ARESTA_DE_ARVORE;
-	}
 
 	/**
 	 * @param grafoModel
@@ -121,35 +116,28 @@ public class MatrizController {
 		converteFront(grafoModel);
 		return this.tadGrafo.hasCiclo(grafoModel.getOrigem());
 	}
-
-	@PostMapping(value = "/matriz/prim/")
-	public ArrayList<String> obterAGM(@RequestBody GrafoModel grafoModel) {
-		converteFront(grafoModel);
-		return this.tadGrafo.Prim(grafoModel.getOrigem());
-	}
 	
-	@PostMapping(value = "/matriz/dijkstraPesosAtt/")
-	public GrafoModel obterDijkstraPesosAtt(@RequestBody GrafoModel grafoModel) {
+	@PostMapping(value = "/matriz/prim/")
+	public GrafoModel obterAGM(@RequestBody GrafoModel grafoModel) {
 		converteFront(grafoModel);
 		Map<Integer, String> verticesDict = new HashMap<>();
+		ArrayList<EdgeModel> novasEdges = new ArrayList<>();
 		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
-		for (String	resposta : this.tadGrafo.Dijkstra(grafoModel.getOrigem())) {
+		for (String	resposta : this.tadGrafo.Prim(grafoModel.getOrigem())) {
 			String[] respostas = resposta.split(" ");
 			for (EdgeModel edgeModel : grafoModel.getEdges()) {
-				if (edgeModel.getTo() == edgeModel.getFrom()) {
-					grafoModel.getEdges().remove(edgeModel);
-					break;
-				}
 				if (verticesDict.get(edgeModel.getFrom()).equals(respostas[0]) && 
 				verticesDict.get(edgeModel.getTo()).equals(respostas[1])) {
 					edgeModel.setLabel(respostas[2]);
 					edgeModel.setValue(Double.parseDouble(respostas[2]));
+					novasEdges.add(edgeModel);
 					break;
 				}
 			}
 		}
+		grafoModel.setEdges(novasEdges);
 		return grafoModel;
 	}
 
@@ -183,8 +171,20 @@ public class MatrizController {
 	}
 
 	@PostMapping(value = "/matriz/ordenacaoTopologica/")
-	public LinkedList<String> obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
-		return this.tadGrafo.DFSFromVertice(grafoModel.getOrigem()); // ordenacaoTopologica
+	public GrafoModel obterOrdenacaoTopologica(@RequestBody GrafoModel grafoModel) {
+		converteFront(grafoModel);
+		LinkedList<String> resposta = this.tadGrafo.DFSFromVertice(grafoModel.getOrigem());
+		List<NodeModel> nodes = grafoModel.getNodes();
+		grafoModel.setNodes(new ArrayList<NodeModel>());
+		for (String respString : resposta) {
+			for (NodeModel nodeModel : nodes) {
+				if (respString.equals(nodeModel.getLabel())) {
+					grafoModel.getNodes().add(nodeModel);
+					break;
+				}
+			}
+		}
+		return grafoModel;
 	}
 
 	private void converteFront(GrafoModel grafoModel) {

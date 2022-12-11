@@ -402,6 +402,9 @@ public class StrategyAdjList implements StrategyStructure {
         String head = null;
         for (VerticeAresta cel : v_adj) {
           if (head == null) {
+            if (cel.getVertice() == vertice) {
+              break;
+            }
             head = cel.getVertice();
             continue;
           } 

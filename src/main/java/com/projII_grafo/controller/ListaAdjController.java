@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projII_grafo.StrategyAdjList;
+import com.projII_grafo.StrategyAdjMatrix;
 import com.projII_grafo.StrategyStructure;
 import com.projII_grafo.TADGrafo;
 import com.projII_grafo.model.ClassificacaoAresta;
@@ -189,7 +189,7 @@ public class ListaAdjController {
 
 	private void converteFront(GrafoModel grafoModel) {
 		Map<Integer, String> verticesDict = new HashMap<>();
-		StrategyStructure repre = new StrategyAdjList();
+		StrategyStructure repre = new StrategyAdjMatrix();
 		this.tadGrafo = new TADGrafo(repre);
 		ArrayList<String> vertices = new ArrayList<String>();
 		ArrayList<String[]> arestas = new ArrayList<String[]>();

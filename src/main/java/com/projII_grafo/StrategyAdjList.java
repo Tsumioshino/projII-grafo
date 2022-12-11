@@ -312,14 +312,16 @@ public class StrategyAdjList implements StrategyStructure {
     else {
       ArrayList<String> visited = new ArrayList<String>();
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
-        visited.add(v_adj.getFirst().getVertice());
+        String head = v_adj.getFirst().getVertice();
+        visited.add(head);
         for (VerticeAresta cel : v_adj) {
           if (visited.contains(cel.getVertice())) {
             continue;
           }
-          size += 1;
+          size += (head.equals(cel.getVertice()))?  2 : 1;
         }
       }
+      size = size/2;
     }
     return size;
   } 
@@ -400,6 +402,9 @@ public class StrategyAdjList implements StrategyStructure {
         String head = null;
         for (VerticeAresta cel : v_adj) {
           if (head == null) {
+            if (cel.getVertice() == vertice) {
+              break;
+            }
             head = cel.getVertice();
             continue;
           } 

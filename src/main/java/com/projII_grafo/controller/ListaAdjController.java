@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projII_grafo.StrategyAdjList;
 import com.projII_grafo.StrategyAdjMatrix;
 import com.projII_grafo.StrategyStructure;
 import com.projII_grafo.TADGrafo;
@@ -90,6 +91,7 @@ public class ListaAdjController {
 		for (NodeModel node : grafoModel.getNodes()) {
 			verticesDict.put(node.getId(), node.getLabel());
 		}
+		System.out.println(this.tadGrafo.grafo);
 		String[] classificacoes = this.tadGrafo.classificarAresta(grafoModel.getOrigem()).split("\n");
 		for (EdgeModel edgeModel : grafoModel.getEdges()) {
 			for (String classificacao : classificacoes) {
@@ -184,7 +186,7 @@ public class ListaAdjController {
 
 	private void converteFront(GrafoModel grafoModel) {
 		Map<Integer, String> verticesDict = new HashMap<>();
-		StrategyStructure repre = new StrategyAdjMatrix();
+		StrategyStructure repre = new StrategyAdjList();
 		this.tadGrafo = new TADGrafo(repre);
 		ArrayList<String> vertices = new ArrayList<String>();
 		ArrayList<String[]> arestas = new ArrayList<String[]>();

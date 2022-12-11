@@ -66,8 +66,8 @@ public class MatrizController {
 	@PostMapping(value = "/matriz/buscaLargura/") // fiz
 	public ArrayList<String> buscaLargura(@RequestBody GrafoModel grafoModel) {
 		converteFront(grafoModel);
-		tadGrafo.BFS(grafoModel.getOrigem(), grafoModel.getDestino());
-		return tadGrafo.respostaBFS;
+		this.tadGrafo.BFS(grafoModel.getOrigem(), grafoModel.getDestino());
+		return this.tadGrafo.respostaBFS;
 	}
 
 	/**

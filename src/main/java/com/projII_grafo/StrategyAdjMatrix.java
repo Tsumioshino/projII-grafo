@@ -210,9 +210,9 @@ public class StrategyAdjMatrix implements StrategyStructure {
             n_arestas += (aresta != 0)? 1 : 0;
           }
           n_arestas += (aresta != 0)? 1 : 0;
-          row1 += 1;
+          col1 += 1;
         }
-        row1 = 0;
+        row1 += 1;
       }
       n_arestas = n_arestas/2; 
 

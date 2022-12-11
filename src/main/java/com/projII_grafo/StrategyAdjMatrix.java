@@ -193,11 +193,30 @@ public class StrategyAdjMatrix implements StrategyStructure {
   @Override
   public int getArestaQuantity() {
     int n_arestas = 0;
-    for (ArrayList<Double> row : this.matrix) { // Percorre a coluna
-      for (double aresta : row) {
-        n_arestas += (aresta > 0)? 1 : 0;
+    if (this.isDigrafo()) {
+      for (ArrayList<Double> row : this.matrix) { // Percorre a coluna
+        for (double aresta : row) {
+          n_arestas += (aresta != 0)? 1 : 0;
+        }
+      } 
+    }
+    else {
+      int row1 = 0;
+      int col1 = 0;
+      for (ArrayList<Double> row : this.matrix) { // Percorre a coluna
+        col1 = 0;
+        for (double aresta : row) {
+          if (row1==col1) {
+            n_arestas += (aresta != 0)? 1 : 0;
+          }
+          n_arestas += (aresta != 0)? 1 : 0;
+          row1 += 1;
+        }
+        row1 = 0;
       }
-    } 
+      n_arestas = n_arestas/2; 
+
+    }
     return n_arestas; 
   } 
 

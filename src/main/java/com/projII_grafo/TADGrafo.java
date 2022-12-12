@@ -412,59 +412,6 @@ public class TADGrafo {
 		return this.strongyConnected;
 	}
 
-	// Versão do dfs para remover o max da lista deathTimes passado por
-	// DFStrongyConnected
-	public ArrayList<String> DFSRemoveStrong(int u, int time, int color[], ArrayList<String> vertices, int dists[],
-			int predecessor[], int times[], StrategyStructure grafoIn, ArrayList<String> strongComponent) {
-		// time = DFS
-		byte white = 0;
-		byte grey = 1;
-		byte black = 2;
-		color[u] = grey;
-
-		this.visited.add(vertices.get(u));// Add aos visitados
-
-		// Componente forte
-		System.out.println("VerticeStrong: " + vertices.get(u));
-		strongComponent.add(vertices.get(u));
-		System.out.println("DEathtimes sizeStrong1: " + this.deathTimes.size());
-		this.deathTimes.remove(u); // Remove o max da lista
-		System.out.println("DEathtimes sizeStrong2: " + this.deathTimes.size());
-
-		dists[u] = ++time;
-		ArrayList<String> neighbors = grafoIn.getVerticeAdjacencia(vertices.get(u));
-		;
-
-		if (!neighbors.isEmpty()) {
-			String verticeEdge = neighbors.get(0);
-
-			while (!neighbors.isEmpty()) {
-
-				int v = vertices.indexOf(verticeEdge);
-
-				if (color[v] == white && !this.deathTimes.isEmpty()) {
-					System.out.println("1DEat2htimes size: " + this.deathTimes.size());
-					System.out.println("ASDASDASDASDASD");
-					predecessor[v] = u;
-
-					DFSRemoveStrong(v, time, color, vertices, dists, predecessor, times, grafoIn, strongComponent);
-				}
-				verticeEdge = neighbors.get(0);
-				neighbors.remove(0);
-			}
-		}
-		color[u] = black;
-
-		times[u] = ++time;
-		// Adiciona os vertices e seus tempos
-		System.out.println("topoDead: " + vertices.get(u));
-		this.topologia.addFirst(vertices.get(u));
-
-		// this.deadVertices.add(vertices.get(u));
-		// this.deathTimes.add(time);
-		return strongComponent;
-	}
-
 	public int DFSV1(int u, int time, int color[], ArrayList<String> vertices, int dists[], int predecessor[],
 			int times[], StrategyStructure grafoIn) {
 		System.out.println("DFSV1");

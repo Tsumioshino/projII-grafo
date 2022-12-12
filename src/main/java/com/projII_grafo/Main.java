@@ -75,13 +75,13 @@ public class Main {
 		TADgrafo.grafo.criarGrafo(vertices, arestas);
 		System.out.println(TADgrafo.grafo.toString());
 
-		TADGrafo TADgrafo2 = new TADGrafo(TADgrafo.grafo.getTransposto());
-		System.out.println(TADgrafo2.grafo.toString());
-		System.out.println(TADgrafo.ordenacaoTopologica("a"));
+		//TADGrafo TADgrafo2 = new TADGrafo(TADgrafo.grafo.getTransposto());
+		//System.out.println(TADgrafo2.grafo.toString());
+		//System.out.println(TADgrafo.ordenacaoTopologica("a"));
 		//System.out.println("ArestaValue1: " +TADgrafo.grafo.getArestaValue("1", "2"));
 		//System.out.println(TADgrafo.getConjuntoVertices());
 		//System.out.println(TADgrafo.grafo.getVerticeAdjacencia("2"));
-		//System.out.println(TADgrafo.Prim("a"));
+		System.out.println(TADgrafo.BFS("a", "d"));
 		
 		//TADgrafo.Prim("1");
 		//System.out.println(TADgrafo.grafo.isDigrafo());

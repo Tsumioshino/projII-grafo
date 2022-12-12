@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 
 // FORGET
@@ -579,39 +580,29 @@ public class TADGrafo {
 		for (int u = 0; u < V; u++) {
 
 			if (color[u] == white) {
-				// Visita BFS
 				color[u] = grey;
 				dists[u] = 0;
 
-				// Queue = new
-				LinkedList<Integer> queue = new LinkedList<Integer>();
-				queue.add(u);
+				//Fila FIFO
+				Queue<Integer> queue = new LinkedList<Integer>();
+				queue.offer(u);
 
 				while (!queue.isEmpty()) {
-					Integer firstOut = queue.pop();
-
+					Integer firstOut = queue.poll();
 					u = firstOut;
+
 					neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
 					System.out.println("neighbors: " + neighbors);
-					if (!neighbors.isEmpty()) {
-						
-						
-						while (neighbors.size() != 0) {
-							String verticeEdge = neighbors.get(0);
-							neighbors.remove(0);
-							// int v = a.v2();
-							// String vAdj = this.grafo.getVerticeAdjacencia(verticeEdge);
-							int v = vertices.indexOf(verticeEdge);
-							System.out.println("verticeEdge" + verticeEdge);
-							System.out.println("v " + v);
-							if (color[v] == white) {
-								color[v] = grey;
-								dists[v] = dists[u] + 1;
-								predecessor[v] = u;
-								queue.add(v);
-							}
+					for (String neighbor : neighbors) {
+						int v = vertices.indexOf(neighbor);
+						if (color[v] == white) {
+							color[v] = grey;
+							dists[v] = dists[u] + 1;
+							predecessor[v] = u;
+							queue.add(v);
 						}
 					}
+					
 					color[u] = black;
 
 				}
@@ -665,28 +656,27 @@ public class TADGrafo {
 			color[u] = grey;
 			dists[u] = 0;
 
-			LinkedList<Integer> queue = new LinkedList<Integer>();
-			queue.add(u);
+			//Fila FIFO
+			Queue<Integer> queue = new LinkedList<Integer>();
+			queue.offer(u);
+
 			while (!queue.isEmpty()) {
-				Integer firstOut = queue.pop();
-
+				Integer firstOut = queue.poll();
 				u = firstOut;
-				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
-				if (!neighbors.isEmpty()) {
-					while (neighbors.size() != 0) {
-						String verticeEdge = neighbors.get(0);
-						neighbors.remove(0);
-						int v = vertices.indexOf(verticeEdge);
 
-						if (color[v] == white) {
-							color[v] = grey;
-							dists[v] = dists[u] + 1;
-							predecessor[v] = u;
-							queue.add(v);
-						}
+				neighbors = this.grafo.getVerticeAdjacencia(vertices.get(u));
+				System.out.println("neighbors: " + neighbors);
+				for (String neighbor : neighbors) {
+					int v = vertices.indexOf(neighbor);
+					if (color[v] == white) {
+						color[v] = grey;
+						dists[v] = dists[u] + 1;
+						predecessor[v] = u;
+						queue.add(v);
 					}
 				}
 				color[u] = black;
+
 			}
 			//
 		}
@@ -841,8 +831,6 @@ public class TADGrafo {
 		double minD = min;
 		int minI = -1;
 		for (int i = 0; i < V; i++) {
-			// Talvez <= minD?:??????
-			// Talvez checar já visitados
 			if (visited[i] == false && dists[i] <= minD) {
 				minD = dists[i];
 				minI = i;

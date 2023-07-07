@@ -53,6 +53,11 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = new ArrayList<LinkedList<VerticeAresta>>();
   }
 
+  
+  /** 
+   * @param vertices
+   * @param arestas
+   */
   public void criarGrafo(ArrayList<String> vertices, ArrayList<String[]> arestas) {
     if (this.adjList.size() == 0) {
       this.inserirConjuntoVertices(vertices);
@@ -67,6 +72,10 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList = null;
   }
 
+  
+  /** 
+   * @return ArrayList<String>
+   */
   public ArrayList<String> getAllVertices() {
     ArrayList<String> vertices = new ArrayList<String>();
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
@@ -78,6 +87,11 @@ public class StrategyAdjList implements StrategyStructure {
     return vertices;
   }
 
+  
+  /** 
+   * @param vertice
+   * @return ArrayList<String>
+   */
   public ArrayList<String> getVerticeAdjacencia(String vertice) {
     ArrayList<String> adjacencia = new ArrayList<String>();
     if (this.verticeExists(vertice)) {
@@ -98,7 +112,13 @@ public class StrategyAdjList implements StrategyStructure {
     return adjacencia;
   }
 
-  public int getArestaValue(String head, String tail) {
+  
+  /** 
+   * @param head
+   * @param tail
+   * @return double
+   */
+  public double getArestaValue(String head, String tail) {
     if (this.verticeExists(head) && this.verticeExists(tail)) {
       if (this.arestaExists(head, tail)) {
         boolean ishead = true;
@@ -112,7 +132,7 @@ public class StrategyAdjList implements StrategyStructure {
               // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
               // do vertice em questao
               if ((cel.getVertice()).equals(tail)) {
-                return Integer.valueOf(cel.getAresta());
+                return Double.valueOf(cel.getAresta());
               }
               continue;
             }
@@ -124,6 +144,10 @@ public class StrategyAdjList implements StrategyStructure {
     return -1; // Maybe should return error instead  
   }
 
+  
+  /** 
+   * @param vertice
+   */
   public void inserirVertice(String vertice) {
     VerticeAresta v_inicial = new VerticeAresta(vertice, null);
     LinkedList<VerticeAresta> celula = new LinkedList<VerticeAresta>();
@@ -131,24 +155,34 @@ public class StrategyAdjList implements StrategyStructure {
     this.adjList.add(celula);  
   }
 
+  
+  /** 
+   * @param vertices
+   */
   public void inserirConjuntoVertices(ArrayList<String> vertices) {
     for (String vertice : vertices) {
       this.inserirVertice(vertice);
     } 
   }
 
-  public void inserirAresta(String n1, String n2, int peso) {
-    if (this.verticeExists(n1) && this.verticeExists(n2)) {
-      if (this.arestaExists(n1, n2)) {
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   * @param peso
+   */
+  public void inserirAresta(String v_origem, String v_destino, double peso) {
+    if (this.verticeExists(v_origem) && this.verticeExists(v_destino)) {
+      if (this.arestaExists(v_origem, v_destino)) {
         throw new UnsupportedOperationException("Simple Graph doesn't accept more than 1 edge"); 
       }
       int index1 = -1;
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         index1++;
         for (VerticeAresta cel : v_adj) {
-          if ((cel.getVertice()).equals(n1)) {
-            String peso_s = Integer.toString(peso);
-            VerticeAresta v_adjacente = new VerticeAresta(n2, peso_s);
+          if ((cel.getVertice()).equals(v_origem)) {
+            String peso_s = Double.toString(peso);
+            VerticeAresta v_adjacente = new VerticeAresta(v_destino, peso_s);
             this.adjList.get(index1).add(v_adjacente); 
             return;
           }
@@ -158,14 +192,23 @@ public class StrategyAdjList implements StrategyStructure {
     } 
   } 
 
+  
+  /** 
+   * @param arestas
+   */
   public void inserirConjuntoArestas(ArrayList<String[]> arestas) { 
     for (String[] aresta : arestas) {
-      this.inserirAresta(aresta[0], aresta[1], Integer.valueOf(aresta[2]));
+      this.inserirAresta(aresta[0], aresta[1], Double.valueOf(aresta[2]));
     }
   } 
 
-  public void removerAresta(String n1, String n2) { 
-    if (this.verticeExists(n1) && this.verticeExists(n2)) {
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   */
+  public void removerAresta(String v_origem, String v_destino) { 
+    if (this.verticeExists(v_origem) && this.verticeExists(v_destino)) {
       boolean head = true;
       int index_l = -1;
       int maybe_i = 0;
@@ -176,7 +219,7 @@ public class StrategyAdjList implements StrategyStructure {
           return;
         } 
         for (VerticeAresta cel : v_adj) {
-          if ((cel.getVertice()).equals(n1)) {
+          if ((cel.getVertice()).equals(v_origem)) {
             head = false;
             continue;
           }
@@ -184,7 +227,7 @@ public class StrategyAdjList implements StrategyStructure {
             // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
             // do vertice em questao
             maybe_i++;
-            if ((cel.getVertice()).equals(n2)) {
+            if ((cel.getVertice()).equals(v_destino)) {
               this.adjList.get(index_l).remove(maybe_i);
               return;
             }
@@ -196,10 +239,15 @@ public class StrategyAdjList implements StrategyStructure {
     } 
   } 
 
-  public boolean verticeExists(String n1) { 
+  
+  /** 
+   * @param vertice
+   * @return boolean
+   */
+  public boolean verticeExists(String vertice) { 
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
       for (VerticeAresta cel : v_adj) {
-        if ((cel.getVertice()).equals(n1)) {
+        if ((cel.getVertice()).equals(vertice)) {
           return true;
         }
         break;
@@ -208,8 +256,14 @@ public class StrategyAdjList implements StrategyStructure {
     return false;
   } 
 
-  public boolean arestaExists(String n1, String n2) {
-    if (this.verticeExists(n1) && this.verticeExists(n2)) {
+  
+  /** 
+   * @param v_origem
+   * @param v_destino
+   * @return boolean
+   */
+  public boolean arestaExists(String v_origem, String v_destino) {
+    if (this.verticeExists(v_origem) && this.verticeExists(v_destino)) {
       boolean head = true;
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         if (!head) {
@@ -217,14 +271,14 @@ public class StrategyAdjList implements StrategyStructure {
           return false;
         } 
         for (VerticeAresta cel : v_adj) {
-          if ((cel.getVertice()).equals(n1)) {
+          if ((cel.getVertice()).equals(v_origem)) {
             head = false;
             continue;
           }
           if (!head) {
             // Se ele entrar aqui, ele ta percorrendo lista de adjacencia
             // do vertice em questao
-            if ((cel.getVertice()).equals(n2)) {
+            if ((cel.getVertice()).equals(v_destino)) {
               return true;
             }
             continue;
@@ -236,10 +290,18 @@ public class StrategyAdjList implements StrategyStructure {
     return false;   
   } 
 
+  
+  /** 
+   * @return int
+   */
   public int getVerticeQuantity() {
     return this.adjList.size();
   } 
 
+  
+  /** 
+   * @return int
+   */
   public int getArestaQuantity() {
     int size = 0;
     if (this.isDigrafo()) {
@@ -248,38 +310,49 @@ public class StrategyAdjList implements StrategyStructure {
       }
     }
     else {
-      ArrayList<String> visited = new ArrayList<String>();
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
-        visited.add(v_adj.getFirst().getVertice());
+        String head = null;
         for (VerticeAresta cel : v_adj) {
-          if (visited.contains(cel.getVertice())) {
+          if (head == null) { // skip head
+            head = cel.getVertice();
             continue;
           }
-          size += 1;
+          size += (head.equals(cel.getVertice()))?  2 : 1;
         }
       }
+      size = size/2;
     }
     return size;
   } 
 
-  public int getGrau(String n1) { 
-    if (this.verticeExists(n1)) {
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
+  public int getGrau(String vertice) { 
+    if (this.verticeExists(vertice)) {
       if (this.isDigrafo()) {
-        return this.getGrauEntradaD(n1) + this.getGrauSaidaD(n1);
+        return this.getGrauEntradaD(vertice) + this.getGrauSaidaD(vertice);
       }
       // Se nao for Digrafo, 
       // entao pra toda de entrada tem sua saida mapeada.
       // E entao o codigo acima repetiria aresta.
-      return this.getGrauGeralND(n1);
+      return this.getGrauGeralND(vertice);
     }   
     return -1; // Maybe should return error instead
   } 
 
-  public int getGrauGeralND(String n1) { 
-    if (this.verticeExists(n1)) {
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
+  public int getGrauGeralND(String vertice) { 
+    if (this.verticeExists(vertice)) {
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         for (VerticeAresta cel : v_adj) {
-          if ((cel.getVertice()).equals(n1)) {
+          if ((cel.getVertice()).equals(vertice)) {
             return v_adj.size() - 1; // Desconsiderando a cabeca por ser um Vertice
           }
         }
@@ -288,16 +361,24 @@ public class StrategyAdjList implements StrategyStructure {
     return -1; // Maybe should return error instead  }
   } 
 
-  public int getGrauEntradaD(String n1) { 
-    if (this.verticeExists(n1)) {
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
+  public int getGrauEntradaD(String vertice) { 
+    if (this.verticeExists(vertice)) {
       int grau = 0;
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         String head = null;
         for (VerticeAresta cel : v_adj) {
-          if ((head == null) && ((cel.getVertice()).equals(n1))) {
+          if ((head == null) && ((cel.getVertice()).equals(vertice))) {
             head = cel.getVertice();
             continue;
           } 
+          if (head == null) {
+            break;
+          }
           grau += ((cel.getVertice()).equals(head))? 2 : 1;
         }
         if (head != null) {
@@ -308,17 +389,25 @@ public class StrategyAdjList implements StrategyStructure {
     return -1; // Maybe should return error instead
   } 
 
-  public int getGrauSaidaD(String n1) { 
-    if (this.verticeExists(n1)) {
+  
+  /** 
+   * @param vertice
+   * @return int
+   */
+  public int getGrauSaidaD(String vertice) { 
+    if (this.verticeExists(vertice)) {
       int grau = 0;
       for (LinkedList<VerticeAresta> v_adj : this.adjList) {
         String head = null;
         for (VerticeAresta cel : v_adj) {
           if (head == null) {
+            if (cel.getVertice() == vertice) {
+              break;
+            }
             head = cel.getVertice();
             continue;
           } 
-          grau += ((cel.getVertice()).equals(n1))? 1 : 0;
+          grau += ((cel.getVertice()).equals(vertice))? 1 : 0;
         }
       }  
       return grau;   
@@ -326,6 +415,10 @@ public class StrategyAdjList implements StrategyStructure {
     return -1; // Maybe should return error instead  } 
   }
 
+  
+  /** 
+   * @return StrategyAdjList
+   */
   public StrategyAdjList getTransposto() {
     StrategyAdjList transposto = new StrategyAdjList();
     transposto.criarGrafo(this.getAllVertices(), null);
@@ -353,6 +446,39 @@ public class StrategyAdjList implements StrategyStructure {
     return transposto;
   }
 
+  public StrategyAdjList getNotDigrafo() {
+    if (!isDigrafo()) {
+    StrategyAdjList notDigrafo = new StrategyAdjList();
+    notDigrafo.criarGrafo(this.getAllVertices(), null);
+
+    for (LinkedList<VerticeAresta> v_adj : this.adjList) {
+      String head = null;
+      for (VerticeAresta cel : v_adj) {
+        if (head == null) {
+          head = cel.getVertice();
+          continue;
+        }
+        String edge = cel.getVertice();
+        if (this.arestaExists(head, edge)) { 
+          notDigrafo.inserirAresta(head, 
+                                   edge,
+                                   this.getArestaValue(head, edge)); // E coloca a aresta no Vertice que possuia uma aresta vindo (agora saindo)
+        }
+        if (!this.arestaExists(edge, head)) { 
+          notDigrafo.inserirAresta(edge, 
+                                  head,
+                                  this.getArestaValue(edge, head));  
+        }
+      }
+    }
+    return notDigrafo;
+  }
+  return this;
+  }
+  
+  /** 
+   * @return boolean
+   */
   public boolean isDigrafo() {
     String head = null;
     for (LinkedList<VerticeAresta> v_adj : this.adjList) {
@@ -370,6 +496,10 @@ public class StrategyAdjList implements StrategyStructure {
     return false;
   } 
 
+  
+  /** 
+   * @return String
+   */
   @Override
   public String toString() {
     String grafo = "";
@@ -383,5 +513,7 @@ public class StrategyAdjList implements StrategyStructure {
       grafo += "\n";
     } 
     return grafo;  
-  } 
+  }
 }
+
+

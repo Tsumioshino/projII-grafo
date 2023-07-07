@@ -10,42 +10,43 @@ public interface StrategyStructure {
 
   public ArrayList<String> getAllVertices(); 
 
-  public ArrayList<String> getVerticeAdjacencia(String n1); 
+  public ArrayList<String> getVerticeAdjacencia(String vertice); 
 
-  public int getArestaValue(String v1, String v2);
+  public double getArestaValue(String v_origem, String v_destino);
 
   public void inserirVertice(String vertice); 
 
   public void inserirConjuntoVertices(ArrayList<String> vertices); 
 
-  public void inserirAresta(String n1, String n2, int peso); 
+  public void inserirAresta(String v_origem, String v_destino, double peso); 
 
   public void inserirConjuntoArestas(ArrayList<String[]> arestas); 
 
-  public void removerAresta(String n1, String n2); 
+  public void removerAresta(String v_origem, String v_destino); 
 
-  public boolean verticeExists(String n1); 
+  public boolean verticeExists(String vertice); 
 
-  public boolean arestaExists(String n1, String n2); 
+  public boolean arestaExists(String v_origem, String v_destino); 
 
   public int getVerticeQuantity(); 
 
   public int getArestaQuantity(); 
 
-  public int getGrau(String n1); 
+  public int getGrau(String vertice); 
 
-  public int getGrauGeralND(String n1); 
+  public int getGrauGeralND(String vertice); 
 
-  public int getGrauEntradaD(String n1); 
+  public int getGrauEntradaD(String vertice); 
 
-  public int getGrauSaidaD(String n1); 
+  public int getGrauSaidaD(String vertice); 
 
   public StrategyStructure getTransposto();
 
-  public boolean isDigrafo(); 
+  public StrategyStructure getNotDigrafo();
 
-
-
-  @Override
-  public String toString(); 
+  public boolean isDigrafo();
 }
+
+ 
+
+
